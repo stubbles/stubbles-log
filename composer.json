@@ -13,17 +13,5 @@
         "psr-0": {
             "net\\stubbles\\log": "src/main/php"
         }
-    },
-    "repositories": {
-        "vfsstream": {
-            "vcs": {
-                "url": "https://github.com/mikey179/vfsStream"
-            }
-        },
-        "stubbles": {
-            "vcs": {
-                "url": "https://github.com/stubbles/stubbles-core"
-            }
-        }
     }
 }

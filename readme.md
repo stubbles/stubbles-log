@@ -13,26 +13,8 @@ Usage as library
 ----------------
 1. In your application or dependent library, create a _composer.json_ file.
 2. In the _requirements_ section, add the following dependency: `"stubbles/log": "2.0.0-dev"`
-3. In the _repositories_ section, add the following repositories:
-`
-    "stubbles-core": {
-            "vcs": {
-                "url": "https://github.com/stubbles/stubbles-core"
-            }
-    },
-    "stubbles-log": {
-            "vcs": {
-                "url": "https://github.com/stubbles/stubbles-log"
-            }
-    },
-   "vfsstream": {
-            "vcs": {
-                "url": "https://github.com/mikey179/vfsStream"
-            }
-    }
-`
-4. Run Composer to get Stubbles Log: `php composer.phar install`
-5. Run `php vendor/bin/bootstrap`. This will copy the required _bootstrap.php_ to the project`s root dir.
+3. Run Composer to get Stubbles Log: `php composer.phar install`
+4. Run `php vendor/bin/bootstrap`. This will copy the required _bootstrap.php_ to the project`s root dir.
 
 
 Installation from source
