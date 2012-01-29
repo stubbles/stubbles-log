@@ -21,30 +21,6 @@ use net\stubbles\log\entryfactory\LogEntryFactory;
 class Logger extends BaseObject
 {
     /**
-     * log level: no logging
-     */
-    const LEVEL_NONE             = 0;
-    /**
-     * log level: debug only
-     */
-    const LEVEL_DEBUG            = 1;
-    /**
-     * log level: info data only
-     */
-    const LEVEL_INFO             = 2;
-    /**
-     * log level: warnings only
-     */
-    const LEVEL_WARN             = 4;
-    /**
-     * log level: errors only
-     */
-    const LEVEL_ERROR            = 8;
-    /**
-     * log level: all
-     */
-    const LEVEL_ALL              = 15;
-    /**
      * factory to be used to create log data containers
      *
      * @type  LogEntryFactory
