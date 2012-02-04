@@ -13,6 +13,8 @@ use net\stubbles\lang\BaseObject;
 use net\stubbles\log\appender\FileLogAppender;
 /**
  * Injection provider for logger instances with a file appender.
+ *
+ * @since  2.0.0
  */
 class FileBasedLoggerProvider extends BaseObject implements InjectionProvider
 {
@@ -28,6 +30,12 @@ class FileBasedLoggerProvider extends BaseObject implements InjectionProvider
      * @type  string
      */
     protected $logPath;
+    /**
+     * file mode for file appender
+     *
+     * @type  int
+     */
+    protected $fileMode       = 0700;
 
     /**
      * constructor
@@ -44,6 +52,20 @@ class FileBasedLoggerProvider extends BaseObject implements InjectionProvider
     }
 
     /**
+     * sets the mode for new log directories
+     *
+     * @param   int  $fileMode
+     * @return  FileBasedLoggerProvider
+     * @Inject(optional=true)
+     * @Named('net.stubbles.log.filemode')
+     */
+    public function setFileMode($fileMode)
+    {
+        $this->fileMode = $fileMode;
+        return $this;
+    }
+
+    /**
      * returns the value to provide
      *
      * @param   string  $name  optional
@@ -53,7 +75,8 @@ class FileBasedLoggerProvider extends BaseObject implements InjectionProvider
     {
         $logger = $this->loggerProvider->get($name);
         if (!$logger->hasLogAppenders()) {
-            $logger->addLogAppender(new FileLogAppender($this->logPath));
+            $logger->addLogAppender(new FileLogAppender($this->logPath))
+                   ->setMode($this->fileMode);
         }
 
         return $logger;
