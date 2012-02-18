@@ -13,5 +13,9 @@
         "psr-0": {
             "net\\stubbles\\log": "src/main/php"
         }
+    },
+    "scripts": {
+        "post-install-cmd": "org\\stubbles\\scripts\\ComposerScripts::postInstall",
+        "post-update-cmd": "org\\stubbles\\scripts\\ComposerScripts::postUpdate"
     }
 }
