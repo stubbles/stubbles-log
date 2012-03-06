@@ -1,4 +1,5 @@
-Stubbles Log classes
+Stubbles Core classes
+=====================
 
 Preconditions for any installation
 ----------------------------------
@@ -9,21 +10,7 @@ with Composer, see [Composer - Package Management for PHP](https://github.com/co
 Stubbles Log requires PHP 5.3.
 
 
-Usage as library
-----------------
-1. In your application or dependent library, create a _composer.json_ file.
-2. In the _requirements_ section, add the following dependency: `"stubbles/log": "2.0.0-dev"`
-3. Run Composer to get Stubbles Log: `php composer.phar install`
-4. Run `php vendor/bin/bootstrap`. This will copy the required _bootstrap.php_ to the project`s root dir.
-
-
-Installation from source
-------------------------
-1. Run `git clone https://github.com/stubbles/stubbles-log.git`
-2. cd into your checkout
-3. Run Composer to get the dependencies: `php composer.phar install`
-
-You should now be able to run the unit tests with `phpunit`.
+For more information please check the [project's wiki](https://github.com/stubbles/stubbles-log/wiki) here on github.
 
 
 Build status
