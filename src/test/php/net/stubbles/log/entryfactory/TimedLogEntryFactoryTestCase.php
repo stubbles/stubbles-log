@@ -11,8 +11,7 @@ namespace net\stubbles\log\entryfactory;
 /**
  * Test for net\stubbles\log\entryfactory\TimedLogEntryFactory.
  *
- * @group  log
- * @group  log_entryfactory
+ * @group  entryfactory
  */
 class TimedLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -21,19 +20,19 @@ class TimedLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  TimedLogEntryFactory
      */
-    protected $timedLogEntryFactory;
+    private $timedLogEntryFactory;
     /**
      * created instance without session
      *
      * @type  LogEntry
      */
-    protected $logEntry;
+    private $logEntry;
     /**
      * mocked logger instance
      *
      * @type  \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockLogger;
+    private $mockLogger;
 
     /**
      * set up test environment

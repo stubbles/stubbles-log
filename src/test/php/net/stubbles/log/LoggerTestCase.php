@@ -21,13 +21,13 @@ class LoggerTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  Logger
      */
-    protected $logger;
+    private $logger;
     /**
      * mocked log entry factory
      *
      * @type  \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockLogEntryFactory;
+    private $mockLogEntryFactory;
 
     /**
      * set up the test environment

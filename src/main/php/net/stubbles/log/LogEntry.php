@@ -23,25 +23,25 @@ class LogEntry extends BaseObject
      *
      * @type  string
      */
-    protected $seperator    = self::DEFAULT_SEPERATOR;
+    private $seperator      = self::DEFAULT_SEPERATOR;
     /**
      * logger to which the log data should be send
      *
      * @type  Logger
      */
-    protected $logger;
+    private $logger;
     /**
      * target where the log data should go to
      *
      * @type  string
      */
-    protected $target;
+    private $target;
     /**
      * data to log
      *
      * @type  string[]
      */
-    protected $logData      = array();
+    private $logData        = array();
 
     /**
      * constructor
@@ -86,6 +86,8 @@ class LogEntry extends BaseObject
 
     /**
      * logs the data using the given logger
+     *
+     * @api
      */
     public function log()
     {
@@ -96,6 +98,7 @@ class LogEntry extends BaseObject
      * logs the data delayed using the given logger
      *
      * @since  1.1.0
+     * @api
      */
     public function logDelayed()
     {
@@ -115,6 +118,7 @@ class LogEntry extends BaseObject
      * If the data consists only of a single double quote it will be removed and
      * the added data string will thus be empty.
      *
+     * @api
      * @param   string  $data
      * @return  LogEntry
      */
@@ -130,7 +134,7 @@ class LogEntry extends BaseObject
      * @param   string  $data
      * @return  string
      */
-    protected function escapeData($data)
+    private function escapeData($data)
     {
         settype($data, 'string');
         $data = str_replace(chr(13), '', str_replace("\n", '<nl>', $data));
@@ -192,7 +196,7 @@ class LogEntry extends BaseObject
      * @param   string  $data
      * @return  string
      */
-    protected function escapeSeperator($data)
+    private function escapeSeperator($data)
     {
         return str_replace($this->seperator, '', $data);
     }

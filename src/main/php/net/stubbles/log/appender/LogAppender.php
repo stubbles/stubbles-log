@@ -15,6 +15,8 @@ use net\stubbles\log\LogEntry;
  *
  * A log appender takes log entries and writes them to the target. The target
  * can be a file, a database or anything else.
+ *
+ * @api
  */
 interface LogAppender extends Object
 {

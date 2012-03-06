@@ -11,8 +11,7 @@ namespace net\stubbles\log;
 /**
  * Test for net\stubbles\log\LogEntry.
  *
- * @group  log
- * @group  log_core
+ * @group  core
  */
 class LogEntryTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -21,13 +20,13 @@ class LogEntryTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  LogEntry
      */
-    protected $logEntry;
+    private $logEntry;
     /**
      * mocked logger instance
      *
      * @type  \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockLogger;
+    private $mockLogger;
 
     /**
      * set up test environment

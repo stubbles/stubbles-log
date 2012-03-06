@@ -12,8 +12,7 @@ use net\stubbles\log\LogEntry;
 /**
  * Test for net\stubbles\log\ioc\LoggerProvider.
  *
- * @group  log
- * @group  log_ioc
+ * @group  ioc
  */
 class LoggerProviderTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -22,13 +21,13 @@ class LoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  LoggerProvider
      */
-    protected $loggerProvider;
+    private $loggerProvider;
     /**
      * mocked log entry factory
      *
      * @type  \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockLogEntryFactory;
+    private $mockLogEntryFactory;
 
     /**
      * set up the test environment

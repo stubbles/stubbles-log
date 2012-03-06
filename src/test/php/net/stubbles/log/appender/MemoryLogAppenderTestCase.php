@@ -12,8 +12,7 @@ use net\stubbles\log\LogEntry;
 /**
  * Test for net\stubbles\log\appender\MemoryLogAppender.
  *
- * @group  log
- * @group  log_appender
+ * @group  appender
  */
 class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +21,7 @@ class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  MemoryLogAppender
      */
-    protected $memoryLogAppender;
+    private $memoryLogAppender;
 
     /**
      * set up test environment

@@ -25,6 +25,7 @@ class MemoryLogAppender extends BaseObject implements LogAppender
     /**
      * counts log entries for a certain target
      *
+     * @api
      * @param   string  $target
      * @return  int
      * @since   1.1.0
@@ -41,6 +42,7 @@ class MemoryLogAppender extends BaseObject implements LogAppender
     /**
      * returns data of a certain log entry
      *
+     * @api
      * @param   string  $target
      * @param   int     $position
      * @return  string[]
@@ -62,6 +64,7 @@ class MemoryLogAppender extends BaseObject implements LogAppender
     /**
      * returns list of log entries
      *
+     * @api
      * @param   string  $target  optional
      * @return  LogEntry[]
      */

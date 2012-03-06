@@ -53,13 +53,28 @@ class LogBindingModule extends BaseObject implements BindingModule
     /**
      * static constructor
      *
-     * Please note that the log path is only optional if it is bound by another
-     * module.
+     * Uses the $projectPath to bind the logpath constant net.stubbles.log.path
+     * to $projectPath/log.
      *
+     * @api
+     * @param   string  $projectPath
+     * @return  LogBindingModule
+     */
+    public static function create($projectPath)
+    {
+        return new self($projectPath . DIRECTORY_SEPARATOR . 'log');
+    }
+
+    /**
+     * static constructor
+     *
+     * Uses given path to bind the constant net.stubbles.log.path to.
+     *
+     * @api
      * @param   string  $logPath  optional
      * @return  LogBindingModule
      */
-    public static function create($logPath = null)
+    public static function createWithLogPath($logPath)
     {
         return new self($logPath);
     }
@@ -67,6 +82,7 @@ class LogBindingModule extends BaseObject implements BindingModule
     /**
      * sets the class name of log entry factory class to be bound
      *
+     * @api
      * @param   string  $logEntryFactory  class name of log entry factory
      * @return  LogBindingModule
      */
@@ -79,6 +95,7 @@ class LogBindingModule extends BaseObject implements BindingModule
     /**
      * sets name of class which provides the logger instance
      *
+     * @api
      * @param   string  $loggerProvider  class name of logger provider
      * @return  LogBindingModule
      * @since   1.3.0
