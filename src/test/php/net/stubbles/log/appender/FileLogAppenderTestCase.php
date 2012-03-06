@@ -13,8 +13,7 @@ use org\bovigo\vfs\vfsStream;
 /**
  * Test for net\stubbles\log\appender\FileLogAppender.
  *
- * @group  log
- * @group  log_appender
+ * @group  appender
  */
 class FileLogAppenderTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -23,19 +22,19 @@ class FileLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  FileLogAppender
      */
-    protected $fileLogAppender;
+    private $fileLogAppender;
     /**
      * the logfile
      *
      * @type  string
      */
-    protected $logFile;
+    private $logFile;
     /**
      * logfile directory
      *
      * @type  org\bovigo\vfs\vfsStreamDirectory
      */
-    protected $root;
+    private $root;
 
     /**
      * set up the test environment

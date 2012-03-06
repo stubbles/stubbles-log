@@ -23,19 +23,19 @@ class FileBasedLoggerProvider extends BaseObject implements InjectionProvider
      *
      * @type  LoggerProvider
      */
-    protected $loggerProvider;
+    private $loggerProvider;
     /**
      * path where logfiles should be stored
      *
      * @type  string
      */
-    protected $logPath;
+    private $logPath;
     /**
      * file mode for file appender
      *
      * @type  int
      */
-    protected $fileMode       = 0700;
+    private $fileMode       = 0700;
 
     /**
      * constructor

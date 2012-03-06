@@ -13,8 +13,7 @@ use net\stubbles\ioc\Injector;
 /**
  * Test for net\stubbles\log\ioc\LogBindingModule.
  *
- * @group  log
- * @group  log_ioc
+ * @group  ioc
  */
 class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -23,13 +22,13 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  LogBindingModule
      */
-    protected $logBindingModule;
+    private $logBindingModule;
     /**
      * mocked log entry factory
      *
      * @type  Injector
      */
-    protected $injector;
+    private $injector;
 
     /**
      * set up the test environment

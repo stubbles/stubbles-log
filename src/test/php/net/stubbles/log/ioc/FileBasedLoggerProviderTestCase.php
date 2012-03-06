@@ -23,19 +23,19 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  FileBasedLoggerProvider
      */
-    protected $fileBasedLoggerProvider;
+    private $fileBasedLoggerProvider;
     /**
      * mocked logger provider
      *
      * @type  \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockLoggerProvider;
+    private $mockLoggerProvider;
     /**
      * mocked logger
      *
      * @type  \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockLogger;
+    private $mockLogger;
 
     /**
      * set up the test environment

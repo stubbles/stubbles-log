@@ -12,8 +12,7 @@ use net\stubbles\log\LogEntry;
 /**
  * Test for net\stubbles\log\appender\MailLogAppender.
  *
- * @group  log
- * @group  log_appender
+ * @group  appender
  */
 class MailLogAppenderTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -22,19 +21,19 @@ class MailLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  MailLogAppender
      */
-    protected $mailLogAppender;
+    private $mailLogAppender;
     /**
      * log entry instance
      *
      * @type  LogEntry
      */
-    protected $logEntry1;
+    private $logEntry1;
     /**
      * log entry instance
      *
      * @type  LogEntry
      */
-    protected $logEntry2;
+    private $logEntry2;
 
     /**
      * set up the test environment

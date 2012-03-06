@@ -11,8 +11,7 @@ namespace net\stubbles\log\entryfactory;
 /**
  * Test for net\stubbles\log\entryfactory\EmptyLogEntryFactory.
  *
- * @group  log
- * @group  log_entryfactory
+ * @group  entryfactory
  */
 class EmptyLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -21,19 +20,19 @@ class EmptyLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
      *
      * @type  EmptyLogEntryFactory
      */
-    protected $emptyLogEntryFactory;
+    private $emptyLogEntryFactory;
     /**
      * created instance
      *
      * @type  LogEntry
      */
-    protected $logEntry;
+    private $logEntry;
     /**
      * mocked logger instance
      *
      * @type  PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockLogger;
+    private $mockLogger;
 
     /**
      * set up test environment

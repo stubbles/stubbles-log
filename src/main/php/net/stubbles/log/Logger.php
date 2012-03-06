@@ -25,19 +25,19 @@ class Logger extends BaseObject
      *
      * @type  LogEntryFactory
      */
-    protected $logEntryFactory;
+    private $logEntryFactory;
     /**
      * list of log appenders to log data to
      *
      * @type  LogAppender[]
      */
-    protected $logAppender       = array();
+    private $logAppender       = array();
     /**
      * list of delayed log entries
      *
      * @type  LogEntry[]
      */
-    protected $delayedLogEntries = array();
+    private $delayedLogEntries = array();
 
     /**
      * constructor
