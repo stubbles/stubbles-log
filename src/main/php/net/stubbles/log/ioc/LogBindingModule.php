@@ -56,6 +56,7 @@ class LogBindingModule extends BaseObject implements BindingModule
      * Please note that the log path is only optional if it is bound by another
      * module.
      *
+     * @api
      * @param   string  $logPath  optional
      * @return  LogBindingModule
      */
@@ -67,6 +68,7 @@ class LogBindingModule extends BaseObject implements BindingModule
     /**
      * sets the class name of log entry factory class to be bound
      *
+     * @api
      * @param   string  $logEntryFactory  class name of log entry factory
      * @return  LogBindingModule
      */
@@ -79,6 +81,7 @@ class LogBindingModule extends BaseObject implements BindingModule
     /**
      * sets name of class which provides the logger instance
      *
+     * @api
      * @param   string  $loggerProvider  class name of logger provider
      * @return  LogBindingModule
      * @since   1.3.0

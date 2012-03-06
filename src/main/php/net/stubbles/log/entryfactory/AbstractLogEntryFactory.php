@@ -15,6 +15,7 @@ use net\stubbles\log\Logger;
  * Abstract base implementation of a log entry factory.
  *
  * @since  1.1.0
+ * @api
  */
 abstract class AbstractLogEntryFactory extends BaseObject implements LogEntryFactory
 {

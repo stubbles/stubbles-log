@@ -13,6 +13,8 @@ use net\stubbles\log\LogEntry;
 use net\stubbles\log\Logger;
 /**
  * Interface for factories which create log entry containers.
+ *
+ * @api
  */
 interface LogEntryFactory extends Object
 {

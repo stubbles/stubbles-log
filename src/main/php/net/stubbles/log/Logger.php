@@ -100,6 +100,7 @@ class Logger extends BaseObject
     /**
      * creates the log entry
      *
+     * @api
      * @param   string  $target
      * @return  LogEntry
      */

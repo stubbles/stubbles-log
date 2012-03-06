@@ -86,6 +86,8 @@ class LogEntry extends BaseObject
 
     /**
      * logs the data using the given logger
+     *
+     * @api
      */
     public function log()
     {
@@ -96,6 +98,7 @@ class LogEntry extends BaseObject
      * logs the data delayed using the given logger
      *
      * @since  1.1.0
+     * @api
      */
     public function logDelayed()
     {
@@ -115,6 +118,7 @@ class LogEntry extends BaseObject
      * If the data consists only of a single double quote it will be removed and
      * the added data string will thus be empty.
      *
+     * @api
      * @param   string  $data
      * @return  LogEntry
      */
