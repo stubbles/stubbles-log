@@ -46,7 +46,7 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
     public function logPathIsIsNotBoundWhenNotGiven()
     {
         $injector               = new Injector();
-        $this->logBindingModule = LogBindingModule::create();
+        $this->logBindingModule = new LogBindingModule();
         $this->logBindingModule->configure(new Binder($injector));
         $this->assertFalse($injector->hasConstant('net.stubbles.log.path'));
     }
@@ -54,9 +54,25 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function logPathIsBoundToProjectPathWhenGiven()
+    {
+        LogBindingModule::create(__DIR__)
+                        ->configure(new Binder($this->injector));
+        $this->assertSame(__DIR__ . DIRECTORY_SEPARATOR . 'log',
+                          $this->injector->getConstant('net.stubbles.log.path')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function logPathIsBoundWhenGiven()
     {
-        $this->assertSame(__DIR__, $this->injector->getConstant('net.stubbles.log.path'));
+        LogBindingModule::createWithLogPath(__DIR__)
+                        ->configure(new Binder($this->injector));
+        $this->assertSame(__DIR__,
+                          $this->injector->getConstant('net.stubbles.log.path')
+        );
     }
 
     /**
