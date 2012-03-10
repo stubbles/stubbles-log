@@ -11,7 +11,6 @@ namespace net\stubbles\log\ioc;
 use net\stubbles\ioc\Binder;
 use net\stubbles\ioc\module\BindingModule;
 use net\stubbles\lang\BaseObject;
-use net\stubbles\log\appender\FileLogAppender;
 /**
  * Bindung module for a default log configuration.
  */
@@ -53,14 +52,30 @@ class LogBindingModule extends BaseObject implements BindingModule
     /**
      * static constructor
      *
+     * Uses no path and relies on another module to bind the logpath constant
+     * net.stubbles.log.path.
+     *
+     * @api
+     * @return  LogBindingModule
+     * @since   2.0.0
+     */
+    public static function create()
+    {
+        return new self();
+    }
+
+    /**
+     * static constructor
+     *
      * Uses the $projectPath to bind the logpath constant net.stubbles.log.path
      * to $projectPath/log.
      *
      * @api
      * @param   string  $projectPath
      * @return  LogBindingModule
+     * @since   2.0.0
      */
-    public static function create($projectPath)
+    public static function createWithProjectPath($projectPath)
     {
         return new self($projectPath . DIRECTORY_SEPARATOR . 'log');
     }
@@ -73,6 +88,7 @@ class LogBindingModule extends BaseObject implements BindingModule
      * @api
      * @param   string  $logPath  optional
      * @return  LogBindingModule
+     * @since   2.0.0
      */
     public static function createWithLogPath($logPath)
     {
@@ -113,9 +129,8 @@ class LogBindingModule extends BaseObject implements BindingModule
      */
     public function configure(Binder $binder)
     {
-        if (null != $this->logPath) {
-            $binder->bindConstant()
-                   ->named('net.stubbles.log.path')
+        if (!empty($this->logPath)) {
+            $binder->bindConstant('net.stubbles.log.path')
                    ->to($this->logPath);
         }
 

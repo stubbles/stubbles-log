@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\log\ioc;
 use net\stubbles\ioc\Binder;
-use net\stubbles\ioc\Injector;
 /**
  * Test for net\stubbles\log\ioc\LogBindingModule.
  *
@@ -18,26 +17,16 @@ use net\stubbles\ioc\Injector;
 class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * instance to test
+     * configures the bindings
      *
-     * @type  LogBindingModule
+     * @param   LogBindingModule  $logBindingModule
+     * @return  net\stubbles\ioc\Injector
      */
-    private $logBindingModule;
-    /**
-     * mocked log entry factory
-     *
-     * @type  Injector
-     */
-    private $injector;
-
-    /**
-     * set up the test environment
-     */
-    public function setUp()
+    private function configureBindings(LogBindingModule $logBindingModule)
     {
-        $this->injector         = new Injector();
-        $this->logBindingModule = LogBindingModule::create(__DIR__);
-        $this->logBindingModule->configure(new Binder($this->injector));
+        $binder = new Binder();
+        $logBindingModule->configure($binder);
+        return $binder->getInjector();
     }
 
     /**
@@ -45,10 +34,9 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function logPathIsIsNotBoundWhenNotGiven()
     {
-        $injector               = new Injector();
-        $this->logBindingModule = new LogBindingModule();
-        $this->logBindingModule->configure(new Binder($injector));
-        $this->assertFalse($injector->hasConstant('net.stubbles.log.path'));
+        $this->assertFalse($this->configureBindings(LogBindingModule::create())
+                                ->hasConstant('net.stubbles.log.path')
+        );
     }
 
     /**
@@ -56,10 +44,10 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function logPathIsBoundToProjectPathWhenGiven()
     {
-        LogBindingModule::create(__DIR__)
-                        ->configure(new Binder($this->injector));
+
         $this->assertSame(__DIR__ . DIRECTORY_SEPARATOR . 'log',
-                          $this->injector->getConstant('net.stubbles.log.path')
+                          $this->configureBindings(LogBindingModule::createWithProjectPath(__DIR__))
+                               ->getConstant('net.stubbles.log.path')
         );
     }
 
@@ -68,10 +56,9 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function logPathIsBoundWhenGiven()
     {
-        LogBindingModule::createWithLogPath(__DIR__)
-                        ->configure(new Binder($this->injector));
         $this->assertSame(__DIR__,
-                          $this->injector->getConstant('net.stubbles.log.path')
+                          $this->configureBindings(LogBindingModule::createWithLogPath(__DIR__))
+                               ->getConstant('net.stubbles.log.path')
         );
     }
 
@@ -80,8 +67,9 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function logEntryFactoryIsBoundAsSingleton()
     {
-        $this->assertSame($this->injector->getInstance('net\\stubbles\\log\\entryfactory\\LogEntryFactory'),
-                          $this->injector->getInstance('net\\stubbles\\log\\entryfactory\\LogEntryFactory')
+        $injector = $this->configureBindings(new LogBindingModule());
+        $this->assertSame($injector->getInstance('net\\stubbles\\log\\entryfactory\\LogEntryFactory'),
+                          $injector->getInstance('net\\stubbles\\log\\entryfactory\\LogEntryFactory')
         );
     }
 
@@ -91,7 +79,8 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
     public function logEntryFactoryClassIsBoundToTimedLogEntryFactoryByDefault()
     {
         $this->assertInstanceOf('net\\stubbles\\log\\entryfactory\\TimedLogEntryFactory',
-                                $this->injector->getInstance('net\\stubbles\\log\\entryfactory\\LogEntryFactory')
+                                $this->configureBindings(LogBindingModule::create())
+                                     ->getInstance('net\\stubbles\\log\\entryfactory\\LogEntryFactory')
         );
     }
 
@@ -100,10 +89,11 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function logEntryFactoryClassIsBoundToConfiguredLogEntryFactoryClass()
     {
-        $this->logBindingModule->setLogEntryFactory('net\\stubbles\\log\\entryfactory\\EmptyLogEntryFactory')
-                               ->configure(new Binder($this->injector));
         $this->assertInstanceOf('net\\stubbles\\log\\entryfactory\\EmptyLogEntryFactory',
-                                $this->injector->getInstance('net\\stubbles\\log\\entryfactory\\LogEntryFactory')
+                                $this->configureBindings(LogBindingModule::create()
+                                                                         ->setLogEntryFactory('net\\stubbles\\log\\entryfactory\\EmptyLogEntryFactory')
+                                       )
+                                     ->getInstance('net\\stubbles\\log\\entryfactory\\LogEntryFactory')
         );
     }
 
@@ -113,7 +103,8 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
     public function loggerCanBeCreated()
     {
         $this->assertInstanceOf('net\\stubbles\\log\\Logger',
-                                $this->injector->getInstance('net\\stubbles\\log\\Logger')
+                                $this->configureBindings(LogBindingModule::createWithLogPath(__DIR__))
+                                     ->getInstance('net\\stubbles\\log\\Logger')
         );
     }
 
@@ -122,10 +113,11 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function loggerCanBeCreatedUsingDifferentLoggerProvider()
     {
-        $this->logBindingModule->setLoggerProvider('net\\stubbles\\log\\ioc\\LoggerProvider')
-                               ->configure(new Binder($this->injector));
         $this->assertInstanceOf('net\\stubbles\\log\\Logger',
-                                $this->injector->getInstance('net\\stubbles\\log\\Logger')
+                                $this->configureBindings(LogBindingModule::createWithLogPath(__DIR__)
+                                                                         ->setLoggerProvider('net\\stubbles\\log\\ioc\\LoggerProvider')
+                                       )
+                                     ->getInstance('net\\stubbles\\log\\Logger')
         );
     }
 }
