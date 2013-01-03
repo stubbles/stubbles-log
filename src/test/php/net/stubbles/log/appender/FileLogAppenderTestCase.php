@@ -106,7 +106,9 @@ class FileLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function finalizeIsNoOp()
     {
-        $this->fileLogAppender->finalize();
+        $this->assertSame($this->fileLogAppender,
+                          $this->fileLogAppender->finalize()
+        );
     }
 }
 ?>
