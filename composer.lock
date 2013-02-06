@@ -1,5 +1,5 @@
 {
-    "hash": "5319107e518102d28bc92c8c2b06ed22",
+    "hash": "4574c22ada3c4136a16fa15d89c328c0",
     "packages": [
         {
             "name": "stubbles/core",
@@ -26,7 +26,6 @@
                 "bin/clearCache"
             ],
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "net\\stubbles": "src/main/php",
@@ -61,7 +60,6 @@
             },
             "time": "2012-08-25 05:49:29",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "org\\bovigo\\vfs": "src/main/php"
