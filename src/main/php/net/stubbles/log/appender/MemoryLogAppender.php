@@ -8,12 +8,11 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\appender;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\log\LogEntry;
 /**
  * A log appenders that stores log entries in memory.
  */
-class MemoryLogAppender extends BaseObject implements LogAppender
+class MemoryLogAppender implements LogAppender
 {
     /**
      * stores the logged entries and represents the storing medium (memory)

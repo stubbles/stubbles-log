@@ -39,12 +39,9 @@ class TimedLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockLogger           = $this->getMock('net\\stubbles\\log\\Logger',
-                                                     array(),
-                                                     array(),
-                                                     '',
-                                                     false
-                                      );
+        $this->mockLogger           = $this->getMockBuilder('net\stubbles\log\Logger')
+                                           ->disableOriginalConstructor()
+                                           ->getMock();
         $this->timedLogEntryFactory = new TimedLogEntryFactory();
         $this->logEntry             = $this->timedLogEntryFactory->create('testTarget', $this->mockLogger);
     }

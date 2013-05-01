@@ -8,6 +8,7 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\ioc;
+use net\stubbles\lang\reflect\ReflectionObject;
 use net\stubbles\log\LogEntry;
 /**
  * Test for net\stubbles\log\ioc\LoggerProvider.
@@ -34,7 +35,7 @@ class LoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockLogEntryFactory = $this->getMock('net\\stubbles\\log\\entryfactory\\LogEntryFactory');
+        $this->mockLogEntryFactory = $this->getMock('net\stubbles\log\entryfactory\LogEntryFactory');
         $this->loggerProvider      = new LoggerProvider($this->mockLogEntryFactory);
     }
 
@@ -43,9 +44,9 @@ class LoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnConstructor()
     {
-        $this->assertTrue($this->loggerProvider->getClass()
-                                               ->getConstructor()
-                                               ->hasAnnotation('Inject')
+        $this->assertTrue(ReflectionObject::fromInstance($this->loggerProvider)
+                                          ->getConstructor()
+                                          ->hasAnnotation('Inject')
         );
     }
 

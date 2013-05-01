@@ -8,7 +8,6 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\entryfactory;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\log\LogEntry;
 use net\stubbles\log\Logger;
 /**
@@ -17,7 +16,7 @@ use net\stubbles\log\Logger;
  * @since  1.1.0
  * @api
  */
-abstract class AbstractLogEntryFactory extends BaseObject implements LogEntryFactory
+abstract class AbstractLogEntryFactory implements LogEntryFactory
 {
     /**
      * recreates given log entry

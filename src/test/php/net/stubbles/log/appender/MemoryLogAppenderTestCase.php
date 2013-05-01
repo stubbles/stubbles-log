@@ -39,12 +39,9 @@ class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
     protected function createLogEntry($target)
     {
         $logEntry = new LogEntry($target,
-                                 $this->getMock('net\\stubbles\\log\\Logger',
-                                                array(),
-                                                array(),
-                                                '',
-                                                false
-                                )
+                                 $this->getMockBuilder('net\stubbles\log\Logger')
+                                      ->disableOriginalConstructor()
+                                      ->getMock()
                     );
         return $logEntry->addData('bar')
                         ->addData('baz');

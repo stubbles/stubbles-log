@@ -1,4 +1,4 @@
-Stubbles Core classes
+Stubbles Log classes
 =====================
 
 Preconditions for any installation

@@ -8,7 +8,6 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\appender;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\log\LogEntry;
 /**
  * A log appenders that writes log entries to files.
@@ -19,7 +18,7 @@ use net\stubbles\log\LogEntry;
  *
  * @uses  http://php.net/error_log
  */
-class FileLogAppender extends BaseObject implements LogAppender
+class FileLogAppender implements LogAppender
 {
     /**
      * the directory to write the logfiles into

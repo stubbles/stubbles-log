@@ -8,7 +8,6 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\appender;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\log\LogEntry;
 /**
  * A log appenders that sends log data to a mail address.
@@ -16,7 +15,7 @@ use net\stubbles\log\LogEntry;
  * This log appender writes the log data into a mail which will be send to
  * the configured mail address.
  */
-class MailLogAppender extends BaseObject implements LogAppender
+class MailLogAppender implements LogAppender
 {
     /**
      * mail address to send the log data to

@@ -9,7 +9,6 @@
  */
 namespace net\stubbles\log\ioc;
 use net\stubbles\ioc\InjectionProvider;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\log\Logger;
 use net\stubbles\log\entryfactory\LogEntryFactory;
 /**
@@ -19,7 +18,7 @@ use net\stubbles\log\entryfactory\LogEntryFactory;
  * will be used. Each named logger is only created once, requesting a logger
  * with the same name again returns the previously created instance.
  */
-class LoggerProvider extends BaseObject implements InjectionProvider
+class LoggerProvider implements InjectionProvider
 {
     /**
      * factory to be used to create log entry containers

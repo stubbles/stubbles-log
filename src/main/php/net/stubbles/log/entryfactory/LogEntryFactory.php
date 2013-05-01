@@ -8,7 +8,6 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\entryfactory;
-use net\stubbles\lang\Object;
 use net\stubbles\log\LogEntry;
 use net\stubbles\log\Logger;
 /**
@@ -16,7 +15,7 @@ use net\stubbles\log\Logger;
  *
  * @api
  */
-interface LogEntryFactory extends Object
+interface LogEntryFactory
 {
     /**
      * creates a log entry container
