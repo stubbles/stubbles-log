@@ -40,7 +40,7 @@ class MailLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mailLogAppender   = $this->getMock('net\\stubbles\\log\\appender\\MailLogAppender',
+        $this->mailLogAppender   = $this->getMock('net\stubbles\log\appender\MailLogAppender',
                                                   array('sendMail'),
                                                   array('test@example.org')
                                    );
@@ -70,12 +70,9 @@ class MailLogAppenderTestCase extends \PHPUnit_Framework_TestCase
     protected function createLogEntry($target)
     {
         return new LogEntry($target,
-                            $this->getMock('net\\stubbles\\log\\Logger',
-                                        array(),
-                                        array(),
-                                        '',
-                                        false
-                            )
+                            $this->getMockBuilder('net\stubbles\log\Logger')
+                                 ->disableOriginalConstructor()
+                                 ->getMock()
         );
     }
 

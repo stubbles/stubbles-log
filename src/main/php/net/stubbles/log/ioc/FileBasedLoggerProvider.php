@@ -9,14 +9,13 @@
  */
 namespace net\stubbles\log\ioc;
 use net\stubbles\ioc\InjectionProvider;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\log\appender\FileLogAppender;
 /**
  * Injection provider for logger instances with a file appender.
  *
  * @since  2.0.0
  */
-class FileBasedLoggerProvider extends BaseObject implements InjectionProvider
+class FileBasedLoggerProvider implements InjectionProvider
 {
     /**
      * logger instance provider

@@ -39,12 +39,9 @@ class EmptyLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockLogger           = $this->getMock('net\\stubbles\\log\\Logger',
-                                                     array(),
-                                                     array(),
-                                                     '',
-                                                     false
-                                      );
+        $this->mockLogger           = $this->getMockBuilder('net\stubbles\log\Logger')
+                                           ->disableOriginalConstructor()
+                                           ->getMock();
         $this->emptyLogEntryFactory = new EmptyLogEntryFactory();
         $this->logEntry             = $this->emptyLogEntryFactory->create('testTarget', $this->mockLogger);
     }

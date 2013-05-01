@@ -8,7 +8,7 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\ioc;
-use net\stubbles\log\LogEntry;
+use net\stubbles\lang\reflect\ReflectionObject;
 /**
  * Test for net\stubbles\log\ioc\FileBasedLoggerProvider.
  *
@@ -42,8 +42,12 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockLogger              = $this->getMock('net\\stubbles\\log\\Logger', array(), array(), '', false);
-        $this->mockLoggerProvider      = $this->getMock('net\\stubbles\\log\\ioc\\LoggerProvider', array(), array(), '', false);
+        $this->mockLogger              = $this->getMockBuilder('net\stubbles\log\Logger')
+                                              ->disableOriginalConstructor()
+                                              ->getMock();
+        $this->mockLoggerProvider      = $this->getMockBuilder('net\stubbles\log\ioc\LoggerProvider')
+                                              ->disableOriginalConstructor()
+                                              ->getMock();
         $this->fileBasedLoggerProvider = new FileBasedLoggerProvider($this->mockLoggerProvider, __DIR__);
     }
 
@@ -52,7 +56,8 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnConstructor()
     {
-        $constructor = $this->fileBasedLoggerProvider->getClass()->getConstructor();
+        $constructor = ReflectionObject::fromInstance($this->fileBasedLoggerProvider)
+                                       ->getConstructor();
         $this->assertTrue($constructor->hasAnnotation('Inject'));
 
         $refParams = $constructor->getParameters();
@@ -68,8 +73,8 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnSetFileModeMethod()
     {
-        $setFileModeMethod = $this->fileBasedLoggerProvider->getClass()
-                                                           ->getMethod('setFileMode');
+        $setFileModeMethod = ReflectionObject::fromInstance($this->fileBasedLoggerProvider)
+                                             ->getMethod('setFileMode');
         $this->assertTrue($setFileModeMethod->hasAnnotation('Inject'));
         $this->assertTrue($setFileModeMethod->getAnnotation('Inject')->isOptional());
         $this->assertTrue($setFileModeMethod->hasAnnotation('Named'));
@@ -108,7 +113,7 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
                          ->will($this->returnValue(false));
         $this->mockLogger->expects($this->once())
                          ->method('addLogAppender')
-                         ->with($this->isInstanceOf('net\\stubbles\\log\\appender\\FileLogAppender'))
+                         ->with($this->isInstanceOf('net\stubbles\log\appender\FileLogAppender'))
                          ->will($this->returnArgument(0));
         $this->fileBasedLoggerProvider->get('foo');
     }
@@ -127,7 +132,7 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
                          ->will($this->returnValue(false));
         $this->mockLogger->expects($this->once())
                          ->method('addLogAppender')
-                         ->with($this->isInstanceOf('net\\stubbles\\log\\appender\\FileLogAppender'))
+                         ->with($this->isInstanceOf('net\stubbles\log\appender\FileLogAppender'))
                          ->will($this->returnArgument(0));
         $this->fileBasedLoggerProvider->setFileMode(0777)
                                       ->get('foo');

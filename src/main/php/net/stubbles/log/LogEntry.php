@@ -8,11 +8,10 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log;
-use net\stubbles\lang\BaseObject;
 /**
  * Container class for log data.
  */
-class LogEntry extends BaseObject
+class LogEntry
 {
     /**
      * default seperator between log data fields

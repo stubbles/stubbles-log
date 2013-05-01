@@ -8,7 +8,6 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\appender;
-use net\stubbles\lang\Object;
 use net\stubbles\log\LogEntry;
 /**
  * Interface for log appenders.
@@ -18,7 +17,7 @@ use net\stubbles\log\LogEntry;
  *
  * @api
  */
-interface LogAppender extends Object
+interface LogAppender
 {
     /**
      * append the log entry to the log target

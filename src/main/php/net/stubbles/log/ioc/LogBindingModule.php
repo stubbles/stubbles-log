@@ -10,11 +10,10 @@
 namespace net\stubbles\log\ioc;
 use net\stubbles\ioc\Binder;
 use net\stubbles\ioc\module\BindingModule;
-use net\stubbles\lang\BaseObject;
 /**
  * Bindung module for a default log configuration.
  */
-class LogBindingModule extends BaseObject implements BindingModule
+class LogBindingModule implements BindingModule
 {
     /**
      * path where logfiles should be stored

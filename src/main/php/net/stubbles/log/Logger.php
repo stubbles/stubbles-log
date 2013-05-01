@@ -8,7 +8,6 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log;
-use net\stubbles\lang\BaseObject;
 use net\stubbles\log\appender\LogAppender;
 use net\stubbles\log\entryfactory\LogEntryFactory;
 /**
@@ -18,7 +17,7 @@ use net\stubbles\log\entryfactory\LogEntryFactory;
  * itself does not know where to write the log data - it just uses log appenders
  * which in turn do the real work. A logger is a collection of such appenders.
  */
-class Logger extends BaseObject
+class Logger
 {
     /**
      * factory to be used to create log data containers
