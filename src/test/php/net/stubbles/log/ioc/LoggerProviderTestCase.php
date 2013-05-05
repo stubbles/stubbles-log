@@ -8,7 +8,7 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\ioc;
-use net\stubbles\lang\reflect\ReflectionObject;
+use net\stubbles\lang;
 use net\stubbles\log\LogEntry;
 /**
  * Test for net\stubbles\log\ioc\LoggerProvider.
@@ -44,10 +44,7 @@ class LoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnConstructor()
     {
-        $this->assertTrue(ReflectionObject::fromInstance($this->loggerProvider)
-                                          ->getConstructor()
-                                          ->hasAnnotation('Inject')
-        );
+        $this->assertTrue(lang\reflectConstructor($this->loggerProvider)->hasAnnotation('Inject'));
     }
 
     /**
