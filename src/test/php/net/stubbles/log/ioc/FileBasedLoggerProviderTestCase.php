@@ -8,7 +8,7 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\ioc;
-use net\stubbles\lang\reflect\ReflectionObject;
+use net\stubbles\lang;
 /**
  * Test for net\stubbles\log\ioc\FileBasedLoggerProvider.
  *
@@ -56,8 +56,7 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnConstructor()
     {
-        $constructor = ReflectionObject::fromInstance($this->fileBasedLoggerProvider)
-                                       ->getConstructor();
+        $constructor = lang\reflectConstructor($this->fileBasedLoggerProvider);
         $this->assertTrue($constructor->hasAnnotation('Inject'));
 
         $refParams = $constructor->getParameters();
@@ -73,8 +72,7 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnSetFileModeMethod()
     {
-        $setFileModeMethod = ReflectionObject::fromInstance($this->fileBasedLoggerProvider)
-                                             ->getMethod('setFileMode');
+        $setFileModeMethod = lang\reflect($this->fileBasedLoggerProvider, 'setFileMode');
         $this->assertTrue($setFileModeMethod->hasAnnotation('Inject'));
         $this->assertTrue($setFileModeMethod->getAnnotation('Inject')->isOptional());
         $this->assertTrue($setFileModeMethod->hasAnnotation('Named'));
