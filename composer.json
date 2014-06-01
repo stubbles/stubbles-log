@@ -5,16 +5,16 @@
     "license": "BSD-3-Clause",
     "description": "Stubbles Log provides support for writing log data.",
     "require": {
-        "php": ">=5.3.0",
-        "stubbles/core": "~3.1"
+        "php": ">=5.4.0",
+        "stubbles/core": "~4.0"
     },
     "require-dev": {
         "mikey179/vfsStream": "~1.2",
-        "phpunit/phpunit": "~3.7"
+        "phpunit/phpunit": "~4.1"
     },
     "autoload": {
-        "psr-0": {
-            "net\\stubbles\\log": "src/main/php"
+        "psr-4": {
+            "stubbles\\log\\": "src/main/php"
         }
     },
     "extra": {
