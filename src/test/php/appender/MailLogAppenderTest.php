@@ -14,7 +14,7 @@ use stubbles\log\LogEntry;
  *
  * @group  appender
  */
-class MailLogAppenderTestCase extends \PHPUnit_Framework_TestCase
+class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test

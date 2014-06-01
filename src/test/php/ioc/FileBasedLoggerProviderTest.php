@@ -16,7 +16,7 @@ use stubbles\lang;
  * @group  log
  * @group  log_ioc
  */
-class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
+class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test

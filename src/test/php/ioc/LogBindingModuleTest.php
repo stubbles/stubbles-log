@@ -14,7 +14,7 @@ use stubbles\ioc\Binder;
  *
  * @group  ioc
  */
-class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
+class LogBindingModuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * configures the bindings

@@ -15,7 +15,7 @@ use stubbles\log\LogEntry;
  *
  * @group  ioc
  */
-class LoggerProviderTestCase extends \PHPUnit_Framework_TestCase
+class LoggerProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test

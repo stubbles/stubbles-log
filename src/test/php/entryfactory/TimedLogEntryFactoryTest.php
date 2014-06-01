@@ -9,20 +9,20 @@
  */
 namespace stubbles\log\entryfactory;
 /**
- * Test for stubbles\log\entryfactory\EmptyLogEntryFactory.
+ * Test for stubbles\log\entryfactory\TimedLogEntryFactory.
  *
  * @group  entryfactory
  */
-class EmptyLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
+class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
      *
-     * @type  EmptyLogEntryFactory
+     * @type  TimedLogEntryFactory
      */
-    private $emptyLogEntryFactory;
+    private $timedLogEntryFactory;
     /**
-     * created instance
+     * created instance without session
      *
      * @type  LogEntry
      */
@@ -30,7 +30,7 @@ class EmptyLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
     /**
      * mocked logger instance
      *
-     * @type  PHPUnit_Framework_MockObject_MockObject
+     * @type  \PHPUnit_Framework_MockObject_MockObject
      */
     private $mockLogger;
 
@@ -42,8 +42,8 @@ class EmptyLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
         $this->mockLogger           = $this->getMockBuilder('stubbles\log\Logger')
                                            ->disableOriginalConstructor()
                                            ->getMock();
-        $this->emptyLogEntryFactory = new EmptyLogEntryFactory();
-        $this->logEntry             = $this->emptyLogEntryFactory->create('testTarget', $this->mockLogger);
+        $this->timedLogEntryFactory = new TimedLogEntryFactory();
+        $this->logEntry             = $this->timedLogEntryFactory->create('testTarget', $this->mockLogger);
     }
 
     /**
@@ -57,9 +57,12 @@ class EmptyLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function createdLogEntryIsEmpty()
+    public function createdLogEntryContainsTime()
     {
-        $this->assertEquals('', $this->logEntry->get());
+        $currentTime = time();
+        $loggedTime  = strtotime($this->logEntry->get());
+        $this->assertGreaterThan($currentTime -2, $loggedTime);
+        $this->assertLessThan($currentTime +2, $loggedTime);
     }
 
     /**
@@ -79,9 +82,9 @@ class EmptyLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
     public function recreateOnlyReturnsGivenLogEntryUnmodified()
     {
         $this->assertSame($this->logEntry,
-                          $this->emptyLogEntryFactory->recreate($this->logEntry,
+                          $this->timedLogEntryFactory->recreate($this->logEntry,
                                                                 $this->mockLogger
-                                                       )
+                                                         )
         );
     }
 }

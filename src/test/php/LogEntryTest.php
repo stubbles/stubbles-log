@@ -13,7 +13,7 @@ namespace stubbles\log;
  *
  * @group  core
  */
-class LogEntryTestCase extends \PHPUnit_Framework_TestCase
+class LogEntryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test

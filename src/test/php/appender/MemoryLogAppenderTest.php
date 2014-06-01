@@ -14,7 +14,7 @@ use stubbles\log\LogEntry;
  *
  * @group  appender
  */
-class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
+class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * instance to test
