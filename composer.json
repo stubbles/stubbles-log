@@ -13,8 +13,8 @@
         "phpunit/phpunit": "~4.1"
     },
     "autoload": {
-        "psr-0": {
-            "net\\stubbles\\log": "src/main/php"
+        "psr-4": {
+            "net\\stubbles\\log\\": "src/main/php"
         }
     },
     "extra": {
