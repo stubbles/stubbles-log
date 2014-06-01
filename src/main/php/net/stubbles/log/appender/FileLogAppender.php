@@ -87,4 +87,3 @@ class FileLogAppender implements LogAppender
         return $this;
     }
 }
-?>

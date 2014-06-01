@@ -8,7 +8,7 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\ioc;
-use net\stubbles\ioc\InjectionProvider;
+use stubbles\ioc\InjectionProvider;
 use net\stubbles\log\appender\FileLogAppender;
 /**
  * Injection provider for logger instances with a file appender.
@@ -42,7 +42,7 @@ class FileBasedLoggerProvider implements InjectionProvider
      * @param  LoggerProvider  $loggerProvider  provider which creates logger instances
      * @param  string          $logPath         path where logfiles should be stored
      * @Inject
-     * @Named{logPath}('net.stubbles.log.path')
+     * @Named{logPath}('stubbles.log.path')
      */
     public function __construct(LoggerProvider $loggerProvider, $logPath)
     {
@@ -56,7 +56,7 @@ class FileBasedLoggerProvider implements InjectionProvider
      * @param   int  $fileMode
      * @return  FileBasedLoggerProvider
      * @Inject(optional=true)
-     * @Named('net.stubbles.log.filemode')
+     * @Named('stubbles.log.filemode')
      */
     public function setFileMode($fileMode)
     {
@@ -81,4 +81,3 @@ class FileBasedLoggerProvider implements InjectionProvider
         return $logger;
     }
 }
-?>

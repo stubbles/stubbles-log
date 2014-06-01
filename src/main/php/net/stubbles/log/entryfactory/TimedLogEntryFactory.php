@@ -31,4 +31,3 @@ class TimedLogEntryFactory extends AbstractLogEntryFactory
         return $logEntry->addData(date('Y-m-d H:i:s'));
     }
 }
-?>

@@ -8,8 +8,8 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\ioc;
-use net\stubbles\ioc\Binder;
-use net\stubbles\ioc\module\BindingModule;
+use stubbles\ioc\Binder;
+use stubbles\ioc\module\BindingModule;
 /**
  * Bindung module for a default log configuration.
  */
@@ -129,7 +129,7 @@ class LogBindingModule implements BindingModule
     public function configure(Binder $binder)
     {
         if (!empty($this->logPath)) {
-            $binder->bindConstant('net.stubbles.log.path')
+            $binder->bindConstant('stubbles.log.path')
                    ->to($this->logPath);
         }
 
@@ -140,4 +140,3 @@ class LogBindingModule implements BindingModule
                ->toProviderClass($this->loggerProvider);
     }
 }
-?>

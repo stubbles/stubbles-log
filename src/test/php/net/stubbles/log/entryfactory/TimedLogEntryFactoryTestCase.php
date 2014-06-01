@@ -88,4 +88,3 @@ class TimedLogEntryFactoryTestCase extends \PHPUnit_Framework_TestCase
         );
     }
 }
-?>

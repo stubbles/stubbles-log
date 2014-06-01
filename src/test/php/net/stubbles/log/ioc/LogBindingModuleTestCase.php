@@ -8,7 +8,7 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\ioc;
-use net\stubbles\ioc\Binder;
+use stubbles\ioc\Binder;
 /**
  * Test for net\stubbles\log\ioc\LogBindingModule.
  *
@@ -20,7 +20,7 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      * configures the bindings
      *
      * @param   LogBindingModule  $logBindingModule
-     * @return  net\stubbles\ioc\Injector
+     * @return  stubbles\ioc\Injector
      */
     private function configureBindings(LogBindingModule $logBindingModule)
     {
@@ -35,7 +35,7 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
     public function logPathIsIsNotBoundWhenNotGiven()
     {
         $this->assertFalse($this->configureBindings(LogBindingModule::create())
-                                ->hasConstant('net.stubbles.log.path')
+                                ->hasConstant('stubbles.log.path')
         );
     }
 
@@ -47,7 +47,7 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(__DIR__ . DIRECTORY_SEPARATOR . 'log',
                           $this->configureBindings(LogBindingModule::createWithProjectPath(__DIR__))
-                               ->getConstant('net.stubbles.log.path')
+                               ->getConstant('stubbles.log.path')
         );
     }
 
@@ -58,7 +58,7 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame(__DIR__,
                           $this->configureBindings(LogBindingModule::createWithLogPath(__DIR__))
-                               ->getConstant('net.stubbles.log.path')
+                               ->getConstant('stubbles.log.path')
         );
     }
 
@@ -121,4 +121,3 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
         );
     }
 }
-?>

@@ -30,4 +30,3 @@ abstract class AbstractLogEntryFactory implements LogEntryFactory
         return $logEntry;
     }
 }
-?>

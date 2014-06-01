@@ -27,4 +27,3 @@ class EmptyLogEntryFactory extends AbstractLogEntryFactory
         return new LogEntry($target, $logger);
     }
 }
-?>

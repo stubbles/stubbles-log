@@ -85,33 +85,33 @@ class LogEntryTestCase extends \PHPUnit_Framework_TestCase
      */
     public function getLogData()
     {
-        return array(array('"bar"', '"bar'),
-                     array('foo"bar', 'foo"bar'),
-                     array('"baz"', '"baz"'),
-                     array('', '"'),
-                     array('foo', "fo\ro"),
-                     array('ba<nl>r', "ba\nr"),
-                     array('ba<nl>z', "ba\r\nz"),
-                     array('foobar;baz', 'foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz'),
-        );
+        return [['"bar"', '"bar'],
+                ['foo"bar', 'foo"bar'],
+                ['"baz"', '"baz"'],
+                ['', '"'],
+                ['foo', "fo\ro"],
+                ['ba<nl>r', "ba\nr"],
+                ['ba<nl>z', "ba\r\nz"],
+                ['foobar;baz', 'foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz'],
+        ];
     }
 
     /**
-     * @param  string  $excepted
+     * @param  string  $expected
      * @param  string  $data
      * @test
      * @dataProvider  getLogData
      */
     public function loggedDataWillBeEscaped($expected, $data)
     {
-        $this->assertEquals(array($expected),
+        $this->assertEquals([$expected],
                             $this->logEntry->addData($data)
                                            ->getData()
         );
     }
 
     /**
-     * @param  string  $excepted
+     * @param  string  $expected
      * @param  string  $data
      * @test
      * @dataProvider  getLogData
@@ -127,7 +127,7 @@ class LogEntryTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param  string  $excepted
+     * @param  string  $expected
      * @param  string  $data
      * @since  1.1.0
      * @test
@@ -135,7 +135,7 @@ class LogEntryTestCase extends \PHPUnit_Framework_TestCase
      */
     public function loggedReplacedDataWillBeEscaped($expected, $data)
     {
-        $this->assertEquals(array($expected),
+        $this->assertEquals([$expected],
                             $this->logEntry->addData("test1")
                                            ->replaceData(0, $data)
                                            ->getData()
@@ -143,7 +143,7 @@ class LogEntryTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param  string  $excepted
+     * @param  string  $expected
      * @param  string  $data
      * @since  1.1.0
      * @test
@@ -165,7 +165,7 @@ class LogEntryTestCase extends \PHPUnit_Framework_TestCase
      */
     public function addDataRemovesDifferentSeperator()
     {
-        $this->assertEquals(array('foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'),
+        $this->assertEquals(['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'],
                             $this->logEntry->setSeperator(';')
                                            ->addData('foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz')
                                            ->getData()
@@ -178,7 +178,7 @@ class LogEntryTestCase extends \PHPUnit_Framework_TestCase
      */
     public function replaceDataRemovesDifferentSeperator()
     {
-        $this->assertEquals(array('foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'),
+        $this->assertEquals(['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'],
                             $this->logEntry->setSeperator(';')
                                            ->addData('test')
                                            ->replaceData(0, 'foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz')
@@ -192,10 +192,9 @@ class LogEntryTestCase extends \PHPUnit_Framework_TestCase
      */
     public function replaceDataDoesNothingIfGivenPositionDoesNotExist()
     {
-        $this->assertEquals(array(),
+        $this->assertEquals([],
                             $this->logEntry->replaceData(0, "foo")
                                            ->getData()
         );
     }
 }
-?>

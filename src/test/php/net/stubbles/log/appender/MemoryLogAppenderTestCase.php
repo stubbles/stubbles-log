@@ -78,7 +78,7 @@ class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnLogEntryDataForNonExistingTargetReturnsEmptyArray()
     {
-        $this->assertEquals(array(),
+        $this->assertEquals([],
                             $this->memoryLogAppender->getLogEntryData('myTestTarget', 0)
         );
     }
@@ -89,7 +89,7 @@ class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnLogEntryDataForNonExistingPositionReturnsEmptyArray()
     {
-        $this->assertEquals(array(),
+        $this->assertEquals([],
                             $this->memoryLogAppender->append($this->createLogEntry('myTestTarget'))
                                                     ->getLogEntryData('myTestTarget', 1)
         );
@@ -100,7 +100,7 @@ class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnLogEntryDataForExistingPosition()
     {
-        $this->assertEquals(array('bar', 'baz'),
+        $this->assertEquals(['bar', 'baz'],
                             $this->memoryLogAppender->append($this->createLogEntry('myTestTarget'))
                                                     ->getLogEntryData('myTestTarget', 0)
         );
@@ -112,7 +112,7 @@ class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function returnLogEntriesForNonExistingTargetReturnsEmptyArray()
     {
-        $this->assertEquals(array(),
+        $this->assertEquals([],
                             $this->memoryLogAppender->getLogEntries('myTestTarget')
         );
     }
@@ -124,7 +124,7 @@ class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
     {
         $logEntry1 = $this->createLogEntry('myTestTarget');
         $logEntry2 = $this->createLogEntry('myTestTarget');
-        $this->assertEquals(array($logEntry1, $logEntry2),
+        $this->assertEquals([$logEntry1, $logEntry2],
                             $this->memoryLogAppender->append($logEntry1)
                                                     ->append($logEntry2)
                                                     ->getLogEntries('myTestTarget')
@@ -136,7 +136,7 @@ class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function finalizeClearsMemory()
     {
-        $this->assertEquals(array(),
+        $this->assertEquals([],
                             $this->memoryLogAppender->append($this->createLogEntry('myTestTarget'))
                                                     ->append($this->createLogEntry('myTestTarget'))
                                                     ->finalize()
@@ -144,4 +144,3 @@ class MemoryLogAppenderTestCase extends \PHPUnit_Framework_TestCase
         );
     }
 }
-?>

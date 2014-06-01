@@ -36,4 +36,3 @@ interface LogEntryFactory
      */
     public function recreate(LogEntry $logEntry, Logger $logger);
 }
-?>

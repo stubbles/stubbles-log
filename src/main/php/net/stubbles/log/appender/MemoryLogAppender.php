@@ -19,7 +19,7 @@ class MemoryLogAppender implements LogAppender
      *
      * @type  array
      */
-    protected $logEntries = array();
+    protected $logEntries = [];
 
     /**
      * counts log entries for a certain target
@@ -50,11 +50,11 @@ class MemoryLogAppender implements LogAppender
     public function getLogEntryData($target, $position)
     {
         if (!isset($this->logEntries[$target])) {
-            return array();
+            return [];
         }
 
         if (!isset($this->logEntries[$target][$position])) {
-            return array();
+            return [];
         }
 
         return $this->logEntries[$target][$position]->getData();
@@ -70,7 +70,7 @@ class MemoryLogAppender implements LogAppender
     public function getLogEntries($target)
     {
         if (!isset($this->logEntries[$target])) {
-            return array();
+            return [];
         }
 
         return $this->logEntries[$target];
@@ -95,8 +95,7 @@ class MemoryLogAppender implements LogAppender
      */
     public function finalize()
     {
-        $this->logEntries = array();
+        $this->logEntries = [];
         return $this;
     }
 }
-?>

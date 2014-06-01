@@ -40,7 +40,7 @@ class LogEntry
      *
      * @type  string[]
      */
-    private $logData        = array();
+    private $logData        = [];
 
     /**
      * constructor
@@ -176,7 +176,7 @@ class LogEntry
      */
     public function getData()
     {
-        return array_map(array($this, 'escapeSeperator'), $this->logData);
+        return array_map([$this, 'escapeSeperator'], $this->logData);
     }
 
     /**
@@ -186,7 +186,7 @@ class LogEntry
      */
     public function get()
     {
-        return join($this->seperator, array_map(array($this, 'escapeSeperator'), $this->logData));
+        return join($this->seperator, array_map([$this, 'escapeSeperator'], $this->logData));
     }
 
     /**
@@ -200,4 +200,3 @@ class LogEntry
         return str_replace($this->seperator, '', $data);
     }
 }
-?>

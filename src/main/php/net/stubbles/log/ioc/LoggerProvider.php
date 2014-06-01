@@ -8,7 +8,7 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\ioc;
-use net\stubbles\ioc\InjectionProvider;
+use stubbles\ioc\InjectionProvider;
 use net\stubbles\log\Logger;
 use net\stubbles\log\entryfactory\LogEntryFactory;
 /**
@@ -63,4 +63,3 @@ class LoggerProvider implements InjectionProvider
         return $this->logger[$name];
     }
 }
-?>

@@ -30,13 +30,13 @@ class Logger
      *
      * @type  LogAppender[]
      */
-    private $logAppender       = array();
+    private $logAppender       = [];
     /**
      * list of delayed log entries
      *
      * @type  LogEntry[]
      */
-    private $delayedLogEntries = array();
+    private $delayedLogEntries = [];
 
     /**
      * constructor
@@ -46,7 +46,7 @@ class Logger
     public function __construct(LogEntryFactory $logEntryFactory)
     {
         $this->logEntryFactory = $logEntryFactory;
-        register_shutdown_function(array($this, 'cleanup'));
+        register_shutdown_function([$this, 'cleanup']);
     }
 
     /**
@@ -160,8 +160,7 @@ class Logger
         }
 
         $amount = count($this->delayedLogEntries);
-        $this->delayedLogEntries = array();
+        $this->delayedLogEntries = [];
         return $amount;
     }
 }
-?>

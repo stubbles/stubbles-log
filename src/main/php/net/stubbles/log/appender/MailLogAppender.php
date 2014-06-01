@@ -34,7 +34,7 @@ class MailLogAppender implements LogAppender
      *
      * @type  LogEntry[]
      */
-    protected $logEntries  = array();
+    protected $logEntries  = [];
 
     /**
      * constructor
@@ -111,4 +111,3 @@ class MailLogAppender implements LogAppender
         mail($this->mailAddress, $subject, $body, 'FROM: ' . $this->senderName . ' <' . $this->mailAddress. '>');
     }
 }
-?>

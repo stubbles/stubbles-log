@@ -41,8 +41,8 @@ class MailLogAppenderTestCase extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->mailLogAppender   = $this->getMock('net\stubbles\log\appender\MailLogAppender',
-                                                  array('sendMail'),
-                                                  array('test@example.org')
+                                                  ['sendMail'],
+                                                  ['test@example.org']
                                    );
         $_SERVER['HTTP_HOST']    = 'example.org';
         $_SERVER['PHP_SELF']     = '/example.php';
@@ -146,4 +146,3 @@ class MailLogAppenderTestCase extends \PHPUnit_Framework_TestCase
                               ->finalize();
     }
 }
-?>

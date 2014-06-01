@@ -38,4 +38,3 @@ interface LogAppender
      */
     public function finalize();
 }
-?>

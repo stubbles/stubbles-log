@@ -8,7 +8,7 @@
  * @package  net\stubbles\log
  */
 namespace net\stubbles\log\ioc;
-use net\stubbles\lang;
+use stubbles\lang;
 /**
  * Test for net\stubbles\log\ioc\FileBasedLoggerProvider.
  *
@@ -61,7 +61,7 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
 
         $refParams = $constructor->getParameters();
         $this->assertTrue($refParams[1]->hasAnnotation('Named'));
-        $this->assertEquals('net.stubbles.log.path',
+        $this->assertEquals('stubbles.log.path',
                             $refParams[1]->getAnnotation('Named')->getName()
         );
     }
@@ -76,7 +76,7 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
         $this->assertTrue($setFileModeMethod->hasAnnotation('Inject'));
         $this->assertTrue($setFileModeMethod->getAnnotation('Inject')->isOptional());
         $this->assertTrue($setFileModeMethod->hasAnnotation('Named'));
-        $this->assertEquals('net.stubbles.log.filemode',
+        $this->assertEquals('stubbles.log.filemode',
                             $setFileModeMethod->getAnnotation('Named')->getName()
         );
     }
@@ -136,4 +136,3 @@ class FileBasedLoggerProviderTestCase extends \PHPUnit_Framework_TestCase
                                       ->get('foo');
     }
 }
-?>

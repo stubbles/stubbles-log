@@ -44,7 +44,7 @@ class LoggerTestCase extends \PHPUnit_Framework_TestCase
     public function initialInstanceHasNoLogAppenders()
     {
         $this->assertFalse($this->logger->hasLogAppenders());
-        $this->assertEquals(array(), $this->logger->getLogAppenders());
+        $this->assertEquals([], $this->logger->getLogAppenders());
     }
 
     /**
@@ -192,4 +192,3 @@ class LoggerTestCase extends \PHPUnit_Framework_TestCase
         $this->logger->cleanup();
     }
 }
-?>
