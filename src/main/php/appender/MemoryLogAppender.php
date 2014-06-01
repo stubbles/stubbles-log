@@ -5,10 +5,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log\appender;
-use net\stubbles\log\LogEntry;
+namespace stubbles\log\appender;
+use stubbles\log\LogEntry;
 /**
  * A log appenders that stores log entries in memory.
  */

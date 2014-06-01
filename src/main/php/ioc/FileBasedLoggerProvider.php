@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log\ioc;
+namespace stubbles\log\ioc;
 use stubbles\ioc\InjectionProvider;
-use net\stubbles\log\appender\FileLogAppender;
+use stubbles\log\appender\FileLogAppender;
 /**
  * Injection provider for logger instances with a file appender.
  *

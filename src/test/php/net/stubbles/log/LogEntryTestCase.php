@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log;
+namespace stubbles\log;
 /**
- * Test for net\stubbles\log\LogEntry.
+ * Test for stubbles\log\LogEntry.
  *
  * @group  core
  */
@@ -33,7 +33,7 @@ class LogEntryTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockLogger = $this->getMockBuilder('net\stubbles\log\Logger')
+        $this->mockLogger = $this->getMockBuilder('stubbles\log\Logger')
                                  ->disableOriginalConstructor()
                                  ->getMock();
         $this->logEntry   = new LogEntry('testTarget', $this->mockLogger);

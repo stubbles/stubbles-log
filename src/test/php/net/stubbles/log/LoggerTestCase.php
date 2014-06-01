@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log;
+namespace stubbles\log;
 /**
- * Test for net\stubbles\log\Logger.
+ * Test for stubbles\log\Logger.
  *
  * @group  log
  * @group  log_core
@@ -34,7 +34,7 @@ class LoggerTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockLogEntryFactory = $this->getMock('net\stubbles\log\entryfactory\LogEntryFactory');
+        $this->mockLogEntryFactory = $this->getMock('stubbles\log\entryfactory\LogEntryFactory');
         $this->logger              = new Logger($this->mockLogEntryFactory);
     }
 
@@ -62,11 +62,11 @@ class LoggerTestCase extends \PHPUnit_Framework_TestCase
     public function cleanupFinalizesAppenders()
     {
         $logger           = new Logger($this->mockLogEntryFactory);
-        $mockLogAppender1 = $this->getMock('net\stubbles\log\appender\LogAppender');
+        $mockLogAppender1 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender1->expects($this->once())
                          ->method('finalize');
         $logger->addLogAppender($mockLogAppender1);
-        $mockLogAppender2 = $this->getMock('net\stubbles\log\appender\LogAppender');
+        $mockLogAppender2 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender2->expects($this->once())
                          ->method('finalize');
         $logger->addLogAppender($mockLogAppender2);
@@ -92,11 +92,11 @@ class LoggerTestCase extends \PHPUnit_Framework_TestCase
     public function logAppendsLogEntryToAllLogAppender()
     {
         $logEntry = new LogEntry('testTarget', $this->logger);
-        $mockLogAppender1 = $this->getMock('net\stubbles\log\appender\LogAppender');
+        $mockLogAppender1 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender1->expects($this->once())
                          ->method('append')
                          ->with($this->equalTo($logEntry));
-        $mockLogAppender2 = $this->getMock('net\stubbles\log\appender\LogAppender');
+        $mockLogAppender2 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender2->expects($this->once())
                          ->method('append')
                          ->with($this->equalTo($logEntry));
@@ -140,11 +140,11 @@ class LoggerTestCase extends \PHPUnit_Framework_TestCase
         $this->mockLogEntryFactory->expects($this->once())
                                   ->method('recreate')
                                   ->will($this->returnValue($logEntry));
-        $mockLogAppender1 = $this->getMock('net\stubbles\log\appender\LogAppender');
+        $mockLogAppender1 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender1->expects($this->once())
                          ->method('append')
                          ->with($this->equalTo($logEntry));
-        $mockLogAppender2 = $this->getMock('net\stubbles\log\appender\LogAppender');
+        $mockLogAppender2 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender2->expects($this->once())
                          ->method('append')
                          ->with($this->equalTo($logEntry));
@@ -178,11 +178,11 @@ class LoggerTestCase extends \PHPUnit_Framework_TestCase
         $this->mockLogEntryFactory->expects($this->once())
                                   ->method('recreate')
                                   ->will($this->returnValue($logEntry));
-        $mockLogAppender1 = $this->getMock('net\stubbles\log\appender\LogAppender');
+        $mockLogAppender1 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender1->expects($this->once())
                          ->method('append')
                          ->with($this->equalTo($logEntry));
-        $mockLogAppender2 = $this->getMock('net\stubbles\log\appender\LogAppender');
+        $mockLogAppender2 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender2->expects($this->once())
                          ->method('append')
                          ->with($this->equalTo($logEntry));

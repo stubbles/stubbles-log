@@ -5,9 +5,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log;
+namespace stubbles\log;
 /**
  * Container class for log data.
  */

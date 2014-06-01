@@ -5,13 +5,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log\appender;
-use net\stubbles\log\LogEntry;
+namespace stubbles\log\appender;
 use org\bovigo\vfs\vfsStream;
+use stubbles\log\LogEntry;
 /**
- * Test for net\stubbles\log\appender\FileLogAppender.
+ * Test for stubbles\log\appender\FileLogAppender.
  *
  * @group  appender
  */
@@ -54,7 +54,7 @@ class FileLogAppenderTestCase extends \PHPUnit_Framework_TestCase
     protected function createLogEntry()
     {
         $logEntry = new LogEntry('foo',
-                                 $this->getMockBuilder('net\stubbles\log\Logger')
+                                 $this->getMockBuilder('stubbles\log\Logger')
                                       ->disableOriginalConstructor()
                                       ->getMock()
                     );

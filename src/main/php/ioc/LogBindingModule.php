@@ -5,9 +5,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log\ioc;
+namespace stubbles\log\ioc;
 use stubbles\ioc\Binder;
 use stubbles\ioc\module\BindingModule;
 /**
@@ -26,14 +26,14 @@ class LogBindingModule implements BindingModule
      *
      * @type  string
      */
-    private $logEntryFactory = 'net\\stubbles\\log\\entryfactory\\TimedLogEntryFactory';
+    private $logEntryFactory = 'stubbles\log\entryfactory\TimedLogEntryFactory';
     /**
      * name of class which provides the logger instance
      *
      * @type   string
      * @since  1.3.0
      */
-    private $loggerProvider  = 'net\\stubbles\\log\\ioc\\FileBasedLoggerProvider';
+    private $loggerProvider  = 'stubbles\log\ioc\FileBasedLoggerProvider';
 
     /**
      * constructor
@@ -133,10 +133,10 @@ class LogBindingModule implements BindingModule
                    ->to($this->logPath);
         }
 
-        $binder->bind('net\\stubbles\\log\\entryfactory\\LogEntryFactory')
+        $binder->bind('stubbles\log\entryfactory\LogEntryFactory')
                ->to($this->logEntryFactory)
                ->asSingleton();
-        $binder->bind('net\\stubbles\\log\\Logger')
+        $binder->bind('stubbles\log\Logger')
                ->toProviderClass($this->loggerProvider);
     }
 }

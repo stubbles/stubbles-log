@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log\ioc;
+namespace stubbles\log\ioc;
 use stubbles\ioc\InjectionProvider;
-use net\stubbles\log\Logger;
-use net\stubbles\log\entryfactory\LogEntryFactory;
+use stubbles\log\Logger;
+use stubbles\log\entryfactory\LogEntryFactory;
 /**
  * Injection provider for logger instances.
  *

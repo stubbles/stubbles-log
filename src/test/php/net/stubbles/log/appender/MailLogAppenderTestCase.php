@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log\appender;
-use net\stubbles\log\LogEntry;
+namespace stubbles\log\appender;
+use stubbles\log\LogEntry;
 /**
- * Test for net\stubbles\log\appender\MailLogAppender.
+ * Test for stubbles\log\appender\MailLogAppender.
  *
  * @group  appender
  */
@@ -40,7 +40,7 @@ class MailLogAppenderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mailLogAppender   = $this->getMock('net\stubbles\log\appender\MailLogAppender',
+        $this->mailLogAppender   = $this->getMock('stubbles\log\appender\MailLogAppender',
                                                   ['sendMail'],
                                                   ['test@example.org']
                                    );
@@ -70,7 +70,7 @@ class MailLogAppenderTestCase extends \PHPUnit_Framework_TestCase
     protected function createLogEntry($target)
     {
         return new LogEntry($target,
-                            $this->getMockBuilder('net\stubbles\log\Logger')
+                            $this->getMockBuilder('stubbles\log\Logger')
                                  ->disableOriginalConstructor()
                                  ->getMock()
         );

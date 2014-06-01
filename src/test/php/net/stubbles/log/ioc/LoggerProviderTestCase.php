@@ -5,13 +5,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log\ioc;
+namespace stubbles\log\ioc;
 use stubbles\lang;
-use net\stubbles\log\LogEntry;
+use stubbles\log\LogEntry;
 /**
- * Test for net\stubbles\log\ioc\LoggerProvider.
+ * Test for stubbles\log\ioc\LoggerProvider.
  *
  * @group  ioc
  */
@@ -35,7 +35,7 @@ class LoggerProviderTestCase extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mockLogEntryFactory = $this->getMock('net\stubbles\log\entryfactory\LogEntryFactory');
+        $this->mockLogEntryFactory = $this->getMock('stubbles\log\entryfactory\LogEntryFactory');
         $this->loggerProvider      = new LoggerProvider($this->mockLogEntryFactory);
     }
 

@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log\ioc;
+namespace stubbles\log\ioc;
 use stubbles\ioc\Binder;
 /**
- * Test for net\stubbles\log\ioc\LogBindingModule.
+ * Test for stubbles\log\ioc\LogBindingModule.
  *
  * @group  ioc
  */
@@ -68,8 +68,8 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
     public function logEntryFactoryIsBoundAsSingleton()
     {
         $injector = $this->configureBindings(new LogBindingModule());
-        $this->assertSame($injector->getInstance('net\stubbles\log\entryfactory\LogEntryFactory'),
-                          $injector->getInstance('net\stubbles\log\entryfactory\LogEntryFactory')
+        $this->assertSame($injector->getInstance('stubbles\log\entryfactory\LogEntryFactory'),
+                          $injector->getInstance('stubbles\log\entryfactory\LogEntryFactory')
         );
     }
 
@@ -78,9 +78,9 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function logEntryFactoryClassIsBoundToTimedLogEntryFactoryByDefault()
     {
-        $this->assertInstanceOf('net\stubbles\log\entryfactory\TimedLogEntryFactory',
+        $this->assertInstanceOf('stubbles\log\entryfactory\TimedLogEntryFactory',
                                 $this->configureBindings(LogBindingModule::create())
-                                     ->getInstance('net\stubbles\log\entryfactory\LogEntryFactory')
+                                     ->getInstance('stubbles\log\entryfactory\LogEntryFactory')
         );
     }
 
@@ -89,11 +89,11 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function logEntryFactoryClassIsBoundToConfiguredLogEntryFactoryClass()
     {
-        $this->assertInstanceOf('net\stubbles\log\entryfactory\EmptyLogEntryFactory',
+        $this->assertInstanceOf('stubbles\log\entryfactory\EmptyLogEntryFactory',
                                 $this->configureBindings(LogBindingModule::create()
-                                                                         ->setLogEntryFactory('net\stubbles\log\entryfactory\EmptyLogEntryFactory')
+                                                                         ->setLogEntryFactory('stubbles\log\entryfactory\EmptyLogEntryFactory')
                                        )
-                                     ->getInstance('net\stubbles\log\entryfactory\LogEntryFactory')
+                                     ->getInstance('stubbles\log\entryfactory\LogEntryFactory')
         );
     }
 
@@ -102,9 +102,9 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function loggerCanBeCreated()
     {
-        $this->assertInstanceOf('net\stubbles\log\Logger',
+        $this->assertInstanceOf('stubbles\log\Logger',
                                 $this->configureBindings(LogBindingModule::createWithLogPath(__DIR__))
-                                     ->getInstance('net\stubbles\log\Logger')
+                                     ->getInstance('stubbles\log\Logger')
         );
     }
 
@@ -113,11 +113,11 @@ class LogBindingModuleTestCase extends \PHPUnit_Framework_TestCase
      */
     public function loggerCanBeCreatedUsingDifferentLoggerProvider()
     {
-        $this->assertInstanceOf('net\stubbles\log\Logger',
+        $this->assertInstanceOf('stubbles\log\Logger',
                                 $this->configureBindings(LogBindingModule::createWithLogPath(__DIR__)
-                                                                         ->setLoggerProvider('net\stubbles\log\ioc\LoggerProvider')
+                                                                         ->setLoggerProvider('stubbles\log\ioc\LoggerProvider')
                                        )
-                                     ->getInstance('net\stubbles\log\Logger')
+                                     ->getInstance('stubbles\log\Logger')
         );
     }
 }

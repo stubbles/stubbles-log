@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log\entryfactory;
-use net\stubbles\log\LogEntry;
-use net\stubbles\log\Logger;
+namespace stubbles\log\entryfactory;
+use stubbles\log\LogEntry;
+use stubbles\log\Logger;
 /**
  * Interface for factories which create log entry containers.
  *

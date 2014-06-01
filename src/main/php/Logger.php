@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package  net\stubbles\log
+ * @package  stubbles\log
  */
-namespace net\stubbles\log;
-use net\stubbles\log\appender\LogAppender;
-use net\stubbles\log\entryfactory\LogEntryFactory;
+namespace stubbles\log;
+use stubbles\log\appender\LogAppender;
+use stubbles\log\entryfactory\LogEntryFactory;
 /**
  * Class for logging.
  *
