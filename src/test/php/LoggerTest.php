@@ -40,6 +40,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function initialInstanceHasNoLogAppenders()
     {
@@ -65,11 +66,11 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $mockLogAppender1 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender1->expects($this->once())
                          ->method('finalize');
-        $logger->addLogAppender($mockLogAppender1);
+        $logger->addAppender($mockLogAppender1);
         $mockLogAppender2 = $this->getMock('stubbles\log\appender\LogAppender');
         $mockLogAppender2->expects($this->once())
                          ->method('finalize');
-        $logger->addLogAppender($mockLogAppender2);
+        $logger->addAppender($mockLogAppender2);
         $logger->cleanup();
     }
 
@@ -148,8 +149,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $mockLogAppender2->expects($this->once())
                          ->method('append')
                          ->with($this->equalTo($logEntry));
-        $this->logger->addLogAppender($mockLogAppender1);
-        $this->logger->addLogAppender($mockLogAppender2);
+        $this->logger->addAppender($mockLogAppender1);
+        $this->logger->addAppender($mockLogAppender2);
         $this->assertEquals(1, $this->logger->processDelayedLogEntries());
     }
 
@@ -186,8 +187,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $mockLogAppender2->expects($this->once())
                          ->method('append')
                          ->with($this->equalTo($logEntry));
-        $this->logger->addLogAppender($mockLogAppender1);
-        $this->logger->addLogAppender($mockLogAppender2);
+        $this->logger->addAppender($mockLogAppender1);
+        $this->logger->addAppender($mockLogAppender2);
         $this->logger->logDelayed($logEntry);
         $this->logger->cleanup();
     }

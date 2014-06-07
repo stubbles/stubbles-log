@@ -93,7 +93,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
                          ->method('hasLogAppenders')
                          ->will($this->returnValue(true));
         $this->mockLogger->expects($this->never())
-                         ->method('addLogAppender');
+                         ->method('addAppender');
         $this->fileBasedLoggerProvider->get();
     }
 
@@ -110,7 +110,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
                          ->method('hasLogAppenders')
                          ->will($this->returnValue(false));
         $this->mockLogger->expects($this->once())
-                         ->method('addLogAppender')
+                         ->method('addAppender')
                          ->with($this->isInstanceOf('stubbles\log\appender\FileLogAppender'))
                          ->will($this->returnArgument(0));
         $this->fileBasedLoggerProvider->get('foo');
@@ -129,7 +129,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
                          ->method('hasLogAppenders')
                          ->will($this->returnValue(false));
         $this->mockLogger->expects($this->once())
-                         ->method('addLogAppender')
+                         ->method('addAppender')
                          ->with($this->isInstanceOf('stubbles\log\appender\FileLogAppender'))
                          ->will($this->returnArgument(0));
         $this->fileBasedLoggerProvider->setFileMode(0777)

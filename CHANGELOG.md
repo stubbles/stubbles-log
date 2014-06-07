@@ -4,6 +4,11 @@
 ### BC breaks
 
   * removed namespace prefix `net`, base namespace is now `stubbles\log` only
+  * deprecated `stubbles\log\Logger::addLogAppender()`, use `stubbles\log\Logger::addAppender()` instead, will be removed with 4.0.0
+  * deprecated `stubbles\log\Logger::getLogAppenders()`, will be removed with 4.0.0
+  * deprecated `stubbles\log\LogEntry::getTarget()`, use `stubbles\log\LogEntry::target()` instead, will be removed with 4.0.0
+  * deprecated `stubbles\log\LogEntry::getData()`, use `stubbles\log\LogEntry::data()` instead, will be removed with 4.0.0
+  * deprecated `stubbles\log\LogEntry::get()`, use `stubbles\log\LogEntry::__toString()` instead, will be removed with 4.0.0
 
 ### Other changes
 

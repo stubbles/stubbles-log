@@ -57,7 +57,7 @@ class MemoryLogAppender implements LogAppender
             return [];
         }
 
-        return $this->logEntries[$target][$position]->getData();
+        return $this->logEntries[$target][$position]->data();
     }
 
     /**
@@ -84,7 +84,7 @@ class MemoryLogAppender implements LogAppender
      */
     public function append(LogEntry $logEntry)
     {
-        $this->logEntries[$logEntry->getTarget()][] = $logEntry;
+        $this->logEntries[$logEntry->target()][] = $logEntry;
         return $this;
     }
 

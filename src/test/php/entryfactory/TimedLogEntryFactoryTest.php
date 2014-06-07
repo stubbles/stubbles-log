@@ -51,7 +51,7 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryHasCorrectTarget()
     {
-        $this->assertEquals('testTarget', $this->logEntry->getTarget());
+        $this->assertEquals('testTarget', $this->logEntry->target());
     }
 
     /**
@@ -60,7 +60,7 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
     public function createdLogEntryContainsTime()
     {
         $currentTime = time();
-        $loggedTime  = strtotime($this->logEntry->get());
+        $loggedTime  = strtotime($this->logEntry);
         $this->assertGreaterThan($currentTime -2, $loggedTime);
         $this->assertLessThan($currentTime +2, $loggedTime);
     }

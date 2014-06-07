@@ -70,10 +70,24 @@ class Logger
      * @param   LogAppender  $logAppender
      * @return  LogAppender  the freshly added log appender instance
      */
-    public function addLogAppender(LogAppender $logAppender)
+    public function addAppender(LogAppender $logAppender)
     {
         $this->logAppender[] = $logAppender;
         return $logAppender;
+    }
+
+    /**
+     * adds a log appender to the logger
+     *
+     * A log appender is responsible for writing the log data.
+     *
+     * @param   LogAppender  $logAppender
+     * @return  LogAppender  the freshly added log appender instance
+     * @deprecated  since 3.0.0, use addAppender() instead, will be removed with 4.0.0
+     */
+    public function addLogAppender(LogAppender $logAppender)
+    {
+        return $this->addAppender($logAppender);
     }
 
     /**
@@ -90,6 +104,7 @@ class Logger
      * returns a list of log appenders appended to the logger
      *
      * @return  LogAppender[]
+     * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function getLogAppenders()
     {

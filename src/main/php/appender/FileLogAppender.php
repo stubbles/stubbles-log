@@ -70,9 +70,9 @@ class FileLogAppender implements LogAppender
             mkdir($this->logDir, $this->mode, true);
         }
 
-        error_log($logEntry->get() . "\n",
+        error_log($logEntry . "\n",
                   3,
-                  $this->logDir . DIRECTORY_SEPARATOR . $logEntry->getTarget() . '-' . date('Y-m-d') . '.log'
+                  $this->logDir . DIRECTORY_SEPARATOR . $logEntry->target() . '-' . date('Y-m-d') . '.log'
         );
         return $this;
     }
