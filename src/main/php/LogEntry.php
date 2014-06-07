@@ -66,6 +66,17 @@ class LogEntry
      *
      * @return  string
      */
+    public function target()
+    {
+        return $this->target;
+    }
+
+    /**
+     * returns the target where the log data should go to
+     *
+     * @return  string
+     * @deprecated  since 3.0.0, use target() instead, will be removed with 4.0.0
+     */
     public function getTarget()
     {
         return $this->target;
@@ -174,9 +185,21 @@ class LogEntry
      * @return  string[]
      * @since   1.1.0
      */
+    public function data()
+    {
+        return array_map($this->createEscapeSeperator(), $this->logData);
+    }
+
+    /**
+     * returns whole log data
+     *
+     * @return  string[]
+     * @since   1.1.0
+     * @deprecated  since 3.0.0, use data() instead, will be removed with 4.0.0
+     */
     public function getData()
     {
-        return array_map([$this, 'escapeSeperator'], $this->logData);
+        return $this->data();
     }
 
     /**
@@ -184,19 +207,32 @@ class LogEntry
      *
      * @return  string
      */
-    public function get()
+    public function __toString()
     {
-        return join($this->seperator, array_map([$this, 'escapeSeperator'], $this->logData));
+        return join($this->seperator, array_map($this->createEscapeSeperator(), $this->logData));
     }
 
     /**
-     * escape string against seperator, i.e. remove it from data
+     * returns the whole log data on one line with fields seperated by the seperator
      *
-     * @param   string  $data
+     * @return  string
+     * @deprecated  since 3.0.0, use __toString() instead, will be removed with 4.0.0
+     */
+    public function get()
+    {
+        return $this->__toString();
+    }
+
+    /**
+     * creates function for escaping a string against seperator, i.e. remove it from data
+     *
      * @return  string
      */
-    private function escapeSeperator($data)
+    private function createEscapeSeperator()
     {
-        return str_replace($this->seperator, '', $data);
+        return function($data)
+               {
+                   return str_replace($this->seperator, '', $data);
+               };
     }
 }

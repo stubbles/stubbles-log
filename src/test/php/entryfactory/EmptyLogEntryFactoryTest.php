@@ -51,7 +51,7 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryHasCorrectTarget()
     {
-        $this->assertEquals('testTarget', $this->logEntry->getTarget());
+        $this->assertEquals('testTarget', $this->logEntry->target());
     }
 
     /**
@@ -59,7 +59,7 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryIsEmpty()
     {
-        $this->assertEquals('', $this->logEntry->get());
+        $this->assertEquals('', $this->logEntry);
     }
 
     /**

@@ -73,7 +73,7 @@ class MailLogAppender implements LogAppender
 
         $body = '';
         foreach ($this->logEntries as $logEntry) {
-            $body .= $logEntry->getTarget() . ': ' . $logEntry->get() . "\n\n";
+            $body .= $logEntry->target() . ': ' . $logEntry . "\n\n";
         }
 
         $body .= $this->getHostInfo();

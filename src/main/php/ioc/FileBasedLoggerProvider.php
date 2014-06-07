@@ -74,7 +74,7 @@ class FileBasedLoggerProvider implements InjectionProvider
     {
         $logger = $this->loggerProvider->get($name);
         if (!$logger->hasLogAppenders()) {
-            $logger->addLogAppender(new FileLogAppender($this->logPath))
+            $logger->addAppender(new FileLogAppender($this->logPath))
                    ->setMode($this->fileMode);
         }
 
