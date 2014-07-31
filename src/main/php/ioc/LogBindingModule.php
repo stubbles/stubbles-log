@@ -55,7 +55,7 @@ class LogBindingModule implements BindingModule
      * net.stubbles.log.path.
      *
      * @api
-     * @return  LogBindingModule
+     * @return  \stubbles\log\ioc\LogBindingModule
      * @since   2.0.0
      */
     public static function create()
@@ -71,7 +71,7 @@ class LogBindingModule implements BindingModule
      *
      * @api
      * @param   string  $projectPath
-     * @return  LogBindingModule
+     * @return  \stubbles\log\ioc\LogBindingModule
      * @since   2.0.0
      */
     public static function createWithProjectPath($projectPath)
@@ -86,7 +86,7 @@ class LogBindingModule implements BindingModule
      *
      * @api
      * @param   string  $logPath  optional
-     * @return  LogBindingModule
+     * @return  \stubbles\log\ioc\LogBindingModule
      * @since   2.0.0
      */
     public static function createWithLogPath($logPath)
@@ -99,7 +99,7 @@ class LogBindingModule implements BindingModule
      *
      * @api
      * @param   string  $logEntryFactory  class name of log entry factory
-     * @return  LogBindingModule
+     * @return  \stubbles\log\ioc\LogBindingModule
      */
     public function setLogEntryFactory($logEntryFactory)
     {
@@ -112,7 +112,7 @@ class LogBindingModule implements BindingModule
      *
      * @api
      * @param   string  $loggerProvider  class name of logger provider
-     * @return  LogBindingModule
+     * @return  \stubbles\log\ioc\LogBindingModule
      * @since   1.3.0
      */
     public function setLoggerProvider($loggerProvider)
@@ -124,7 +124,7 @@ class LogBindingModule implements BindingModule
     /**
      * configure the binder
      *
-     * @param  Binder  $binder
+     * @param  \stubbles\ioc\Binder  $binder
      */
     public function configure(Binder $binder)
     {

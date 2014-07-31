@@ -32,7 +32,7 @@ class MailLogAppender implements LogAppender
     /**
      * the collected log data
      *
-     * @type  LogEntry[]
+     * @type  \stubbles\log\LogEntry[]
      */
     protected $logEntries  = [];
 
@@ -51,8 +51,8 @@ class MailLogAppender implements LogAppender
     /**
      * append the log data to the log target
      *
-     * @param   LogEntry  $logEntry
-     * @return  MailLogAppender
+     * @param   \stubbles\log\LogEntry  $logEntry
+     * @return  \stubbles\log\appender\MailLogAppender
      */
     public function append(LogEntry $logEntry)
     {
@@ -63,7 +63,7 @@ class MailLogAppender implements LogAppender
     /**
      * finalize the log target
      *
-     * @return  MailLogAppender
+     * @return  \stubbles\log\appender\MailLogAppender
      */
     public function finalize()
     {

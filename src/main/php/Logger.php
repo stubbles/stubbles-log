@@ -22,26 +22,26 @@ class Logger
     /**
      * factory to be used to create log data containers
      *
-     * @type  LogEntryFactory
+     * @type  \stubbles\log\entryfactory\LogEntryFactory
      */
     private $logEntryFactory;
     /**
      * list of log appenders to log data to
      *
-     * @type  LogAppender[]
+     * @type  \stubbles\log\appender\LogAppender[]
      */
     private $logAppender       = [];
     /**
      * list of delayed log entries
      *
-     * @type  LogEntry[]
+     * @type  \stubbles\log\LogEntry[]
      */
     private $delayedLogEntries = [];
 
     /**
      * constructor
      *
-     * @param  LogEntryFactory  $logEntryFactory  factory to be used to create log data containers
+     * @param  \stubbles\log\entryfactory\LogEntryFactory  $logEntryFactory  factory to be used to create log data containers
      */
     public function __construct(LogEntryFactory $logEntryFactory)
     {
@@ -67,8 +67,8 @@ class Logger
      *
      * A log appender is responsible for writing the log data.
      *
-     * @param   LogAppender  $logAppender
-     * @return  LogAppender  the freshly added log appender instance
+     * @param   \stubbles\log\appender\LogAppender  $logAppender
+     * @return  \stubbles\log\appender\LogAppender  the freshly added log appender instance
      */
     public function addAppender(LogAppender $logAppender)
     {
@@ -81,8 +81,8 @@ class Logger
      *
      * A log appender is responsible for writing the log data.
      *
-     * @param   LogAppender  $logAppender
-     * @return  LogAppender  the freshly added log appender instance
+     * @param   \stubbles\log\appender\LogAppender  $logAppender
+     * @return  \stubbles\log\appender\LogAppender  the freshly added log appender instance
      * @deprecated  since 3.0.0, use addAppender() instead, will be removed with 4.0.0
      */
     public function addLogAppender(LogAppender $logAppender)
@@ -103,7 +103,7 @@ class Logger
     /**
      * returns a list of log appenders appended to the logger
      *
-     * @return  LogAppender[]
+     * @return  \stubbles\log\appender\LogAppender[]
      * @deprecated  since 3.0.0, will be removed with 4.0.0
      */
     public function getLogAppenders()
@@ -116,7 +116,7 @@ class Logger
      *
      * @api
      * @param   string  $target
-     * @return  LogEntry
+     * @return  \stubbles\log\LogEntry
      */
     public function createLogEntry($target)
     {
@@ -126,7 +126,7 @@ class Logger
     /**
      * sends log data to all registered log appenders
      *
-     * @param  LogEntry  $logEntry  contains data to log
+     * @param  \stubbles\log\LogEntry  $logEntry  contains data to log
      */
     public function log(LogEntry $logEntry)
     {
@@ -139,7 +139,7 @@ class Logger
      * collects log entries but delays logging of them until destruction of the
      * logger or processDelayedLogEntries() gets called
      *
-     * @param  LogEntry  $logEntry
+     * @param  \stubbles\log\LogEntry  $logEntry
      * @since  1.1.0
      */
     public function logDelayed(LogEntry $logEntry)

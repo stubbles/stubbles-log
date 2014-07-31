@@ -18,9 +18,9 @@ class EmptyLogEntryFactory extends AbstractLogEntryFactory
     /**
      * creates a log entry container
      *
-     * @param   string  $target  target where the log data should go to
-     * @param   Logger  $logger  logger instance to create log entry container for
-     * @return  LogEntry
+     * @param   string                $target  target where the log data should go to
+     * @param   \stubbles\log\Logger  $logger  logger instance to create log entry container for
+     * @return  \stubbles\log\LogEntry
      */
     public function create($target, Logger $logger)
     {

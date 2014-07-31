@@ -20,7 +20,7 @@ class FileBasedLoggerProvider implements InjectionProvider
     /**
      * logger instance provider
      *
-     * @type  LoggerProvider
+     * @type  \stubbles\log\ioc\LoggerProvider
      */
     private $loggerProvider;
     /**
@@ -39,8 +39,8 @@ class FileBasedLoggerProvider implements InjectionProvider
     /**
      * constructor
      *
-     * @param  LoggerProvider  $loggerProvider  provider which creates logger instances
-     * @param  string          $logPath         path where logfiles should be stored
+     * @param  \stubbles\log\ioc\LoggerProvider  $loggerProvider  provider which creates logger instances
+     * @param  string                            $logPath         path where logfiles should be stored
      * @Inject
      * @Named{logPath}('stubbles.log.path')
      */
@@ -54,7 +54,7 @@ class FileBasedLoggerProvider implements InjectionProvider
      * sets the mode for new log directories
      *
      * @param   int  $fileMode
-     * @return  FileBasedLoggerProvider
+     * @return  \stubbles\log\ioc\FileBasedLoggerProvider
      * @Inject(optional=true)
      * @Named('stubbles.log.filemode')
      */
@@ -68,7 +68,7 @@ class FileBasedLoggerProvider implements InjectionProvider
      * returns the value to provide
      *
      * @param   string  $name  optional
-     * @return  mixed
+     * @return  \stubbles\log\Logger
      */
     public function get($name = null)
     {

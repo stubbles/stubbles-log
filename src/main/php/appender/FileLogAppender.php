@@ -47,7 +47,7 @@ class FileLogAppender implements LogAppender
      * sets the mode for new log directories
      *
      * @param   int  $mode
-     * @return  FileLogAppender
+     * @return  \stubbles\log\appender\FileLogAppender
      */
     public function setMode($mode)
     {
@@ -61,8 +61,8 @@ class FileLogAppender implements LogAppender
      * The basename of the logfile will be [target]-[Y-m-d].log where target
      * is the return value of $logEntry->getTarget().
      *
-     * @param   LogEntry  $logEntry
-     * @return  FileLogAppender
+     * @param   \stubbles\log\LogEntry  $logEntry
+     * @return  \stubbles\log\appender\FileLogAppender
      */
     public function append(LogEntry $logEntry)
     {
@@ -80,7 +80,7 @@ class FileLogAppender implements LogAppender
     /**
      * finalize the log target
      *
-     * @return  FileLogAppender
+     * @return  \stubbles\log\appender\FileLogAppender
      */
     public function finalize()
     {

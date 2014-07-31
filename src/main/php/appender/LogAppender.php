@@ -22,8 +22,8 @@ interface LogAppender
     /**
      * append the log entry to the log target
      *
-     * @param   LogEntry  $logEntry
-     * @return  LogAppender
+     * @param   \stubbles\log\LogEntry  $logEntry
+     * @return  \stubbles\log\appender\LogAppender
      */
     public function append(LogEntry $logEntry);
 
@@ -34,7 +34,7 @@ interface LogAppender
      * to close file or database handlers or to write the log data if
      * append() just collects the data.
      *
-     * @return  LogAppender
+     * @return  \stubbles\log\appender\LogAppender
      */
     public function finalize();
 }
