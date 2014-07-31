@@ -21,9 +21,9 @@ abstract class AbstractLogEntryFactory implements LogEntryFactory
     /**
      * recreates given log entry
      *
-     * @param   LogEntry  $logEntry
-     * @param   Logger    $logger
-     * @return  LogEntry
+     * @param   \stubbles\log\LogEntry  $logEntry
+     * @param   \stubbles\log\Logger    $logger
+     * @return  \stubbles\log\LogEntry
      */
     public function recreate(LogEntry $logEntry, Logger $logger)
     {

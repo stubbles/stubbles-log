@@ -65,7 +65,7 @@ class MemoryLogAppender implements LogAppender
      *
      * @api
      * @param   string  $target  optional
-     * @return  LogEntry[]
+     * @return  \stubbles\log\LogEntry[]
      */
     public function getLogEntries($target)
     {
@@ -79,8 +79,8 @@ class MemoryLogAppender implements LogAppender
     /**
      * stores log entry in memory
      *
-     * @param   LogEntry  $logEntry
-     * @return  MemoryLogAppender
+     * @param   \stubbles\log\LogEntry  $logEntry
+     * @return  \stubbles\log\appender\MemoryLogAppender
      */
     public function append(LogEntry $logEntry)
     {
@@ -91,7 +91,7 @@ class MemoryLogAppender implements LogAppender
     /**
      * finalize the log target
      *
-     * @return  MemoryLogAppender
+     * @return  \stubbles\log\appender\MemoryLogAppender
      */
     public function finalize()
     {

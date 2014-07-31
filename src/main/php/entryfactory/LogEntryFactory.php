@@ -20,18 +20,18 @@ interface LogEntryFactory
     /**
      * creates a log entry container
      *
-     * @param   string  $target  target where the log data should go to
-     * @param   Logger  $logger  logger instance to create log entry container for
-     * @return  LogEntry
+     * @param   string                $target  target where the log data should go to
+     * @param   \stubbles\log\Logger  $logger  logger instance to create log entry container for
+     * @return  \stubbles\log\LogEntry
      */
     public function create($target, Logger $logger);
 
     /**
      * recreates given log entry
      *
-     * @param   LogEntry  $logEntry
-     * @param   Logger    $logger
-     * @return  LogEntry
+     * @param   \stubbles\log\LogEntry  $logEntry
+     * @param   \stubbles\log\Logger    $logger
+     * @return  \stubbles\log\LogEntry
      * @since   1.1.0
      */
     public function recreate(LogEntry $logEntry, Logger $logger);

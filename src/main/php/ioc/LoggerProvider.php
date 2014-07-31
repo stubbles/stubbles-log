@@ -23,7 +23,7 @@ class LoggerProvider implements InjectionProvider
     /**
      * factory to be used to create log entry containers
      *
-     * @type  LogEntryFactory
+     * @type  \stubbles\log\entryfactory\LogEntryFactory
      */
     private $logEntryFactory;
     /**
@@ -36,7 +36,7 @@ class LoggerProvider implements InjectionProvider
     /**
      * constructor
      *
-     * @param  LogEntryFactory  $logEntryFactory  factory to be used to create log entry containers
+     * @param  \stubbles\log\entryfactory\LogEntryFactory  $logEntryFactory  factory to be used to create log entry containers
      * @Inject
      */
     public function __construct(LogEntryFactory $logEntryFactory)
@@ -48,7 +48,7 @@ class LoggerProvider implements InjectionProvider
      * returns the value to provide
      *
      * @param   string  $name  optional
-     * @return  mixed
+     * @return  \stubbles\log\Logger
      */
     public function get($name = null)
     {

@@ -26,7 +26,7 @@ class LogEntry
     /**
      * logger to which the log data should be send
      *
-     * @type  Logger
+     * @type  \stubbles\log\Logger
      */
     private $logger;
     /**
@@ -52,8 +52,8 @@ class LogEntry
      * only use ascii characters, numbers and underscores to be sure that the
      * log appender will not mess up the log data.
      *
-     * @param  string  $target   target where the log data should go to
-     * @param  Logger  $logger   logger to which the log data should be send
+     * @param  string                $target   target where the log data should go to
+     * @param  \stubbles\log\Logger  $logger   logger to which the log data should be send
      */
     public function __construct($target, Logger $logger)
     {
@@ -86,7 +86,7 @@ class LogEntry
      * sets the seperator to be used
      *
      * @param   string  $seperator
-     * @return  LogEntry
+     * @return  \stubbles\log\LogEntry
      */
     public function setSeperator($seperator)
     {
@@ -130,7 +130,7 @@ class LogEntry
      *
      * @api
      * @param   string  $data
-     * @return  LogEntry
+     * @return  \stubbles\log\LogEntry
      */
     public function addData($data)
     {
@@ -166,7 +166,7 @@ class LogEntry
      *
      * @param   int     $position         position to replace
      * @param   string  $replacementData  the data to replace the old data
-     * @return  LogEntry
+     * @return  \stubbles\log\LogEntry
      * @since   1.1.0
      */
     public function replaceData($position, $replacementData)
