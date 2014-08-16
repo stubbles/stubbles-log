@@ -62,7 +62,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
         $refParams = $constructor->getParameters();
         $this->assertTrue($refParams[1]->hasAnnotation('Named'));
         $this->assertEquals('stubbles.log.path',
-                            $refParams[1]->getAnnotation('Named')->getName()
+                            $refParams[1]->annotation('Named')->getName()
         );
     }
 
@@ -74,10 +74,10 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
     {
         $setFileModeMethod = lang\reflect($this->fileBasedLoggerProvider, 'setFileMode');
         $this->assertTrue($setFileModeMethod->hasAnnotation('Inject'));
-        $this->assertTrue($setFileModeMethod->getAnnotation('Inject')->isOptional());
+        $this->assertTrue($setFileModeMethod->annotation('Inject')->isOptional());
         $this->assertTrue($setFileModeMethod->hasAnnotation('Named'));
         $this->assertEquals('stubbles.log.filemode',
-                            $setFileModeMethod->getAnnotation('Named')->getName()
+                            $setFileModeMethod->annotation('Named')->getName()
         );
     }
 
