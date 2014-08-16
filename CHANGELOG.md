@@ -1,6 +1,13 @@
 4.0.0 (2014-08-??)
 ------------------
 
+### BC breaks
+
+  * replaced `stubbles\log\ioc\LogBindingModule` with `stubbles\log\ioc\LogFiles`
+
+
+### Other changes
+
   * upgraded stubbles/core to 5.0.0
 
 

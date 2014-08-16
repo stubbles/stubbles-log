@@ -11,9 +11,9 @@ namespace stubbles\log\ioc;
 use stubbles\ioc\Binder;
 use stubbles\ioc\module\BindingModule;
 /**
- * Bindung module for a default log configuration.
+ * Bindung module for logging configuration.
  */
-class LogBindingModule implements BindingModule
+class Logfiles implements BindingModule
 {
     /**
      * path where logfiles should be stored
@@ -36,72 +36,13 @@ class LogBindingModule implements BindingModule
     private $loggerProvider  = 'stubbles\log\ioc\FileBasedLoggerProvider';
 
     /**
-     * constructor
-     *
-     * Please note that the log path is only optional if it is bound by another
-     * module.
-     *
-     * @param  string  $logPath  optional  path where logfiles should be stored
-     */
-    public function __construct($logPath = null)
-    {
-        $this->logPath = $logPath;
-    }
-
-    /**
-     * static constructor
-     *
-     * Uses no path and relies on another module to bind the logpath constant
-     * net.stubbles.log.path.
-     *
-     * @api
-     * @return  \stubbles\log\ioc\LogBindingModule
-     * @since   2.0.0
-     */
-    public static function create()
-    {
-        return new self();
-    }
-
-    /**
-     * static constructor
-     *
-     * Uses the $projectPath to bind the logpath constant net.stubbles.log.path
-     * to $projectPath/log.
-     *
-     * @api
-     * @param   string  $projectPath
-     * @return  \stubbles\log\ioc\LogBindingModule
-     * @since   2.0.0
-     */
-    public static function createWithProjectPath($projectPath)
-    {
-        return new self($projectPath . DIRECTORY_SEPARATOR . 'log');
-    }
-
-    /**
-     * static constructor
-     *
-     * Uses given path to bind the constant net.stubbles.log.path to.
-     *
-     * @api
-     * @param   string  $logPath  optional
-     * @return  \stubbles\log\ioc\LogBindingModule
-     * @since   2.0.0
-     */
-    public static function createWithLogPath($logPath)
-    {
-        return new self($logPath);
-    }
-
-    /**
      * sets the class name of log entry factory class to be bound
      *
      * @api
      * @param   string  $logEntryFactory  class name of log entry factory
-     * @return  \stubbles\log\ioc\LogBindingModule
+     * @return  \stubbles\log\ioc\Logfiles
      */
-    public function setLogEntryFactory($logEntryFactory)
+    public function createEntriesWith($logEntryFactory)
     {
         $this->logEntryFactory = $logEntryFactory;
         return $this;
@@ -112,12 +53,24 @@ class LogBindingModule implements BindingModule
      *
      * @api
      * @param   string  $loggerProvider  class name of logger provider
-     * @return  \stubbles\log\ioc\LogBindingModule
+     * @return  \stubbles\log\ioc\Logfiles
      * @since   1.3.0
      */
-    public function setLoggerProvider($loggerProvider)
+    public function loggerProvidedBy($loggerProvider)
     {
         $this->loggerProvider = $loggerProvider;
+        return $this;
+    }
+
+    /**
+     * write logfiles to given path
+     *
+     * @param   string  $logPath
+     * @return  \stubbles\log\ioc\Logfiles
+     */
+    public function writeTo($logPath)
+    {
+        $this->logPath = $logPath;
         return $this;
     }
 
