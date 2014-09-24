@@ -25,22 +25,24 @@ class FileLogAppender implements LogAppender
      *
      * @type  string
      */
-    protected $logDir = '';
+    protected $logDir;
     /**
      * mode for new directories
      *
      * @type  int
      */
-    protected $mode   = 0700;
+    protected $fileMode;
 
     /**
      * constructor
      *
-     * @param  string  $logDir  optional  directory to write the logfiles into
+     * @param  string  $logDir    directory to write the logfiles into
+     * @param  int     $fileMode  optional  file mode for new directories
      */
-    public function __construct($logDir)
+    public function __construct($logDir, $fileMode = 0700)
     {
-        $this->logDir = $logDir;
+        $this->logDir   = $logDir;
+        $this->fileMode = $fileMode;
     }
 
     /**
@@ -48,10 +50,11 @@ class FileLogAppender implements LogAppender
      *
      * @param   int  $mode
      * @return  \stubbles\log\appender\FileLogAppender
+     * @deprecated since  4.1.0, set file mode with constructor instead, will be removed with 5.0.0
      */
     public function setMode($mode)
     {
-        $this->mode = $mode;
+        $this->fileMode = $mode;
         return $this;
     }
 
@@ -67,12 +70,13 @@ class FileLogAppender implements LogAppender
     public function append(LogEntry $logEntry)
     {
         if (!file_exists($this->logDir)) {
-            mkdir($this->logDir, $this->mode, true);
+            mkdir($this->logDir, $this->fileMode, true);
         }
 
-        error_log($logEntry . "\n",
-                  3,
-                  $this->logDir . DIRECTORY_SEPARATOR . $logEntry->target() . '-' . date('Y-m-d') . '.log'
+        error_log(
+                $logEntry . "\n",
+                3,
+                $this->logDir . DIRECTORY_SEPARATOR . $logEntry->target() . '-' . date('Y-m-d') . '.log'
         );
         return $this;
     }

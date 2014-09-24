@@ -34,34 +34,23 @@ class FileBasedLoggerProvider implements InjectionProvider
      *
      * @type  int
      */
-    private $fileMode       = 0700;
+    private $fileMode;
 
     /**
      * constructor
      *
      * @param  \stubbles\log\ioc\LoggerProvider  $loggerProvider  provider which creates logger instances
      * @param  string                            $logPath         path where logfiles should be stored
+     * @param  int                               $fileMode        optional  file mode for file appender
      * @Inject
      * @Named{logPath}('stubbles.log.path')
+     * @Named{fileMode}('stubbles.log.filemode')
      */
-    public function __construct(LoggerProvider $loggerProvider, $logPath)
+    public function __construct(LoggerProvider $loggerProvider, $logPath, $fileMode = 0700)
     {
         $this->loggerProvider = $loggerProvider;
         $this->logPath        = $logPath;
-    }
-
-    /**
-     * sets the mode for new log directories
-     *
-     * @param   int  $fileMode
-     * @return  \stubbles\log\ioc\FileBasedLoggerProvider
-     * @Inject(optional=true)
-     * @Named('stubbles.log.filemode')
-     */
-    public function setFileMode($fileMode)
-    {
-        $this->fileMode = $fileMode;
-        return $this;
+        $this->fileMode       = $fileMode;
     }
 
     /**
@@ -74,8 +63,9 @@ class FileBasedLoggerProvider implements InjectionProvider
     {
         $logger = $this->loggerProvider->get($name);
         if (!$logger->hasLogAppenders()) {
-            $logger->addAppender(new FileLogAppender($this->logPath))
-                   ->setMode($this->fileMode);
+            $logger->addAppender(
+                    new FileLogAppender($this->logPath, $this->fileMode)
+            );
         }
 
         return $logger;

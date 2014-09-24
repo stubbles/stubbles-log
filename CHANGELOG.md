@@ -1,3 +1,10 @@
+4.1.0 (2014-??-??)
+------------------
+
+  * upgraded stubbles/core to 5.1.0
+  * deprecated `stubbles\log\appender\FileLogAppender::setMode()`, set file mode with constructor instead, will be removed with 5.0.0
+
+
 4.0.0 (2014-08-17)
 ------------------
 

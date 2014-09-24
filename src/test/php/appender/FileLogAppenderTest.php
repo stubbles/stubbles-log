@@ -67,10 +67,8 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function appendWritesLogEntryToLogfile()
     {
-        $this->assertSame($this->fileLogAppender,
-                          $this->fileLogAppender->append($this->createLogEntry())
-                                                ->append($this->createLogEntry())
-        );
+        $this->fileLogAppender->append($this->createLogEntry())
+                              ->append($this->createLogEntry());
         $this->assertTrue(file_exists($this->logFile));
         $this->assertEquals("bar|baz\nbar|baz\n", file_get_contents($this->logFile));
     }
@@ -80,9 +78,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function createsNonExistingDirectoryWithDefaultFilemode()
     {
-        $this->assertSame($this->fileLogAppender,
-                          $this->fileLogAppender->append($this->createLogEntry())
-        );
+        $this->fileLogAppender->append($this->createLogEntry());
         $this->assertEquals(0700, $this->root->getChild('test')->getPermissions());
     }
 
@@ -91,10 +87,8 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function createsNonExistingDirectoryWithOtherFilemode()
     {
-        $this->assertSame($this->fileLogAppender,
-                          $this->fileLogAppender->setMode(0644)
-                                                ->append($this->createLogEntry())
-        );
+        $fileLogAppender = new FileLogAppender(vfsStream::url('root/test'), 0644);
+        $fileLogAppender->append($this->createLogEntry());
         $this->assertEquals(0644, $this->root->getChild('test')->getPermissions());
     }
 
@@ -103,8 +97,9 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function finalizeIsNoOp()
     {
-        $this->assertSame($this->fileLogAppender,
-                          $this->fileLogAppender->finalize()
+        $this->assertSame(
+                $this->fileLogAppender,
+                $this->fileLogAppender->finalize()
         );
     }
 }
