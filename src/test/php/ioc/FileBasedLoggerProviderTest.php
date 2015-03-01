@@ -8,7 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\ioc;
-use stubbles\lang;
+use stubbles\lang\reflect;
 /**
  * Test for stubbles\log\ioc\FileBasedLoggerProvider.
  *
@@ -56,19 +56,29 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnConstructor()
     {
-        $constructor = lang\reflectConstructor($this->fileBasedLoggerProvider);
-        $this->assertTrue($constructor->hasAnnotation('Inject'));
+        $this->assertTrue(
+                reflect\constructorAnnotationsOf($this->fileBasedLoggerProvider)
+                        ->contain('Inject')
+        );
 
-        $parameters = $constructor->getParameters();
-        $this->assertTrue($parameters[1]->hasAnnotation('Named'));
+        $logPathParamAnnotations = reflect\annotationsOfConstructorParameter(
+                'logPath',
+                $this->fileBasedLoggerProvider
+        );
+        $this->assertTrue($logPathParamAnnotations->contain('Named'));
         $this->assertEquals(
                 'stubbles.log.path',
-                $parameters[1]->annotation('Named')->getName()
+                $logPathParamAnnotations->firstNamed('Named')->getName()
         );
-        $this->assertTrue($parameters[2]->hasAnnotation('Named'));
+
+        $fileModeParamAnnotations = reflect\annotationsOfConstructorParameter(
+                'fileMode',
+                $this->fileBasedLoggerProvider
+        );
+        $this->assertTrue($fileModeParamAnnotations->contain('Named'));
         $this->assertEquals(
                 'stubbles.log.filemode',
-                $parameters[2]->annotation('Named')->getName()
+                $fileModeParamAnnotations->firstNamed('Named')->getName()
         );
     }
 
