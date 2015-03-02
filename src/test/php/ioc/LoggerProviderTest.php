@@ -45,7 +45,7 @@ class LoggerProviderTest extends \PHPUnit_Framework_TestCase
     public function annotationsPresentOnConstructor()
     {
         $this->assertTrue(
-                reflect\constructorAnnotationsOf($this->loggerProvider)
+                reflect\annotationsOfConstructor($this->loggerProvider)
                 ->contain('Inject')
         );
     }

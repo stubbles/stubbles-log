@@ -57,7 +57,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
     public function annotationsPresentOnConstructor()
     {
         $this->assertTrue(
-                reflect\constructorAnnotationsOf($this->fileBasedLoggerProvider)
+                reflect\annotationsOfConstructor($this->fileBasedLoggerProvider)
                         ->contain('Inject')
         );
 
