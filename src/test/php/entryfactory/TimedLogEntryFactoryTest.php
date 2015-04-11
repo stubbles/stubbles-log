@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\entryfactory;
+use bovigo\callmap\NewInstance;
 /**
  * Test for stubbles\log\entryfactory\TimedLogEntryFactory.
  *
@@ -30,20 +31,21 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * mocked logger instance
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockLogger;
+    private $logger;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->mockLogger           = $this->getMockBuilder('stubbles\log\Logger')
-                                           ->disableOriginalConstructor()
-                                           ->getMock();
+        $this->logger           = NewInstance::stub('stubbles\log\Logger');
         $this->timedLogEntryFactory = new TimedLogEntryFactory();
-        $this->logEntry             = $this->timedLogEntryFactory->create('testTarget', $this->mockLogger);
+        $this->logEntry             = $this->timedLogEntryFactory->create(
+                'testTarget',
+                $this->logger
+        );
     }
 
     /**
@@ -51,7 +53,7 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryHasCorrectTarget()
     {
-        $this->assertEquals('testTarget', $this->logEntry->target());
+        assertEquals('testTarget', $this->logEntry->target());
     }
 
     /**
@@ -61,8 +63,8 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $currentTime = time();
         $loggedTime  = strtotime($this->logEntry);
-        $this->assertGreaterThan($currentTime -2, $loggedTime);
-        $this->assertLessThan($currentTime +2, $loggedTime);
+        assertGreaterThan($currentTime -2, $loggedTime);
+        assertLessThan($currentTime +2, $loggedTime);
     }
 
     /**
@@ -70,10 +72,11 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryCallsGivenLogger()
     {
-        $this->mockLogger->expects($this->once())
-                         ->method('log')
-                         ->with($this->logEntry);
         $this->logEntry->log();
+        assertEquals(
+                [$this->logEntry],
+                $this->logger->argumentsReceivedFor('log')
+        );
     }
 
     /**
@@ -81,10 +84,12 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function recreateOnlyReturnsGivenLogEntryUnmodified()
     {
-        $this->assertSame($this->logEntry,
-                          $this->timedLogEntryFactory->recreate($this->logEntry,
-                                                                $this->mockLogger
-                                                         )
+        assertSame(
+                $this->logEntry,
+                $this->timedLogEntryFactory->recreate(
+                        $this->logEntry,
+                        $this->logger
+                )
         );
     }
 }

@@ -8,7 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\ioc;
-use stubbles\lang\reflect;
+use bovigo\callmap\NewInstance;
 use stubbles\log\LogEntry;
 /**
  * Test for stubbles\log\ioc\LoggerProvider.
@@ -26,28 +26,17 @@ class LoggerProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * mocked log entry factory
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockLogEntryFactory;
+    private $logEntryFactory;
 
     /**
      * set up the test environment
      */
     public function setUp()
     {
-        $this->mockLogEntryFactory = $this->getMock('stubbles\log\entryfactory\LogEntryFactory');
-        $this->loggerProvider      = new LoggerProvider($this->mockLogEntryFactory);
-    }
-
-    /**
-     * @test
-     */
-    public function annotationsPresentOnConstructor()
-    {
-        $this->assertTrue(
-                reflect\annotationsOfConstructor($this->loggerProvider)
-                ->contain('Inject')
-        );
+        $this->logEntryFactory = NewInstance::of('stubbles\log\entryfactory\LogEntryFactory');
+        $this->loggerProvider  = new LoggerProvider($this->logEntryFactory);
     }
 
     /**
@@ -57,10 +46,8 @@ class LoggerProviderTest extends \PHPUnit_Framework_TestCase
     {
         $logger   = $this->loggerProvider->get();
         $logEntry = new LogEntry('testTarget', $logger);
-        $this->mockLogEntryFactory->expects($this->once())
-                                  ->method('create')
-                                  ->will($this->returnValue($logEntry));
-        $this->assertSame($logEntry, $logger->createLogEntry('testTarget'));
+        $this->logEntryFactory->mapCalls(['create' => $logEntry]);
+        assertSame($logEntry, $logger->createLogEntry('testTarget'));
     }
 
     /**
@@ -68,8 +55,9 @@ class LoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function createsDifferentInstancesForDifferentNames()
     {
-        $this->assertNotSame($this->loggerProvider->get(),
-                             $this->loggerProvider->get('foo')
+        assertNotSame(
+                $this->loggerProvider->get(),
+                $this->loggerProvider->get('foo')
         );
     }
 
@@ -78,8 +66,6 @@ class LoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsSameInstanceForSameName()
     {
-        $this->assertSame($this->loggerProvider->get(),
-                          $this->loggerProvider->get()
-        );
+        assertSame($this->loggerProvider->get(), $this->loggerProvider->get());
     }
 }

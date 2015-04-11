@@ -34,9 +34,9 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function logPathIsIsNotBoundWhenNotGiven()
     {
-        $this->assertFalse(
+        assertFalse(
                 $this->configureBindings(new Logfiles())
-                     ->hasConstant('stubbles.log.path')
+                        ->hasConstant('stubbles.log.path')
         );
     }
 
@@ -45,10 +45,10 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function logPathIsBoundWhenGiven()
     {
-        $this->assertSame(
+        assertSame(
                 __DIR__,
                 $this->configureBindings((new Logfiles())->writeTo(__DIR__))
-                     ->getConstant('stubbles.log.path')
+                        ->getConstant('stubbles.log.path')
         );
     }
 
@@ -58,7 +58,7 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
     public function logEntryFactoryIsBoundAsSingleton()
     {
         $injector = $this->configureBindings(new Logfiles());
-        $this->assertSame(
+        assertSame(
                 $injector->getInstance('stubbles\log\entryfactory\LogEntryFactory'),
                 $injector->getInstance('stubbles\log\entryfactory\LogEntryFactory')
         );
@@ -69,10 +69,10 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function logEntryFactoryClassIsBoundToTimedLogEntryFactoryByDefault()
     {
-        $this->assertInstanceOf(
+        assertInstanceOf(
                 'stubbles\log\entryfactory\TimedLogEntryFactory',
                 $this->configureBindings(new Logfiles())
-                     ->getInstance('stubbles\log\entryfactory\LogEntryFactory')
+                        ->getInstance('stubbles\log\entryfactory\LogEntryFactory')
         );
     }
 
@@ -81,12 +81,11 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function logEntryFactoryClassIsBoundToConfiguredLogEntryFactoryClass()
     {
-        $this->assertInstanceOf(
+        assertInstanceOf(
                 'stubbles\log\entryfactory\EmptyLogEntryFactory',
-                $this->configureBindings(
-                        (new Logfiles())->createEntriesWith('stubbles\log\entryfactory\EmptyLogEntryFactory')
-                       )
-                     ->getInstance('stubbles\log\entryfactory\LogEntryFactory')
+                $this->configureBindings((new Logfiles())
+                                ->createEntriesWith('stubbles\log\entryfactory\EmptyLogEntryFactory')
+                        )->getInstance('stubbles\log\entryfactory\LogEntryFactory')
         );
     }
 
@@ -95,7 +94,7 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function loggerCanBeCreated()
     {
-        $this->assertInstanceOf(
+        assertInstanceOf(
                 'stubbles\log\Logger',
                $this->configureBindings((new Logfiles())->writeTo(__DIR__))
                     ->getInstance('stubbles\log\Logger')
@@ -107,12 +106,11 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function loggerCanBeCreatedUsingDifferentLoggerProvider()
     {
-        $this->assertInstanceOf(
+        assertInstanceOf(
                 'stubbles\log\Logger',
-                $this->configureBindings(
-                        (new Logfiles())->writeTo(__DIR__)->loggerProvidedBy('stubbles\log\ioc\LoggerProvider')
-                       )
-                     ->getInstance('stubbles\log\Logger')
+                $this->configureBindings((new Logfiles())
+                                ->writeTo(__DIR__)->loggerProvidedBy('stubbles\log\ioc\LoggerProvider')
+                        )->getInstance('stubbles\log\Logger')
         );
     }
 }

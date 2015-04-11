@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log;
+use bovigo\callmap\NewInstance;
 /**
  * Test for stubbles\log\LogEntry.
  *
@@ -24,19 +25,17 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
     /**
      * mocked logger instance
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockLogger;
+    private $logger;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->mockLogger = $this->getMockBuilder('stubbles\log\Logger')
-                                 ->disableOriginalConstructor()
-                                 ->getMock();
-        $this->logEntry   = new LogEntry('testTarget', $this->mockLogger);
+        $this->logger   = NewInstance::stub('stubbles\log\Logger');
+        $this->logEntry = new LogEntry('testTarget', $this->logger);
     }
 
     /**
@@ -44,7 +43,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsGivenTarget()
     {
-        $this->assertEquals('testTarget', $this->logEntry->target());
+        assertEquals('testTarget', $this->logEntry->target());
     }
 
     /**
@@ -52,7 +51,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function logDataIsInitiallyEmpty()
     {
-        $this->assertEquals('', (string) $this->logEntry);
+        assertEquals('', (string) $this->logEntry);
     }
 
     /**
@@ -60,10 +59,11 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function logCallsGivenLogger()
     {
-        $this->mockLogger->expects($this->once())
-                         ->method('log')
-                         ->with($this->logEntry);
         $this->logEntry->log();
+        assertEquals(
+                [$this->logEntry],
+                $this->logger->argumentsReceivedFor('log')
+        );
     }
 
     /**
@@ -72,10 +72,11 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function logDelayedCallsGivenLogger()
     {
-        $this->mockLogger->expects($this->once())
-                         ->method('logDelayed')
-                         ->with($this->logEntry);
         $this->logEntry->logDelayed();
+        assertEquals(
+                [$this->logEntry],
+                $this->logger->argumentsReceivedFor('logDelayed')
+        );
     }
 
     /**
@@ -104,7 +105,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function loggedDataWillBeEscaped($expected, $data)
     {
-        $this->assertEquals(
+        assertEquals(
                 [$expected],
                 $this->logEntry->addData($data)
                                ->data()
@@ -119,11 +120,9 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function loggedDataWillBeEscapedInLine($expected, $data)
     {
-        $this->assertEquals(
+        assertEquals(
                 'foo' . LogEntry::DEFAULT_SEPERATOR . $expected . LogEntry::DEFAULT_SEPERATOR . 'bar',
-                $this->logEntry->addData('foo')
-                               ->addData($data)
-                               ->addData('bar')
+                $this->logEntry->addData('foo')->addData($data)->addData('bar')
         );
     }
 
@@ -136,11 +135,9 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function loggedReplacedDataWillBeEscaped($expected, $data)
     {
-        $this->assertEquals(
+        assertEquals(
                 [$expected],
-                $this->logEntry->addData("test1")
-                               ->replaceData(0, $data)
-                               ->data()
+                $this->logEntry->addData("test1")->replaceData(0, $data)->data()
         );
     }
 
@@ -153,12 +150,13 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function loggedReplacedDataWillBeEscapedInLine($expected, $data)
     {
-        $this->assertEquals(
+        assertEquals(
                 'foo' . LogEntry::DEFAULT_SEPERATOR . $expected . LogEntry::DEFAULT_SEPERATOR . 'bar',
-                $this->logEntry->addData('foo')
-                               ->addData('baz')
-                               ->addData('bar')
-                               ->replaceData(1, $data)
+                $this->logEntry
+                        ->addData('foo')
+                        ->addData('baz')
+                        ->addData('bar')
+                        ->replaceData(1, $data)
         );
     }
 
@@ -167,10 +165,12 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function addDataRemovesDifferentSeperator()
     {
-        $this->assertEquals(['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'],
-                            $this->logEntry->setSeperator(';')
-                                           ->addData('foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz')
-                                           ->data()
+        assertEquals(
+                ['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'],
+                $this->logEntry
+                        ->setSeperator(';')
+                        ->addData('foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz')
+                        ->data()
         );
     }
 
@@ -180,11 +180,13 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function replaceDataRemovesDifferentSeperator()
     {
-        $this->assertEquals(['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'],
-                            $this->logEntry->setSeperator(';')
-                                           ->addData('test')
-                                           ->replaceData(0, 'foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz')
-                                           ->data()
+        assertEquals(
+                ['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'],
+                $this->logEntry
+                        ->setSeperator(';')
+                        ->addData('test')
+                        ->replaceData(0, 'foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz')
+                        ->data()
         );
     }
 
@@ -194,9 +196,6 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function replaceDataDoesNothingIfGivenPositionDoesNotExist()
     {
-        $this->assertEquals([],
-                            $this->logEntry->replaceData(0, "foo")
-                                           ->data()
-        );
+        assertEquals([], $this->logEntry->replaceData(0, "foo")->data());
     }
 }

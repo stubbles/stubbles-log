@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\appender;
+use bovigo\callmap\NewInstance;
 use stubbles\log\LogEntry;
 /**
  * Test for stubbles\log\appender\MailLogAppender.
@@ -40,10 +41,10 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mailLogAppender   = $this->getMock('stubbles\log\appender\MailLogAppender',
-                                                  ['sendMail'],
-                                                  ['test@example.org']
-                                   );
+        $this->mailLogAppender = NewInstance::of(
+                'stubbles\log\appender\MailLogAppender',
+                ['test@example.org']
+        )->mapCalls(['sendMail' => true]);
         $_SERVER['HTTP_HOST']    = 'example.org';
         $_SERVER['PHP_SELF']     = '/example.php';
         $_SERVER['QUERY_STRING'] = 'example=dummy';
@@ -69,11 +70,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     protected function createLogEntry($target)
     {
-        return new LogEntry($target,
-                            $this->getMockBuilder('stubbles\log\Logger')
-                                 ->disableOriginalConstructor()
-                                 ->getMock()
-        );
+        return new LogEntry($target, NewInstance::stub('stubbles\log\Logger'));
     }
 
     /**
@@ -81,9 +78,8 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function finalizeWithoutLogEntriesDoesNotSendMail()
     {
-        $this->mailLogAppender->expects($this->never())
-                              ->method('sendMail');
         $this->mailLogAppender->finalize();
+        assertEquals(0, $this->mailLogAppender->callsReceivedFor('sendMail'));
     }
 
     /**
@@ -92,18 +88,16 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
     public function finalizeWithLogEntriesInNonHostEnvironment()
     {
         $this->tearDown();
-        $this->mailLogAppender->expects($this->once())
-                              ->method('sendMail')
-                              ->with($this->equalTo('Debug message from ' . php_uname('n')),
-                                     $this->equalTo("foo: bar|baz\n\nblub: shit|happens\n\n")
-                                );
-        $this->mailLogAppender->append($this->logEntry1->addData('bar')
-                                                       ->addData('baz')
-                                )
-                              ->append($this->logEntry2->addData('shit')
-                                                       ->addData('happens')
-                                )
-                              ->finalize();
+        $this->mailLogAppender
+                ->append($this->logEntry1->addData('bar')->addData('baz'))
+                ->append($this->logEntry2->addData('shit')->addData('happens'))
+                ->finalize();
+        assertEquals(
+                ['Debug message from ' . php_uname('n'),
+                 "foo: bar|baz\n\nblub: shit|happens\n\n"
+                ],
+                $this->mailLogAppender->argumentsReceivedFor('sendMail')
+        );
     }
 
     /**
@@ -112,18 +106,16 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
     public function finalizeWithLogEntriesInHostEnvironmentWithoutReferer()
     {
         unset($_SERVER['HTTP_REFERER']);
-        $this->mailLogAppender->expects($this->once())
-                              ->method('sendMail')
-                              ->with($this->equalTo('Debug message from ' . php_uname('n')),
-                                     $this->equalTo("foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n")
-                                );
-        $this->mailLogAppender->append($this->logEntry1->addData('bar')
-                                                       ->addData('baz')
-                                )
-                              ->append($this->logEntry2->addData('shit')
-                                                       ->addData('happens')
-                                )
-                              ->finalize();
+        $this->mailLogAppender
+                ->append($this->logEntry1->addData('bar')->addData('baz'))
+                ->append($this->logEntry2->addData('shit')->addData('happens'))
+                ->finalize();
+        assertEquals(
+                ['Debug message from ' . php_uname('n'),
+                 "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n"
+                ],
+                $this->mailLogAppender->argumentsReceivedFor('sendMail')
+        );
     }
 
     /**
@@ -132,17 +124,15 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
     public function finalizeWithLogEntriesInHostEnvironmentWithReferer()
     {
         $_SERVER['HTTP_REFERER'] = 'referer';
-        $this->mailLogAppender->expects($this->once())
-                              ->method('sendMail')
-                              ->with($this->equalTo('Debug message from ' . php_uname('n')),
-                                     $this->equalTo("foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n\nReferer:\nreferer\n")
-                                );
-        $this->mailLogAppender->append($this->logEntry1->addData('bar')
-                                                       ->addData('baz')
-                                )
-                              ->append($this->logEntry2->addData('shit')
-                                                       ->addData('happens')
-                                )
-                              ->finalize();
+        $this->mailLogAppender
+                ->append($this->logEntry1->addData('bar')->addData('baz'))
+                ->append($this->logEntry2->addData('shit')->addData('happens'))
+                ->finalize();
+        assertEquals(
+                ['Debug message from ' . php_uname('n'),
+                 "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n\nReferer:\nreferer\n"
+                ],
+                $this->mailLogAppender->argumentsReceivedFor('sendMail')
+        );
     }
 }

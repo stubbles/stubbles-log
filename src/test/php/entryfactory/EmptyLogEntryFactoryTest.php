@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\entryfactory;
+use bovigo\callmap\NewInstance;
 /**
  * Test for stubbles\log\entryfactory\EmptyLogEntryFactory.
  *
@@ -30,20 +31,21 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * mocked logger instance
      *
-     * @type  PHPUnit_Framework_MockObject_MockObject
+     * @type  bovigo\callmap\Proxy
      */
-    private $mockLogger;
+    private $logger;
 
     /**
      * set up test environment
      */
     public function setUp()
     {
-        $this->mockLogger           = $this->getMockBuilder('stubbles\log\Logger')
-                                           ->disableOriginalConstructor()
-                                           ->getMock();
+        $this->logger               = NewInstance::stub('stubbles\log\Logger');
         $this->emptyLogEntryFactory = new EmptyLogEntryFactory();
-        $this->logEntry             = $this->emptyLogEntryFactory->create('testTarget', $this->mockLogger);
+        $this->logEntry             = $this->emptyLogEntryFactory->create(
+                'testTarget',
+                $this->logger
+        );
     }
 
     /**
@@ -51,7 +53,7 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryHasCorrectTarget()
     {
-        $this->assertEquals('testTarget', $this->logEntry->target());
+        assertEquals('testTarget', $this->logEntry->target());
     }
 
     /**
@@ -59,7 +61,7 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryIsEmpty()
     {
-        $this->assertEquals('', $this->logEntry);
+        assertEquals('', $this->logEntry);
     }
 
     /**
@@ -67,10 +69,11 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryCallsGivenLogger()
     {
-        $this->mockLogger->expects($this->once())
-                         ->method('log')
-                         ->with($this->logEntry);
         $this->logEntry->log();
+        assertEquals(
+                [$this->logEntry],
+                $this->logger->argumentsReceivedFor('log')
+        );
     }
 
     /**
@@ -78,10 +81,12 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function recreateOnlyReturnsGivenLogEntryUnmodified()
     {
-        $this->assertSame($this->logEntry,
-                          $this->emptyLogEntryFactory->recreate($this->logEntry,
-                                                                $this->mockLogger
-                                                       )
+        assertSame(
+                $this->logEntry,
+                $this->emptyLogEntryFactory->recreate(
+                        $this->logEntry,
+                        $this->logger
+                )
         );
     }
 }

@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log;
+use bovigo\callmap\NewInstance;
 /**
  * Test for stubbles\log\Logger.
  *
@@ -25,17 +26,17 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     /**
      * mocked log entry factory
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockLogEntryFactory;
+    private $logEntryFactory;
 
     /**
      * set up the test environment
      */
     public function setUp()
     {
-        $this->mockLogEntryFactory = $this->getMock('stubbles\log\entryfactory\LogEntryFactory');
-        $this->logger              = new Logger($this->mockLogEntryFactory);
+        $this->logEntryFactory = NewInstance::of('stubbles\log\entryfactory\LogEntryFactory');
+        $this->logger          = new Logger($this->logEntryFactory);
     }
 
     /**
@@ -44,8 +45,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function initialInstanceHasNoLogAppenders()
     {
-        $this->assertFalse($this->logger->hasLogAppenders());
-        $this->assertEquals([], $this->logger->getLogAppenders());
+        assertFalse($this->logger->hasLogAppenders());
+        assertEquals([], $this->logger->getLogAppenders());
     }
 
     /**
@@ -54,7 +55,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function initialInstanceHasNoDelayedLogEntries()
     {
-        $this->assertFalse($this->logger->hasUnprocessedDelayedLogEntries());
+        assertFalse($this->logger->hasUnprocessedDelayedLogEntries());
     }
 
     /**
@@ -62,16 +63,14 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function cleanupFinalizesAppenders()
     {
-        $logger           = new Logger($this->mockLogEntryFactory);
-        $mockLogAppender1 = $this->getMock('stubbles\log\appender\LogAppender');
-        $mockLogAppender1->expects($this->once())
-                         ->method('finalize');
-        $logger->addAppender($mockLogAppender1);
-        $mockLogAppender2 = $this->getMock('stubbles\log\appender\LogAppender');
-        $mockLogAppender2->expects($this->once())
-                         ->method('finalize');
-        $logger->addAppender($mockLogAppender2);
+        $logger           = new Logger($this->logEntryFactory);
+        $logAppender1 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logger->addAppender($logAppender1);
+        $logAppender2 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logger->addAppender($logAppender2);
         $logger->cleanup();
+        assertEquals(1, $logAppender1->callsReceivedFor('finalize'));
+        assertEquals(1, $logAppender2->callsReceivedFor('finalize'));
     }
 
     /**
@@ -80,11 +79,12 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function createLogEntryUsesLogEntryFactory()
     {
         $logEntry = new LogEntry('testTarget', $this->logger);
-        $this->mockLogEntryFactory->expects($this->once())
-                                  ->method('create')
-                                  ->with($this->equalTo('testTarget'), $this->equalTo($this->logger))
-                                  ->will($this->returnValue($logEntry));
-        $this->assertSame($logEntry, $this->logger->createLogEntry('testTarget'));
+        $this->logEntryFactory->mapCalls(['create' => $logEntry]);
+        assertSame($logEntry, $this->logger->createLogEntry('testTarget'));
+        assertEquals(
+                ['testTarget', $this->logger],
+                $this->logEntryFactory->argumentsReceivedFor('create')
+        );
     }
 
     /**
@@ -92,18 +92,14 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function logAppendsLogEntryToAllLogAppender()
     {
-        $logEntry = new LogEntry('testTarget', $this->logger);
-        $mockLogAppender1 = $this->getMock('stubbles\log\appender\LogAppender');
-        $mockLogAppender1->expects($this->once())
-                         ->method('append')
-                         ->with($this->equalTo($logEntry));
-        $mockLogAppender2 = $this->getMock('stubbles\log\appender\LogAppender');
-        $mockLogAppender2->expects($this->once())
-                         ->method('append')
-                         ->with($this->equalTo($logEntry));
-        $this->logger->addLogAppender($mockLogAppender1);
-        $this->logger->addLogAppender($mockLogAppender2);
+        $logEntry     = new LogEntry('testTarget', $this->logger);
+        $logAppender1 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logAppender2 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $this->logger->addLogAppender($logAppender1);
+        $this->logger->addLogAppender($logAppender2);
         $this->logger->log($logEntry);
+        assertEquals([$logEntry], $logAppender1->argumentsReceivedFor('append'));
+        assertEquals([$logEntry], $logAppender2->argumentsReceivedFor('append'));
     }
 
     /**
@@ -112,7 +108,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function processDelayedLogEntriesWithoutDelayedLogEntriesReturn0()
     {
-        $this->assertEquals(0, $this->logger->processDelayedLogEntries());
+        assertEquals(0, $this->logger->processDelayedLogEntries());
     }
 
     /**
@@ -123,10 +119,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     {
         $logEntry = new LogEntry('testTarget', $this->logger);
         $this->logger->logDelayed($logEntry);
-        $this->mockLogEntryFactory->expects($this->once())
-                                  ->method('recreate')
-                                  ->will($this->returnValue($logEntry));
-        $this->assertTrue($this->logger->hasUnprocessedDelayedLogEntries());
+        $this->logEntryFactory->mapCalls(['recreate' => $logEntry]);
+        assertTrue($this->logger->hasUnprocessedDelayedLogEntries());
         $this->logger->cleanup();
     }
 
@@ -138,20 +132,14 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     {
         $logEntry = new LogEntry('testTarget', $this->logger);
         $this->logger->logDelayed($logEntry);
-        $this->mockLogEntryFactory->expects($this->once())
-                                  ->method('recreate')
-                                  ->will($this->returnValue($logEntry));
-        $mockLogAppender1 = $this->getMock('stubbles\log\appender\LogAppender');
-        $mockLogAppender1->expects($this->once())
-                         ->method('append')
-                         ->with($this->equalTo($logEntry));
-        $mockLogAppender2 = $this->getMock('stubbles\log\appender\LogAppender');
-        $mockLogAppender2->expects($this->once())
-                         ->method('append')
-                         ->with($this->equalTo($logEntry));
-        $this->logger->addAppender($mockLogAppender1);
-        $this->logger->addAppender($mockLogAppender2);
-        $this->assertEquals(1, $this->logger->processDelayedLogEntries());
+        $this->logEntryFactory->mapCalls(['recreate' => $logEntry]);
+        $logAppender1 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logAppender2 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $this->logger->addAppender($logAppender1);
+        $this->logger->addAppender($logAppender2);
+        assertEquals(1, $this->logger->processDelayedLogEntries());
+        assertEquals([$logEntry], $logAppender1->argumentsReceivedFor('append'));
+        assertEquals([$logEntry], $logAppender2->argumentsReceivedFor('append'));
     }
 
     /**
@@ -162,11 +150,9 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     {
         $logEntry = new LogEntry('testTarget', $this->logger);
         $this->logger->logDelayed($logEntry);
-        $this->mockLogEntryFactory->expects($this->once())
-                                  ->method('recreate')
-                                  ->will($this->returnValue($logEntry));
+        $this->logEntryFactory->mapCalls(['recreate' => $logEntry]);
         $this->logger->processDelayedLogEntries();
-        $this->assertFalse($this->logger->hasUnprocessedDelayedLogEntries());
+        assertFalse($this->logger->hasUnprocessedDelayedLogEntries());
     }
 
     /**
@@ -176,20 +162,14 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function shutdownProcessesDelayedLogEntries()
     {
         $logEntry = new LogEntry('testTarget', $this->logger);
-        $this->mockLogEntryFactory->expects($this->once())
-                                  ->method('recreate')
-                                  ->will($this->returnValue($logEntry));
-        $mockLogAppender1 = $this->getMock('stubbles\log\appender\LogAppender');
-        $mockLogAppender1->expects($this->once())
-                         ->method('append')
-                         ->with($this->equalTo($logEntry));
-        $mockLogAppender2 = $this->getMock('stubbles\log\appender\LogAppender');
-        $mockLogAppender2->expects($this->once())
-                         ->method('append')
-                         ->with($this->equalTo($logEntry));
-        $this->logger->addAppender($mockLogAppender1);
-        $this->logger->addAppender($mockLogAppender2);
+        $this->logEntryFactory->mapCalls(['recreate' => $logEntry]);
+        $logAppender1 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logAppender2 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $this->logger->addAppender($logAppender1);
+        $this->logger->addAppender($logAppender2);
         $this->logger->logDelayed($logEntry);
         $this->logger->cleanup();
+        assertEquals([$logEntry], $logAppender1->argumentsReceivedFor('append'));
+        assertEquals([$logEntry], $logAppender2->argumentsReceivedFor('append'));
     }
 }

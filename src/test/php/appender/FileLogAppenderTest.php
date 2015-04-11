@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\appender;
+use bovigo\callmap\NewInstance;
 use org\bovigo\vfs\vfsStream;
 use stubbles\log\LogEntry;
 /**
@@ -53,11 +54,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     protected function createLogEntry()
     {
-        $logEntry = new LogEntry('foo',
-                                 $this->getMockBuilder('stubbles\log\Logger')
-                                      ->disableOriginalConstructor()
-                                      ->getMock()
-                    );
+        $logEntry = new LogEntry('foo', NewInstance::stub('stubbles\log\Logger'));
         return $logEntry->addData('bar')
                         ->addData('baz');
     }
@@ -69,8 +66,8 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
     {
         $this->fileLogAppender->append($this->createLogEntry())
                               ->append($this->createLogEntry());
-        $this->assertTrue(file_exists($this->logFile));
-        $this->assertEquals("bar|baz\nbar|baz\n", file_get_contents($this->logFile));
+        assertTrue(file_exists($this->logFile));
+        assertEquals("bar|baz\nbar|baz\n", file_get_contents($this->logFile));
     }
 
     /**
@@ -79,7 +76,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
     public function createsNonExistingDirectoryWithDefaultFilemode()
     {
         $this->fileLogAppender->append($this->createLogEntry());
-        $this->assertEquals(0700, $this->root->getChild('test')->getPermissions());
+        assertEquals(0700, $this->root->getChild('test')->getPermissions());
     }
 
     /**
@@ -89,7 +86,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
     {
         $fileLogAppender = new FileLogAppender(vfsStream::url('root/test'), 0644);
         $fileLogAppender->append($this->createLogEntry());
-        $this->assertEquals(0644, $this->root->getChild('test')->getPermissions());
+        assertEquals(0644, $this->root->getChild('test')->getPermissions());
     }
 
     /**
@@ -97,7 +94,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function finalizeIsNoOp()
     {
-        $this->assertSame(
+        assertSame(
                 $this->fileLogAppender,
                 $this->fileLogAppender->finalize()
         );

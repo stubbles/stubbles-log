@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\ioc;
+use bovigo\callmap\NewInstance;
 use stubbles\lang\reflect;
 /**
  * Test for stubbles\log\ioc\FileBasedLoggerProvider.
@@ -27,28 +28,27 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * mocked logger provider
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockLoggerProvider;
+    private $loggerProvider;
     /**
      * mocked logger
      *
-     * @type  \PHPUnit_Framework_MockObject_MockObject
+     * @type  \bovigo\callmap\Proxy
      */
-    private $mockLogger;
+    private $logger;
 
     /**
      * set up the test environment
      */
     public function setUp()
     {
-        $this->mockLogger              = $this->getMockBuilder('stubbles\log\Logger')
-                                              ->disableOriginalConstructor()
-                                              ->getMock();
-        $this->mockLoggerProvider      = $this->getMockBuilder('stubbles\log\ioc\LoggerProvider')
-                                              ->disableOriginalConstructor()
-                                              ->getMock();
-        $this->fileBasedLoggerProvider = new FileBasedLoggerProvider($this->mockLoggerProvider, __DIR__);
+        $this->logger                  = NewInstance::stub('stubbles\log\Logger');
+        $this->loggerProvider          = NewInstance::stub('stubbles\log\ioc\LoggerProvider');
+        $this->fileBasedLoggerProvider = new FileBasedLoggerProvider(
+                $this->loggerProvider,
+                __DIR__
+        );
     }
 
     /**
@@ -56,17 +56,12 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnConstructor()
     {
-        $this->assertTrue(
-                reflect\annotationsOfConstructor($this->fileBasedLoggerProvider)
-                        ->contain('Inject')
-        );
-
         $logPathParamAnnotations = reflect\annotationsOfConstructorParameter(
                 'logPath',
                 $this->fileBasedLoggerProvider
         );
-        $this->assertTrue($logPathParamAnnotations->contain('Named'));
-        $this->assertEquals(
+        assertTrue($logPathParamAnnotations->contain('Named'));
+        assertEquals(
                 'stubbles.log.path',
                 $logPathParamAnnotations->firstNamed('Named')->getName()
         );
@@ -75,8 +70,8 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
                 'fileMode',
                 $this->fileBasedLoggerProvider
         );
-        $this->assertTrue($fileModeParamAnnotations->contain('Named'));
-        $this->assertEquals(
+        assertTrue($fileModeParamAnnotations->contain('Named'));
+        assertEquals(
                 'stubbles.log.filemode',
                 $fileModeParamAnnotations->firstNamed('Named')->getName()
         );
@@ -87,15 +82,10 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function doesNotAppendFileLogAppenderIfLoggerAlreadyHasAppenders()
     {
-        $this->mockLoggerProvider->expects($this->once())
-                                 ->method('get')
-                                 ->will($this->returnValue($this->mockLogger));
-        $this->mockLogger->expects($this->once())
-                         ->method('hasLogAppenders')
-                         ->will($this->returnValue(true));
-        $this->mockLogger->expects($this->never())
-                         ->method('addAppender');
+        $this->loggerProvider->mapCalls(['get' => $this->logger]);
+        $this->logger->mapCalls(['hasLogAppenders' => true]);
         $this->fileBasedLoggerProvider->get();
+        assertEquals(0, $this->logger->callsReceivedFor('addAppender'));
     }
 
     /**
@@ -103,18 +93,10 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function appendFileLogAppenderIfLoggerHasNoAppenders()
     {
-        $this->mockLoggerProvider->expects($this->once())
-                                 ->method('get')
-                                 ->with($this->equalTo('foo'))
-                                 ->will($this->returnValue($this->mockLogger));
-        $this->mockLogger->expects($this->once())
-                         ->method('hasLogAppenders')
-                         ->will($this->returnValue(false));
-        $this->mockLogger->expects($this->once())
-                         ->method('addAppender')
-                         ->with($this->isInstanceOf('stubbles\log\appender\FileLogAppender'))
-                         ->will($this->returnArgument(0));
+        $this->loggerProvider->mapCalls(['get' => $this->logger]);
+        $this->logger->mapCalls(['hasLogAppenders' => false]);
         $this->fileBasedLoggerProvider->get('foo');
+        assertEquals(1, $this->logger->callsReceivedFor('addAppender'));
     }
 
     /**
@@ -122,17 +104,10 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function appendFileLogAppenderWithDifferentFileMode()
     {
-        $this->mockLoggerProvider->expects($this->once())
-                                 ->method('get')
-                                 ->with($this->equalTo('foo'))
-                                 ->will($this->returnValue($this->mockLogger));
-        $this->mockLogger->expects($this->once())
-                         ->method('hasLogAppenders')
-                         ->will($this->returnValue(false));
-        $this->mockLogger->expects($this->once())
-                         ->method('addAppender')
-                         ->with($this->isInstanceOf('stubbles\log\appender\FileLogAppender'));
-        $fileBasedLoggerProvider = new FileBasedLoggerProvider($this->mockLoggerProvider, __DIR__, 0777);
+        $this->loggerProvider->mapCalls(['get' => $this->logger]);
+        $this->logger->mapCalls(['hasLogAppenders' => false]);
+        $fileBasedLoggerProvider = new FileBasedLoggerProvider($this->loggerProvider, __DIR__, 0777);
         $fileBasedLoggerProvider->get('foo');
+        assertEquals(1, $this->logger->callsReceivedFor('addAppender'));
     }
 }
