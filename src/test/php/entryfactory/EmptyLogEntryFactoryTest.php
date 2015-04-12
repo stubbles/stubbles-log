@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\entryfactory;
+use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 /**
  * Test for stubbles\log\entryfactory\EmptyLogEntryFactory.
@@ -70,10 +71,7 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
     public function createdLogEntryCallsGivenLogger()
     {
         $this->logEntry->log();
-        assertEquals(
-                [$this->logEntry],
-                $this->logger->argumentsReceivedFor('log')
-        );
+        callmap\verify($this->logger, 'log')->received($this->logEntry);
     }
 
     /**

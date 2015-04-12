@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log;
+use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 /**
  * Test for stubbles\log\LogEntry.
@@ -19,7 +20,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
     /**
      * instance to test
      *
-     * @type  LogEntry
+     * @type  \stubbles\log\LogEntry
      */
     private $logEntry;
     /**
@@ -60,10 +61,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
     public function logCallsGivenLogger()
     {
         $this->logEntry->log();
-        assertEquals(
-                [$this->logEntry],
-                $this->logger->argumentsReceivedFor('log')
-        );
+        callmap\verify($this->logger, 'log')->received($this->logEntry);
     }
 
     /**
@@ -73,10 +71,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
     public function logDelayedCallsGivenLogger()
     {
         $this->logEntry->logDelayed();
-        assertEquals(
-                [$this->logEntry],
-                $this->logger->argumentsReceivedFor('logDelayed')
-        );
+        callmap\verify($this->logger, 'logDelayed')->received($this->logEntry);
     }
 
     /**

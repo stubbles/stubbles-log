@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\ioc;
+use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 use stubbles\lang\reflect;
 /**
@@ -85,7 +86,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
         $this->loggerProvider->mapCalls(['get' => $this->logger]);
         $this->logger->mapCalls(['hasLogAppenders' => true]);
         $this->fileBasedLoggerProvider->get();
-        assertEquals(0, $this->logger->callsReceivedFor('addAppender'));
+        callmap\verify($this->logger, 'addAppender')->wasNeverCalled();
     }
 
     /**
@@ -96,7 +97,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
         $this->loggerProvider->mapCalls(['get' => $this->logger]);
         $this->logger->mapCalls(['hasLogAppenders' => false]);
         $this->fileBasedLoggerProvider->get('foo');
-        assertEquals(1, $this->logger->callsReceivedFor('addAppender'));
+        callmap\verify($this->logger, 'addAppender')->wasCalledOnce();
     }
 
     /**
@@ -108,6 +109,6 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
         $this->logger->mapCalls(['hasLogAppenders' => false]);
         $fileBasedLoggerProvider = new FileBasedLoggerProvider($this->loggerProvider, __DIR__, 0777);
         $fileBasedLoggerProvider->get('foo');
-        assertEquals(1, $this->logger->callsReceivedFor('addAppender'));
+        callmap\verify($this->logger, 'addAppender')->wasCalledOnce();
     }
 }

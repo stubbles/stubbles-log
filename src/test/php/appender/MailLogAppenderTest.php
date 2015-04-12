@@ -8,6 +8,7 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\appender;
+use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 use stubbles\log\LogEntry;
 /**
@@ -79,7 +80,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
     public function finalizeWithoutLogEntriesDoesNotSendMail()
     {
         $this->mailLogAppender->finalize();
-        assertEquals(0, $this->mailLogAppender->callsReceivedFor('sendMail'));
+        callmap\verify($this->mailLogAppender, 'sendMail')->wasNeverCalled();
     }
 
     /**
@@ -92,12 +93,11 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        assertEquals(
-                ['Debug message from ' . php_uname('n'),
-                 "foo: bar|baz\n\nblub: shit|happens\n\n"
-                ],
-                $this->mailLogAppender->argumentsReceivedFor('sendMail')
-        );
+        callmap\verify($this->mailLogAppender, 'sendMail')
+                ->received(
+                        'Debug message from ' . php_uname('n'),
+                        "foo: bar|baz\n\nblub: shit|happens\n\n"
+                );
     }
 
     /**
@@ -110,12 +110,11 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        assertEquals(
-                ['Debug message from ' . php_uname('n'),
-                 "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n"
-                ],
-                $this->mailLogAppender->argumentsReceivedFor('sendMail')
-        );
+        callmap\verify($this->mailLogAppender, 'sendMail')
+                ->received(
+                        'Debug message from ' . php_uname('n'),
+                        "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n"
+                );
     }
 
     /**
@@ -128,11 +127,10 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        assertEquals(
-                ['Debug message from ' . php_uname('n'),
-                 "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n\nReferer:\nreferer\n"
-                ],
-                $this->mailLogAppender->argumentsReceivedFor('sendMail')
-        );
+        callmap\verify($this->mailLogAppender, 'sendMail')
+                ->received(
+                        'Debug message from ' . php_uname('n'),
+                        "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n\nReferer:\nreferer\n"
+                );
     }
 }
