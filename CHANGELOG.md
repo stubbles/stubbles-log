@@ -1,3 +1,19 @@
+4.2.0 (2015-??-??)
+------------------
+
+### BC breaks
+
+  * removed `stubbles\log\Logger::addLogAppender()`, use `stubbles\log\Logger::addAppender()` instead, was deprecated since 3.0.0
+  * removed `stubbles\log\Logger::getLogAppenders()`, was deprecated since 3.0.0
+  * removed `stubbles\log\LogEntry::getTarget()`, use `stubbles\log\LogEntry::target()` instead, was deprecated since 3.0.0
+  * removed `stubbles\log\LogEntry::getData()`, use `stubbles\log\LogEntry::data()` instead, was deprecated since 3.0.0
+  * removed `stubbles\log\LogEntry::get()`, use `stubbles\log\LogEntry::__toString()` instead, was deprecated since 3.0.0
+
+### Other changes
+
+  * upgraded stubbles/core to 6.0.0
+
+
 4.1.0 (2014-09-29)
 ------------------
 

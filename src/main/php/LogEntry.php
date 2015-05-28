@@ -72,17 +72,6 @@ class LogEntry
     }
 
     /**
-     * returns the target where the log data should go to
-     *
-     * @return  string
-     * @deprecated  since 3.0.0, use target() instead, will be removed with 4.0.0
-     */
-    public function getTarget()
-    {
-        return $this->target;
-    }
-
-    /**
      * sets the seperator to be used
      *
      * @param   string  $seperator
@@ -191,18 +180,6 @@ class LogEntry
     }
 
     /**
-     * returns whole log data
-     *
-     * @return  string[]
-     * @since   1.1.0
-     * @deprecated  since 3.0.0, use data() instead, will be removed with 4.0.0
-     */
-    public function getData()
-    {
-        return $this->data();
-    }
-
-    /**
      * returns the whole log data on one line with fields seperated by the seperator
      *
      * @return  string
@@ -210,17 +187,6 @@ class LogEntry
     public function __toString()
     {
         return join($this->seperator, array_map($this->createEscapeSeperator(), $this->logData));
-    }
-
-    /**
-     * returns the whole log data on one line with fields seperated by the seperator
-     *
-     * @return  string
-     * @deprecated  since 3.0.0, use __toString() instead, will be removed with 4.0.0
-     */
-    public function get()
-    {
-        return $this->__toString();
     }
 
     /**

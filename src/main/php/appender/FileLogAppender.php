@@ -46,19 +46,6 @@ class FileLogAppender implements LogAppender
     }
 
     /**
-     * sets the mode for new log directories
-     *
-     * @param   int  $mode
-     * @return  \stubbles\log\appender\FileLogAppender
-     * @deprecated since  4.1.0, set file mode with constructor instead, will be removed with 5.0.0
-     */
-    public function setMode($mode)
-    {
-        $this->fileMode = $mode;
-        return $this;
-    }
-
-    /**
      * append the log entry to the log file
      *
      * The basename of the logfile will be [target]-[Y-m-d].log where target

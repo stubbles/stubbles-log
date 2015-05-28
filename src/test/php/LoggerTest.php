@@ -41,16 +41,6 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
-     * @deprecated  since 3.0.0, will be removed with 4.0.0
-     */
-    public function initialInstanceHasNoLogAppenders()
-    {
-        assertFalse($this->logger->hasLogAppenders());
-        assertEquals([], $this->logger->getLogAppenders());
-    }
-
-    /**
      * @since  1.1.0
      * @test
      */
