@@ -42,7 +42,6 @@ class FileBasedLoggerProvider implements InjectionProvider
      * @param  \stubbles\log\ioc\LoggerProvider  $loggerProvider  provider which creates logger instances
      * @param  string                            $logPath         path where logfiles should be stored
      * @param  int                               $fileMode        optional  file mode for file appender
-     * @Inject
      * @Named{logPath}('stubbles.log.path')
      * @Named{fileMode}('stubbles.log.filemode')
      */
