@@ -84,8 +84,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $logEntry     = new LogEntry('testTarget', $this->logger);
         $logAppender1 = NewInstance::of('stubbles\log\appender\LogAppender');
         $logAppender2 = NewInstance::of('stubbles\log\appender\LogAppender');
-        $this->logger->addLogAppender($logAppender1);
-        $this->logger->addLogAppender($logAppender2);
+        $this->logger->addAppender($logAppender1);
+        $this->logger->addAppender($logAppender2);
         $this->logger->log($logEntry);
         callmap\verify($logAppender1, 'append')->received($logEntry);
         callmap\verify($logAppender2, 'append')->received($logEntry);
