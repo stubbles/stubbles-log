@@ -10,6 +10,9 @@
 namespace stubbles\log\ioc;
 use stubbles\ioc\Binder;
 use stubbles\ioc\module\BindingModule;
+use stubbles\log\entryfactory\LogEntryFactory;
+use stubbles\log\entryfactory\TimedLogEntryFactory;
+use stubbles\log\ioc\FileBasedLoggerProvider;
 /**
  * Bindung module for logging configuration.
  */
@@ -26,14 +29,14 @@ class Logfiles implements BindingModule
      *
      * @type  string
      */
-    private $logEntryFactory = 'stubbles\log\entryfactory\TimedLogEntryFactory';
+    private $logEntryFactory = TimedLogEntryFactory::class;
     /**
      * name of class which provides the logger instance
      *
      * @type   string
      * @since  1.3.0
      */
-    private $loggerProvider  = 'stubbles\log\ioc\FileBasedLoggerProvider';
+    private $loggerProvider  = FileBasedLoggerProvider::class;
 
     /**
      * sets the class name of log entry factory class to be bound
@@ -86,7 +89,7 @@ class Logfiles implements BindingModule
                    ->to($this->logPath);
         }
 
-        $binder->bind('stubbles\log\entryfactory\LogEntryFactory')
+        $binder->bind(LogEntryFactory::class)
                ->to($this->logEntryFactory)
                ->asSingleton();
         $binder->bind('stubbles\log\Logger')

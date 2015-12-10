@@ -11,6 +11,7 @@ namespace stubbles\log\appender;
 use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 use stubbles\log\LogEntry;
+use stubbles\log\Logger;
 /**
  * Test for stubbles\log\appender\MailLogAppender.
  *
@@ -43,7 +44,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->mailLogAppender = NewInstance::of(
-                'stubbles\log\appender\MailLogAppender',
+                MailLogAppender::class,
                 ['test@example.org']
         )->mapCalls(['sendMail' => true]);
         $_SERVER['HTTP_HOST']    = 'example.org';
@@ -71,7 +72,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     protected function createLogEntry($target)
     {
-        return new LogEntry($target, NewInstance::stub('stubbles\log\Logger'));
+        return new LogEntry($target, NewInstance::stub(Logger::class));
     }
 
     /**

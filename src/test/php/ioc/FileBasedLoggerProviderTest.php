@@ -11,6 +11,7 @@ namespace stubbles\log\ioc;
 use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 use stubbles\lang\reflect;
+use stubbles\log\Logger;
 /**
  * Test for stubbles\log\ioc\FileBasedLoggerProvider.
  *
@@ -44,8 +45,8 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->logger                  = NewInstance::stub('stubbles\log\Logger');
-        $this->loggerProvider          = NewInstance::stub('stubbles\log\ioc\LoggerProvider');
+        $this->logger                  = NewInstance::stub(Logger::class);
+        $this->loggerProvider          = NewInstance::stub(LoggerProvider::class);
         $this->fileBasedLoggerProvider = new FileBasedLoggerProvider(
                 $this->loggerProvider,
                 __DIR__

@@ -10,6 +10,7 @@
 namespace stubbles\log\entryfactory;
 use bovigo\callmap;
 use bovigo\callmap\NewInstance;
+use stubbles\log\Logger;
 /**
  * Test for stubbles\log\entryfactory\EmptyLogEntryFactory.
  *
@@ -41,7 +42,7 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->logger               = NewInstance::stub('stubbles\log\Logger');
+        $this->logger               = NewInstance::stub(Logger::class);
         $this->emptyLogEntryFactory = new EmptyLogEntryFactory();
         $this->logEntry             = $this->emptyLogEntryFactory->create(
                 'testTarget',

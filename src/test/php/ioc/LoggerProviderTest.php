@@ -10,6 +10,7 @@
 namespace stubbles\log\ioc;
 use bovigo\callmap\NewInstance;
 use stubbles\log\LogEntry;
+use stubbles\log\entryfactory\LogEntryFactory;
 /**
  * Test for stubbles\log\ioc\LoggerProvider.
  *
@@ -35,7 +36,7 @@ class LoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->logEntryFactory = NewInstance::of('stubbles\log\entryfactory\LogEntryFactory');
+        $this->logEntryFactory = NewInstance::of(LogEntryFactory::class);
         $this->loggerProvider  = new LoggerProvider($this->logEntryFactory);
     }
 

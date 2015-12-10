@@ -35,7 +35,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->logger   = NewInstance::stub('stubbles\log\Logger');
+        $this->logger   = NewInstance::stub(Logger::class);
         $this->logEntry = new LogEntry('testTarget', $this->logger);
     }
 

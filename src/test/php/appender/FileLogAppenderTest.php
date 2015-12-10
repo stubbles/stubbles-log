@@ -11,6 +11,7 @@ namespace stubbles\log\appender;
 use bovigo\callmap\NewInstance;
 use org\bovigo\vfs\vfsStream;
 use stubbles\log\LogEntry;
+use stubbles\log\Logger;
 /**
  * Test for stubbles\log\appender\FileLogAppender.
  *
@@ -54,7 +55,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     protected function createLogEntry()
     {
-        $logEntry = new LogEntry('foo', NewInstance::stub('stubbles\log\Logger'));
+        $logEntry = new LogEntry('foo', NewInstance::stub(Logger::class));
         return $logEntry->addData('bar')
                         ->addData('baz');
     }

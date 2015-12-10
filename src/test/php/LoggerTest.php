@@ -10,6 +10,8 @@
 namespace stubbles\log;
 use bovigo\callmap;
 use bovigo\callmap\NewInstance;
+use stubbles\log\appender\LogAppender;
+use stubbles\log\entryfactory\LogEntryFactory;
 /**
  * Test for stubbles\log\Logger.
  *
@@ -36,7 +38,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->logEntryFactory = NewInstance::of('stubbles\log\entryfactory\LogEntryFactory');
+        $this->logEntryFactory = NewInstance::of(LogEntryFactory::class);
         $this->logger          = new Logger($this->logEntryFactory);
     }
 
@@ -55,9 +57,9 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function cleanupFinalizesAppenders()
     {
         $logger           = new Logger($this->logEntryFactory);
-        $logAppender1 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logAppender1 = NewInstance::of(LogAppender::class);
         $logger->addAppender($logAppender1);
-        $logAppender2 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logAppender2 = NewInstance::of(LogAppender::class);
         $logger->addAppender($logAppender2);
         $logger->cleanup();
         callmap\verify($logAppender1, 'finalize')->wasCalledOnce();
@@ -82,8 +84,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function logAppendsLogEntryToAllLogAppender()
     {
         $logEntry     = new LogEntry('testTarget', $this->logger);
-        $logAppender1 = NewInstance::of('stubbles\log\appender\LogAppender');
-        $logAppender2 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logAppender1 = NewInstance::of(LogAppender::class);
+        $logAppender2 = NewInstance::of(LogAppender::class);
         $this->logger->addAppender($logAppender1);
         $this->logger->addAppender($logAppender2);
         $this->logger->log($logEntry);
@@ -122,8 +124,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $logEntry = new LogEntry('testTarget', $this->logger);
         $this->logger->logDelayed($logEntry);
         $this->logEntryFactory->mapCalls(['recreate' => $logEntry]);
-        $logAppender1 = NewInstance::of('stubbles\log\appender\LogAppender');
-        $logAppender2 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logAppender1 = NewInstance::of(LogAppender::class);
+        $logAppender2 = NewInstance::of(LogAppender::class);
         $this->logger->addAppender($logAppender1);
         $this->logger->addAppender($logAppender2);
         assertEquals(1, $this->logger->processDelayedLogEntries());
@@ -152,8 +154,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     {
         $logEntry = new LogEntry('testTarget', $this->logger);
         $this->logEntryFactory->mapCalls(['recreate' => $logEntry]);
-        $logAppender1 = NewInstance::of('stubbles\log\appender\LogAppender');
-        $logAppender2 = NewInstance::of('stubbles\log\appender\LogAppender');
+        $logAppender1 = NewInstance::of(LogAppender::class);
+        $logAppender2 = NewInstance::of(LogAppender::class);
         $this->logger->addAppender($logAppender1);
         $this->logger->addAppender($logAppender2);
         $this->logger->logDelayed($logEntry);

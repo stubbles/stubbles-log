@@ -9,6 +9,10 @@
  */
 namespace stubbles\log\ioc;
 use stubbles\ioc\Binder;
+use stubbles\log\Logger;
+use stubbles\log\entryfactory\EmptyLogEntryFactory;
+use stubbles\log\entryfactory\LogEntryFactory;
+use stubbles\log\entryfactory\TimedLogEntryFactory;
 /**
  * Test for stubbles\log\ioc\Logfiles.
  *
@@ -59,8 +63,8 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
     {
         $injector = $this->configureBindings(new Logfiles());
         assertSame(
-                $injector->getInstance('stubbles\log\entryfactory\LogEntryFactory'),
-                $injector->getInstance('stubbles\log\entryfactory\LogEntryFactory')
+                $injector->getInstance(LogEntryFactory::class),
+                $injector->getInstance(LogEntryFactory::class)
         );
     }
 
@@ -70,9 +74,9 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
     public function logEntryFactoryClassIsBoundToTimedLogEntryFactoryByDefault()
     {
         assertInstanceOf(
-                'stubbles\log\entryfactory\TimedLogEntryFactory',
+                TimedLogEntryFactory::class,
                 $this->configureBindings(new Logfiles())
-                        ->getInstance('stubbles\log\entryfactory\LogEntryFactory')
+                        ->getInstance(LogEntryFactory::class)
         );
     }
 
@@ -82,10 +86,10 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
     public function logEntryFactoryClassIsBoundToConfiguredLogEntryFactoryClass()
     {
         assertInstanceOf(
-                'stubbles\log\entryfactory\EmptyLogEntryFactory',
+                EmptyLogEntryFactory::class,
                 $this->configureBindings((new Logfiles())
-                                ->createEntriesWith('stubbles\log\entryfactory\EmptyLogEntryFactory')
-                        )->getInstance('stubbles\log\entryfactory\LogEntryFactory')
+                                ->createEntriesWith(EmptyLogEntryFactory::class)
+                        )->getInstance(LogEntryFactory::class)
         );
     }
 
@@ -95,9 +99,9 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
     public function loggerCanBeCreated()
     {
         assertInstanceOf(
-                'stubbles\log\Logger',
+               Logger::class,
                $this->configureBindings((new Logfiles())->writeTo(__DIR__))
-                    ->getInstance('stubbles\log\Logger')
+                    ->getInstance(Logger::class)
         );
     }
 
@@ -107,10 +111,12 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
     public function loggerCanBeCreatedUsingDifferentLoggerProvider()
     {
         assertInstanceOf(
-                'stubbles\log\Logger',
-                $this->configureBindings((new Logfiles())
-                                ->writeTo(__DIR__)->loggerProvidedBy('stubbles\log\ioc\LoggerProvider')
-                        )->getInstance('stubbles\log\Logger')
+                Logger::class,
+                $this->configureBindings(
+                        (new Logfiles())
+                                ->writeTo(__DIR__)
+                                ->loggerProvidedBy(LoggerProvider::class)
+                        )->getInstance(Logger::class)
         );
     }
 }

@@ -10,6 +10,7 @@
 namespace stubbles\log\appender;
 use bovigo\callmap\NewInstance;
 use stubbles\log\LogEntry;
+use stubbles\log\Logger;
 /**
  * Test for stubbles\log\appender\MemoryLogAppender.
  *
@@ -41,7 +42,7 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
     {
         $logEntry = new LogEntry(
                 $target,
-                NewInstance::stub('stubbles\log\Logger')
+                NewInstance::stub(Logger::class)
         );
         return $logEntry->addData('bar')
                         ->addData('baz');
