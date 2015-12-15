@@ -8,10 +8,11 @@
  * @package  stubbles\log
  */
 namespace stubbles\log;
-use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 use stubbles\log\appender\LogAppender;
 use stubbles\log\entryfactory\LogEntryFactory;
+
+use function bovigo\callmap\verify;
 /**
  * Test for stubbles\log\Logger.
  *
@@ -62,8 +63,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $logAppender2 = NewInstance::of(LogAppender::class);
         $logger->addAppender($logAppender2);
         $logger->cleanup();
-        callmap\verify($logAppender1, 'finalize')->wasCalledOnce();
-        callmap\verify($logAppender2, 'finalize')->wasCalledOnce();
+        verify($logAppender1, 'finalize')->wasCalledOnce();
+        verify($logAppender2, 'finalize')->wasCalledOnce();
     }
 
     /**
@@ -74,7 +75,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $logEntry = new LogEntry('testTarget', $this->logger);
         $this->logEntryFactory->mapCalls(['create' => $logEntry]);
         assertSame($logEntry, $this->logger->createLogEntry('testTarget'));
-        callmap\verify($this->logEntryFactory, 'create')
+        verify($this->logEntryFactory, 'create')
                 ->received('testTarget', $this->logger);
     }
 
@@ -89,8 +90,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $this->logger->addAppender($logAppender1);
         $this->logger->addAppender($logAppender2);
         $this->logger->log($logEntry);
-        callmap\verify($logAppender1, 'append')->received($logEntry);
-        callmap\verify($logAppender2, 'append')->received($logEntry);
+        verify($logAppender1, 'append')->received($logEntry);
+        verify($logAppender2, 'append')->received($logEntry);
     }
 
     /**
@@ -129,8 +130,8 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $this->logger->addAppender($logAppender1);
         $this->logger->addAppender($logAppender2);
         assertEquals(1, $this->logger->processDelayedLogEntries());
-        callmap\verify($logAppender1, 'append')->received($logEntry);
-        callmap\verify($logAppender2, 'append')->received($logEntry);
+        verify($logAppender1, 'append')->received($logEntry);
+        verify($logAppender2, 'append')->received($logEntry);
     }
 
     /**
@@ -160,7 +161,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $this->logger->addAppender($logAppender2);
         $this->logger->logDelayed($logEntry);
         $this->logger->cleanup();
-        callmap\verify($logAppender1, 'append')->received($logEntry);
-        callmap\verify($logAppender2, 'append')->received($logEntry);
+        verify($logAppender1, 'append')->received($logEntry);
+        verify($logAppender2, 'append')->received($logEntry);
     }
 }

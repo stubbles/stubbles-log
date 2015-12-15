@@ -8,10 +8,11 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\ioc;
-use bovigo\callmap;
 use bovigo\callmap\NewInstance;
-use stubbles\lang\reflect;
 use stubbles\log\Logger;
+
+use function bovigo\callmap\verify;
+use function stubbles\lang\reflect\annotationsOfConstructorParameter;
 /**
  * Test for stubbles\log\ioc\FileBasedLoggerProvider.
  *
@@ -58,7 +59,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function annotationsPresentOnConstructor()
     {
-        $logPathParamAnnotations = reflect\annotationsOfConstructorParameter(
+        $logPathParamAnnotations = annotationsOfConstructorParameter(
                 'logPath',
                 $this->fileBasedLoggerProvider
         );
@@ -68,7 +69,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
                 $logPathParamAnnotations->firstNamed('Named')->getName()
         );
 
-        $fileModeParamAnnotations = reflect\annotationsOfConstructorParameter(
+        $fileModeParamAnnotations = annotationsOfConstructorParameter(
                 'fileMode',
                 $this->fileBasedLoggerProvider
         );
@@ -87,7 +88,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
         $this->loggerProvider->mapCalls(['get' => $this->logger]);
         $this->logger->mapCalls(['hasLogAppenders' => true]);
         $this->fileBasedLoggerProvider->get();
-        callmap\verify($this->logger, 'addAppender')->wasNeverCalled();
+        verify($this->logger, 'addAppender')->wasNeverCalled();
     }
 
     /**
@@ -98,7 +99,7 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
         $this->loggerProvider->mapCalls(['get' => $this->logger]);
         $this->logger->mapCalls(['hasLogAppenders' => false]);
         $this->fileBasedLoggerProvider->get('foo');
-        callmap\verify($this->logger, 'addAppender')->wasCalledOnce();
+        verify($this->logger, 'addAppender')->wasCalledOnce();
     }
 
     /**
@@ -110,6 +111,6 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
         $this->logger->mapCalls(['hasLogAppenders' => false]);
         $fileBasedLoggerProvider = new FileBasedLoggerProvider($this->loggerProvider, __DIR__, 0777);
         $fileBasedLoggerProvider->get('foo');
-        callmap\verify($this->logger, 'addAppender')->wasCalledOnce();
+        verify($this->logger, 'addAppender')->wasCalledOnce();
     }
 }

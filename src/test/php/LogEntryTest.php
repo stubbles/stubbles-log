@@ -8,8 +8,9 @@
  * @package  stubbles\log
  */
 namespace stubbles\log;
-use bovigo\callmap;
 use bovigo\callmap\NewInstance;
+
+use function bovigo\callmap\verify;
 /**
  * Test for stubbles\log\LogEntry.
  *
@@ -61,7 +62,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
     public function logCallsGivenLogger()
     {
         $this->logEntry->log();
-        callmap\verify($this->logger, 'log')->received($this->logEntry);
+        verify($this->logger, 'log')->received($this->logEntry);
     }
 
     /**
@@ -71,7 +72,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
     public function logDelayedCallsGivenLogger()
     {
         $this->logEntry->logDelayed();
-        callmap\verify($this->logger, 'logDelayed')->received($this->logEntry);
+        verify($this->logger, 'logDelayed')->received($this->logEntry);
     }
 
     /**

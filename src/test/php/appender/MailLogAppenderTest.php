@@ -8,10 +8,11 @@
  * @package  stubbles\log
  */
 namespace stubbles\log\appender;
-use bovigo\callmap;
 use bovigo\callmap\NewInstance;
 use stubbles\log\LogEntry;
 use stubbles\log\Logger;
+
+use function bovigo\callmap\verify;
 /**
  * Test for stubbles\log\appender\MailLogAppender.
  *
@@ -81,7 +82,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
     public function finalizeWithoutLogEntriesDoesNotSendMail()
     {
         $this->mailLogAppender->finalize();
-        callmap\verify($this->mailLogAppender, 'sendMail')->wasNeverCalled();
+        verify($this->mailLogAppender, 'sendMail')->wasNeverCalled();
     }
 
     /**
@@ -94,7 +95,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        callmap\verify($this->mailLogAppender, 'sendMail')
+        verify($this->mailLogAppender, 'sendMail')
                 ->received(
                         'Debug message from ' . php_uname('n'),
                         "foo: bar|baz\n\nblub: shit|happens\n\n"
@@ -111,7 +112,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        callmap\verify($this->mailLogAppender, 'sendMail')
+        verify($this->mailLogAppender, 'sendMail')
                 ->received(
                         'Debug message from ' . php_uname('n'),
                         "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n"
@@ -128,7 +129,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        callmap\verify($this->mailLogAppender, 'sendMail')
+        verify($this->mailLogAppender, 'sendMail')
                 ->received(
                         'Debug message from ' . php_uname('n'),
                         "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n\nReferer:\nreferer\n"
