@@ -81,8 +81,9 @@ class Logfiles implements BindingModule
      * configure the binder
      *
      * @param  \stubbles\ioc\Binder  $binder
+     * @param  string                $projectPath  optional  project base path
      */
-    public function configure(Binder $binder)
+    public function configure(Binder $binder, $projectPath = null)
     {
         if (!empty($this->logPath)) {
             $binder->bindConstant('stubbles.log.path')
