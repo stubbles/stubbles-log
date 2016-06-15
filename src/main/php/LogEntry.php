@@ -107,23 +107,27 @@ class LogEntry
     /**
      * adds data to the log object
      *
-     * Each call to this method will add a new field. If the data contains line
-     * breaks they will be replaced by <nl>. If the data contains the value of
-     * the seperator or windows line feeds they will be removed.
+     * Each call to this method will add a new field for each single argument.
+     * If the field data  contains line breaks they will be replaced by <nl>. If
+     * the data contains the value of the seperator or windows line feeds they
+     * will be removed.
      *
-     * If the data starts with a double quote but does not end with a double
-     * quote a closing double quote will be appended.
+     * If the field data starts with a double quote but does not end with a
+     * double quote a closing double quote will be appended.
      *
-     * If the data consists only of a single double quote it will be removed and
-     * the added data string will thus be empty.
+     * If the field data consists only of a single double quote it will be
+     * removed and the added data string will thus be empty.
      *
      * @api
-     * @param   string  $data
+     * @param   string...  $fields
      * @return  \stubbles\log\LogEntry
      */
-    public function addData($data)
+    public function addData(...$fields)
     {
-        $this->logData[] = $this->escapeData($data);
+        foreach ($fields as $data) {
+            $this->logData[] = $this->escapeData($data);
+        }
+
         return $this;
     }
 

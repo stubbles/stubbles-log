@@ -4,6 +4,13 @@
 ### BC breaks
 
   * Raised minimum required PHP version to 5.6
+  * IoC features are now optional and require stubbles/ioc
+
+
+### Other changes
+
+    * removed dependency to stubbles/core
+    * `stubbles\log\LogEntry::addData()` now accepts arbitrary amounts arguments
 
 
 4.2.0 (2015-05-28)

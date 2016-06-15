@@ -120,7 +120,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
     public function loggedDataWillBeEscapedInLine($expected, $data)
     {
         assert(
-                $this->logEntry->addData('foo')->addData($data)->addData('bar'),
+                $this->logEntry->addData('foo', $data, 'bar'),
                 equals('foo' . LogEntry::DEFAULT_SEPERATOR . $expected . LogEntry::DEFAULT_SEPERATOR . 'bar')
         );
     }
@@ -150,11 +150,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
     public function loggedReplacedDataWillBeEscapedInLine($expected, $data)
     {
         assert(
-                $this->logEntry
-                        ->addData('foo')
-                        ->addData('baz')
-                        ->addData('bar')
-                        ->replaceData(1, $data),
+                $this->logEntry->addData('foo', 'baz', 'bar')->replaceData(1, $data),
                 equals('foo' . LogEntry::DEFAULT_SEPERATOR . $expected . LogEntry::DEFAULT_SEPERATOR . 'bar')
         );
     }
