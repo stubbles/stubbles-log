@@ -11,6 +11,10 @@ namespace stubbles\log\appender;
 use bovigo\callmap\NewInstance;
 use stubbles\log\LogEntry;
 use stubbles\log\Logger;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
+use function bovigo\assert\predicate\equals;
 /**
  * Test for stubbles\log\appender\MemoryLogAppender.
  *
@@ -54,9 +58,9 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function countLogEntriesForNonExistingTargetReturns0()
     {
-        assertEquals(
-                0,
-                $this->memoryLogAppender->countLogEntries('myTestTarget')
+        assert(
+                $this->memoryLogAppender->countLogEntries('myTestTarget'),
+                equals(0)
         );
     }
 
@@ -66,13 +70,13 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function countLogEntriesForExistingTargetReturnsAmountOfEnries()
     {
-        assertEquals(
-                2,
+        assert(
                 $this->memoryLogAppender
                         ->append($this->createLogEntry('myTestTarget'))
                         ->append($this->createLogEntry('myTestTarget'))
                         ->append($this->createLogEntry('otherTestTarget'))
-                        ->countLogEntries('myTestTarget')
+                        ->countLogEntries('myTestTarget'),
+                equals(2)
         );
     }
 
@@ -82,8 +86,7 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function returnLogEntryDataForNonExistingTargetReturnsEmptyArray()
     {
-        assertEquals(
-                [],
+        assertEmptyArray(
                 $this->memoryLogAppender->getLogEntryData('myTestTarget', 0)
         );
     }
@@ -94,8 +97,7 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function returnLogEntryDataForNonExistingPositionReturnsEmptyArray()
     {
-        assertEquals(
-                [],
+        assertEmptyArray(
                 $this->memoryLogAppender
                         ->append($this->createLogEntry('myTestTarget'))
                         ->getLogEntryData('myTestTarget', 1)
@@ -107,11 +109,11 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function returnLogEntryDataForExistingPosition()
     {
-        assertEquals(
-                ['bar', 'baz'],
+        assert(
                 $this->memoryLogAppender
                         ->append($this->createLogEntry('myTestTarget'))
-                        ->getLogEntryData('myTestTarget', 0)
+                        ->getLogEntryData('myTestTarget', 0),
+                equals(['bar', 'baz'])
         );
     }
 
@@ -121,8 +123,7 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function returnLogEntriesForNonExistingTargetReturnsEmptyArray()
     {
-        assertEquals(
-                [],
+        assertEmptyArray(
                 $this->memoryLogAppender->getLogEntries('myTestTarget')
         );
     }
@@ -134,12 +135,12 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
     {
         $logEntry1 = $this->createLogEntry('myTestTarget');
         $logEntry2 = $this->createLogEntry('myTestTarget');
-        assertEquals(
-                [$logEntry1, $logEntry2],
+        assert(
                 $this->memoryLogAppender
                         ->append($logEntry1)
                         ->append($logEntry2)
-                        ->getLogEntries('myTestTarget')
+                        ->getLogEntries('myTestTarget'),
+                equals([$logEntry1, $logEntry2])
         );
     }
 
@@ -148,8 +149,7 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function finalizeClearsMemory()
     {
-        assertEquals(
-                [],
+        assertEmptyArray(
                 $this->memoryLogAppender
                         ->append($this->createLogEntry('myTestTarget'))
                         ->append($this->createLogEntry('myTestTarget'))

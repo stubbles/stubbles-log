@@ -12,6 +12,11 @@ use bovigo\callmap\NewInstance;
 use stubbles\log\appender\LogAppender;
 use stubbles\log\entryfactory\LogEntryFactory;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isSameAs;
 use function bovigo\callmap\verify;
 /**
  * Test for stubbles\log\Logger.
@@ -74,7 +79,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     {
         $logEntry = new LogEntry('testTarget', $this->logger);
         $this->logEntryFactory->mapCalls(['create' => $logEntry]);
-        assertSame($logEntry, $this->logger->createLogEntry('testTarget'));
+        assert($this->logger->createLogEntry('testTarget'), isSameAs($logEntry));
         verify($this->logEntryFactory, 'create')
                 ->received('testTarget', $this->logger);
     }
@@ -100,7 +105,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function processDelayedLogEntriesWithoutDelayedLogEntriesReturn0()
     {
-        assertEquals(0, $this->logger->processDelayedLogEntries());
+        assert($this->logger->processDelayedLogEntries(), equals(0));
     }
 
     /**
@@ -129,7 +134,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $logAppender2 = NewInstance::of(LogAppender::class);
         $this->logger->addAppender($logAppender1);
         $this->logger->addAppender($logAppender2);
-        assertEquals(1, $this->logger->processDelayedLogEntries());
+        assert($this->logger->processDelayedLogEntries(), equals(1));
         verify($logAppender1, 'append')->received($logEntry);
         verify($logAppender2, 'append')->received($logEntry);
     }

@@ -11,8 +11,11 @@ namespace stubbles\log\ioc;
 use bovigo\callmap\NewInstance;
 use stubbles\log\Logger;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
-use function stubbles\lang\reflect\annotationsOfConstructorParameter;
+use function stubbles\reflect\annotationsOfConstructorParameter;
 /**
  * Test for stubbles\log\ioc\FileBasedLoggerProvider.
  *
@@ -64,9 +67,9 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
                 $this->fileBasedLoggerProvider
         );
         assertTrue($logPathParamAnnotations->contain('Named'));
-        assertEquals(
-                'stubbles.log.path',
-                $logPathParamAnnotations->firstNamed('Named')->getName()
+        assert(
+                $logPathParamAnnotations->firstNamed('Named')->getName(),
+                equals('stubbles.log.path')
         );
 
         $fileModeParamAnnotations = annotationsOfConstructorParameter(
@@ -74,9 +77,9 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
                 $this->fileBasedLoggerProvider
         );
         assertTrue($fileModeParamAnnotations->contain('Named'));
-        assertEquals(
-                'stubbles.log.filemode',
-                $fileModeParamAnnotations->firstNamed('Named')->getName()
+        assert(
+                $fileModeParamAnnotations->firstNamed('Named')->getName(),
+                equals('stubbles.log.filemode')
         );
     }
 

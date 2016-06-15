@@ -11,6 +11,10 @@ namespace stubbles\log\ioc;
 use bovigo\callmap\NewInstance;
 use stubbles\log\LogEntry;
 use stubbles\log\entryfactory\LogEntryFactory;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\isNotSameAs;
+use function bovigo\assert\predicate\isSameAs;
 /**
  * Test for stubbles\log\ioc\LoggerProvider.
  *
@@ -48,7 +52,7 @@ class LoggerProviderTest extends \PHPUnit_Framework_TestCase
         $logger   = $this->loggerProvider->get();
         $logEntry = new LogEntry('testTarget', $logger);
         $this->logEntryFactory->mapCalls(['create' => $logEntry]);
-        assertSame($logEntry, $logger->createLogEntry('testTarget'));
+        assert( $logger->createLogEntry('testTarget'), isSameAs($logEntry));
     }
 
     /**
@@ -56,9 +60,9 @@ class LoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function createsDifferentInstancesForDifferentNames()
     {
-        assertNotSame(
-                $this->loggerProvider->get(),
-                $this->loggerProvider->get('foo')
+        assert(
+                $this->loggerProvider->get('foo'),
+                isNotSameAs($this->loggerProvider->get())
         );
     }
 
@@ -67,6 +71,6 @@ class LoggerProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsSameInstanceForSameName()
     {
-        assertSame($this->loggerProvider->get(), $this->loggerProvider->get());
+        assert($this->loggerProvider->get(), isSameAs($this->loggerProvider->get()));
     }
 }

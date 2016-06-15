@@ -10,6 +10,10 @@
 namespace stubbles\log;
 use bovigo\callmap\NewInstance;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyArray;
+use function bovigo\assert\assertEmptyString;
+use function bovigo\assert\predicate\equals;
 use function bovigo\callmap\verify;
 /**
  * Test for stubbles\log\LogEntry.
@@ -45,7 +49,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function returnsGivenTarget()
     {
-        assertEquals('testTarget', $this->logEntry->target());
+        assert($this->logEntry->target(), equals('testTarget'));
     }
 
     /**
@@ -53,7 +57,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function logDataIsInitiallyEmpty()
     {
-        assertEquals('', (string) $this->logEntry);
+        assertEmptyString((string) $this->logEntry);
     }
 
     /**
@@ -101,10 +105,9 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function loggedDataWillBeEscaped($expected, $data)
     {
-        assertEquals(
-                [$expected],
-                $this->logEntry->addData($data)
-                               ->data()
+        assert(
+                $this->logEntry->addData($data)->data(),
+                equals([$expected])
         );
     }
 
@@ -116,9 +119,9 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function loggedDataWillBeEscapedInLine($expected, $data)
     {
-        assertEquals(
-                'foo' . LogEntry::DEFAULT_SEPERATOR . $expected . LogEntry::DEFAULT_SEPERATOR . 'bar',
-                $this->logEntry->addData('foo')->addData($data)->addData('bar')
+        assert(
+                $this->logEntry->addData('foo')->addData($data)->addData('bar'),
+                equals('foo' . LogEntry::DEFAULT_SEPERATOR . $expected . LogEntry::DEFAULT_SEPERATOR . 'bar')
         );
     }
 
@@ -131,9 +134,9 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function loggedReplacedDataWillBeEscaped($expected, $data)
     {
-        assertEquals(
-                [$expected],
-                $this->logEntry->addData("test1")->replaceData(0, $data)->data()
+        assert(
+                $this->logEntry->addData("test1")->replaceData(0, $data)->data(),
+                equals([$expected])
         );
     }
 
@@ -146,13 +149,13 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function loggedReplacedDataWillBeEscapedInLine($expected, $data)
     {
-        assertEquals(
-                'foo' . LogEntry::DEFAULT_SEPERATOR . $expected . LogEntry::DEFAULT_SEPERATOR . 'bar',
+        assert(
                 $this->logEntry
                         ->addData('foo')
                         ->addData('baz')
                         ->addData('bar')
-                        ->replaceData(1, $data)
+                        ->replaceData(1, $data),
+                equals('foo' . LogEntry::DEFAULT_SEPERATOR . $expected . LogEntry::DEFAULT_SEPERATOR . 'bar')
         );
     }
 
@@ -161,12 +164,12 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function addDataRemovesDifferentSeperator()
     {
-        assertEquals(
-                ['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'],
+        assert(
                 $this->logEntry
                         ->setSeperator(';')
                         ->addData('foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz')
-                        ->data()
+                        ->data(),
+                equals(['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'])
         );
     }
 
@@ -176,13 +179,13 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function replaceDataRemovesDifferentSeperator()
     {
-        assertEquals(
-                ['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'],
+        assert(
                 $this->logEntry
                         ->setSeperator(';')
                         ->addData('test')
                         ->replaceData(0, 'foo' . LogEntry::DEFAULT_SEPERATOR . 'bar;baz')
-                        ->data()
+                        ->data(),
+                equals(['foo' . LogEntry::DEFAULT_SEPERATOR . 'barbaz'])
         );
     }
 
@@ -192,6 +195,6 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      */
     public function replaceDataDoesNothingIfGivenPositionDoesNotExist()
     {
-        assertEquals([], $this->logEntry->replaceData(0, "foo")->data());
+        assertEmptyArray($this->logEntry->replaceData(0, "foo")->data());
     }
 }

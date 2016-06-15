@@ -12,6 +12,11 @@ use bovigo\callmap\NewInstance;
 use org\bovigo\vfs\vfsStream;
 use stubbles\log\LogEntry;
 use stubbles\log\Logger;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertTrue;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isSameAs;
 /**
  * Test for stubbles\log\appender\FileLogAppender.
  *
@@ -56,8 +61,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
     protected function createLogEntry()
     {
         $logEntry = new LogEntry('foo', NewInstance::stub(Logger::class));
-        return $logEntry->addData('bar')
-                        ->addData('baz');
+        return $logEntry->addData('bar')->addData('baz');
     }
 
     /**
@@ -68,7 +72,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
         $this->fileLogAppender->append($this->createLogEntry())
                               ->append($this->createLogEntry());
         assertTrue(file_exists($this->logFile));
-        assertEquals("bar|baz\nbar|baz\n", file_get_contents($this->logFile));
+        assert(file_get_contents($this->logFile), equals("bar|baz\nbar|baz\n"));
     }
 
     /**
@@ -77,7 +81,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
     public function createsNonExistingDirectoryWithDefaultFilemode()
     {
         $this->fileLogAppender->append($this->createLogEntry());
-        assertEquals(0700, $this->root->getChild('test')->getPermissions());
+        assert($this->root->getChild('test')->getPermissions(), equals(0700));
     }
 
     /**
@@ -87,7 +91,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
     {
         $fileLogAppender = new FileLogAppender(vfsStream::url('root/test'), 0644);
         $fileLogAppender->append($this->createLogEntry());
-        assertEquals(0644, $this->root->getChild('test')->getPermissions());
+        assert($this->root->getChild('test')->getPermissions(), equals(0644));
     }
 
     /**
@@ -95,9 +99,6 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function finalizeIsNoOp()
     {
-        assertSame(
-                $this->fileLogAppender,
-                $this->fileLogAppender->finalize()
-        );
+        assert($this->fileLogAppender->finalize(), isSameAs($this->fileLogAppender));
     }
 }

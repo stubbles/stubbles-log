@@ -13,6 +13,12 @@ use stubbles\log\Logger;
 use stubbles\log\entryfactory\EmptyLogEntryFactory;
 use stubbles\log\entryfactory\LogEntryFactory;
 use stubbles\log\entryfactory\TimedLogEntryFactory;
+
+use function bovigo\assert\assert;
+use function bovigo\assert\assertFalse;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isInstanceOf;
+use function bovigo\assert\predicate\isSameAs;
 /**
  * Test for stubbles\log\ioc\Logfiles.
  *
@@ -49,10 +55,10 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function logPathIsBoundWhenGiven()
     {
-        assertSame(
-                __DIR__,
+        assert(
                 $this->configureBindings((new Logfiles())->writeTo(__DIR__))
-                        ->getConstant('stubbles.log.path')
+                        ->getConstant('stubbles.log.path'),
+                equals(__DIR__)
         );
     }
 
@@ -62,9 +68,9 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
     public function logEntryFactoryIsBoundAsSingleton()
     {
         $injector = $this->configureBindings(new Logfiles());
-        assertSame(
+        assert(
                 $injector->getInstance(LogEntryFactory::class),
-                $injector->getInstance(LogEntryFactory::class)
+                isSameAs($injector->getInstance(LogEntryFactory::class))
         );
     }
 
@@ -73,10 +79,10 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function logEntryFactoryClassIsBoundToTimedLogEntryFactoryByDefault()
     {
-        assertInstanceOf(
-                TimedLogEntryFactory::class,
+        assert(
                 $this->configureBindings(new Logfiles())
-                        ->getInstance(LogEntryFactory::class)
+                        ->getInstance(LogEntryFactory::class),
+                isInstanceOf(TimedLogEntryFactory::class)
         );
     }
 
@@ -85,11 +91,11 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function logEntryFactoryClassIsBoundToConfiguredLogEntryFactoryClass()
     {
-        assertInstanceOf(
-                EmptyLogEntryFactory::class,
+        assert(
                 $this->configureBindings((new Logfiles())
                                 ->createEntriesWith(EmptyLogEntryFactory::class)
-                        )->getInstance(LogEntryFactory::class)
+                        )->getInstance(LogEntryFactory::class),
+                isInstanceOf(EmptyLogEntryFactory::class)
         );
     }
 
@@ -98,10 +104,10 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function loggerCanBeCreated()
     {
-        assertInstanceOf(
-               Logger::class,
+        assert(
                $this->configureBindings((new Logfiles())->writeTo(__DIR__))
-                    ->getInstance(Logger::class)
+                    ->getInstance(Logger::class),
+            isInstanceOf(Logger::class)
         );
     }
 
@@ -110,13 +116,13 @@ class LogfilesTest extends \PHPUnit_Framework_TestCase
      */
     public function loggerCanBeCreatedUsingDifferentLoggerProvider()
     {
-        assertInstanceOf(
-                Logger::class,
+        assert(
                 $this->configureBindings(
                         (new Logfiles())
                                 ->writeTo(__DIR__)
                                 ->loggerProvidedBy(LoggerProvider::class)
-                        )->getInstance(Logger::class)
+                        )->getInstance(Logger::class),
+                isInstanceOf(Logger::class)
         );
     }
 }

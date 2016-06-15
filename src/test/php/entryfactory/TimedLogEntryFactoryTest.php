@@ -11,6 +11,11 @@ namespace stubbles\log\entryfactory;
 use bovigo\callmap\NewInstance;
 use stubbles\log\Logger;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isGreaterThan;
+use function bovigo\assert\predicate\isLessThan;
+use function bovigo\assert\predicate\isSameAs;
 use function bovigo\callmap\verify;
 /**
  * Test for stubbles\log\entryfactory\TimedLogEntryFactory.
@@ -56,7 +61,7 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryHasCorrectTarget()
     {
-        assertEquals('testTarget', $this->logEntry->target());
+        assert($this->logEntry->target(), equals('testTarget'));
     }
 
     /**
@@ -66,8 +71,10 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $currentTime = time();
         $loggedTime  = strtotime($this->logEntry);
-        assertGreaterThan($currentTime -2, $loggedTime);
-        assertLessThan($currentTime +2, $loggedTime);
+        assert(
+                $loggedTime,
+                isGreaterThan($currentTime - 2)->and(isLessThan($currentTime + 2))
+        );
     }
 
     /**
@@ -84,12 +91,12 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function recreateOnlyReturnsGivenLogEntryUnmodified()
     {
-        assertSame(
-                $this->logEntry,
+        assert(
                 $this->timedLogEntryFactory->recreate(
                         $this->logEntry,
                         $this->logger
-                )
+                ),
+                isSameAs($this->logEntry)
         );
     }
 }

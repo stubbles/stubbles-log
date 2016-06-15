@@ -11,6 +11,10 @@ namespace stubbles\log\entryfactory;
 use bovigo\callmap\NewInstance;
 use stubbles\log\Logger;
 
+use function bovigo\assert\assert;
+use function bovigo\assert\assertEmptyString;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isSameAs;
 use function bovigo\callmap\verify;
 /**
  * Test for stubbles\log\entryfactory\EmptyLogEntryFactory.
@@ -56,7 +60,7 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryHasCorrectTarget()
     {
-        assertEquals('testTarget', $this->logEntry->target());
+        assert($this->logEntry->target(), equals('testTarget'));
     }
 
     /**
@@ -64,7 +68,7 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createdLogEntryIsEmpty()
     {
-        assertEquals('', $this->logEntry);
+        assertEmptyString($this->logEntry);
     }
 
     /**
@@ -81,12 +85,12 @@ class EmptyLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function recreateOnlyReturnsGivenLogEntryUnmodified()
     {
-        assertSame(
-                $this->logEntry,
+        assert(
                 $this->emptyLogEntryFactory->recreate(
                         $this->logEntry,
                         $this->logger
-                )
+                ),
+                isSameAs($this->logEntry)
         );
     }
 }
