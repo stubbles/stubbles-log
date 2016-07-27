@@ -9,7 +9,7 @@ Build status
 ------------
 
 [![Build Status](https://secure.travis-ci.org/stubbles/stubbles-log.png)](http://travis-ci.org/stubbles/stubbles-log)
-[![Coverage Status](https://coveralls.io/repos/stubbles/stubbles-log/badge.png?branch=master)](https://coveralls.io/r/stubbles/stubbles-log?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/stubbles/stubbles-log/badge.svg?branch=master)](https://coveralls.io/github/stubbles/stubbles-log?branch=master)
 
 [![Latest Stable Version](https://poser.pugx.org/stubbles/log/version.png)](https://packagist.org/packages/stubbles/log)
 [![Latest Unstable Version](https://poser.pugx.org/stubbles/log/v/unstable.png)](//packagist.org/packages/stubbles/log)
