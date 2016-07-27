@@ -9,7 +9,9 @@ declare(strict_types=1);
  * @package  stubbles\log
  */
 namespace stubbles\log\appender;
+use bovigo\callmap\CallMapProxy;
 use bovigo\callmap\NewInstance;
+use bovigo\callmap\Proxy;
 use stubbles\log\LogEntry;
 use stubbles\log\Logger;
 
@@ -28,6 +30,10 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     private $mailLogAppender;
     /**
+     * @type  callable
+     */
+    private $mailSender;
+    /**
      * log entry instance
      *
      * @type  LogEntry
@@ -45,10 +51,28 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->mailLogAppender = NewInstance::of(
+        $this->mailSender = new class() implements Proxy
+        {
+            use CallMapProxy;
+            private $_allowedMethods = ['mail' => 'mail'];
+            private $_methodParams   = ['mail' => [
+                    'to',
+                    'subject',
+                    'message',
+                    'additionalHeaders',
+                    'additionalParameters'
+            ]];
+
+            public function __invoke()
+            {
+                return $this->handleMethodCall('mail', func_get_args(), false);
+            }
+        };
+        $this->mailLogAppender = new MailLogAppender(
+                'test@example.org',
                 MailLogAppender::class,
-                ['test@example.org']
-        )->mapCalls(['sendMail' => true]);
+                $this->mailSender
+        );
         $_SERVER['HTTP_HOST']    = 'example.org';
         $_SERVER['PHP_SELF']     = '/example.php';
         $_SERVER['QUERY_STRING'] = 'example=dummy';
@@ -78,7 +102,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
     public function finalizeWithoutLogEntriesDoesNotSendMail()
     {
         $this->mailLogAppender->finalize();
-        verify($this->mailLogAppender, 'sendMail')->wasNeverCalled();
+        verify($this->mailSender, 'mail')->wasNeverCalled();
     }
 
     /**
@@ -91,7 +115,8 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        verify($this->mailLogAppender, 'sendMail')->received(
+        verify($this->mailSender, 'mail')->received(
+                'test@example.org',
                 'Debug message from ' . php_uname('n'),
                 "foo: bar|baz\n\nblub: shit|happens\n\n"
         );
@@ -107,7 +132,8 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        verify($this->mailLogAppender, 'sendMail')->received(
+        verify($this->mailSender, 'mail')->received(
+                'test@example.org',
                 'Debug message from ' . php_uname('n'),
                 "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n"
         );
@@ -123,7 +149,8 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        verify($this->mailLogAppender, 'sendMail')->received(
+        verify($this->mailSender, 'mail')->received(
+                'test@example.org',
                 'Debug message from ' . php_uname('n'),
                 "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n\nReferer:\nreferer\n"
         );

@@ -31,6 +31,10 @@ class MailLogAppender implements LogAppender
      */
     private $senderName;
     /**
+     * @type  callable
+     */
+    private $mailer;
+    /**
      * the collected log data
      *
      * @type  \stubbles\log\LogEntry[]
@@ -40,13 +44,18 @@ class MailLogAppender implements LogAppender
     /**
      * constructor
      *
-     * @param  string  $mailAddress  mail address to send the log data to
-     * @param  string  $senderName   optional  name to appear as sender
+     * @param  string    $mailAddress  mail address to send the log data to
+     * @param  string    $senderName   optional  name to appear as sender
+     * @param  callable  $mailer       optional  callable which can send mail
      */
-    public function __construct(string $mailAddress, string $senderName = __CLASS__)
-    {
+    public function __construct(
+            string $mailAddress,
+            string $senderName = __CLASS__,
+            callable $mailer   = null
+    ) {
         $this->mailAddress = $mailAddress;
         $this->senderName  = $senderName;
+        $this->mailer      = null !== $mailer ? $mailer : 'mail';
     }
 
     /**
@@ -112,9 +121,10 @@ class MailLogAppender implements LogAppender
      * @param  string  $subject  subject of the mail to send
      * @param  string  $body     body of the mail to send
      */
-    protected function sendMail(string $subject, string $body)
+    private function sendMail(string $subject, string $body)
     {
-        mail(
+        $sendMail = $this->mailer;
+        $sendMail(
                 $this->mailAddress,
                 $subject,
                 $body,
