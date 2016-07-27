@@ -58,7 +58,7 @@ class FileBasedLoggerProvider implements InjectionProvider
      * @param   string  $name  optional
      * @return  \stubbles\log\Logger
      */
-    public function get($name = null)
+    public function get(string $name = null)
     {
         $logger = $this->loggerProvider->get($name);
         if (!$logger->hasLogAppenders()) {
