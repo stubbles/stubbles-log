@@ -50,11 +50,7 @@ class MemoryLogAppender implements LogAppender
      */
     public function getLogEntryData(string $target, int $position): array
     {
-        if (!isset($this->logEntries[$target])) {
-            return [];
-        }
-
-        if (!isset($this->logEntries[$target][$position])) {
+        if (!isset($this->logEntries[$target]) || !isset($this->logEntries[$target][$position])) {
             return [];
         }
 
@@ -70,11 +66,7 @@ class MemoryLogAppender implements LogAppender
      */
     public function getLogEntries(string $target): array
     {
-        if (!isset($this->logEntries[$target])) {
-            return [];
-        }
-
-        return $this->logEntries[$target];
+        return $this->logEntries[$target] ?? [];
     }
 
     /**
