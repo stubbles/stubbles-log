@@ -16,18 +16,9 @@ use stubbles\log\Logger;
  *
  * @since  1.1.0
  * @api
+ * @deprecated  since  6.0.0, extends LogEntryFactory directly, will be removed with 7.0.0
  */
-abstract class AbstractLogEntryFactory implements LogEntryFactory
+abstract class AbstractLogEntryFactory extends LogEntryFactory
 {
-    /**
-     * recreates given log entry
-     *
-     * @param   \stubbles\log\LogEntry  $logEntry
-     * @param   \stubbles\log\Logger    $logger
-     * @return  \stubbles\log\LogEntry
-     */
-    public function recreate(LogEntry $logEntry, Logger $logger): LogEntry
-    {
-        return $logEntry;
-    }
+    // intentionally empty
 }

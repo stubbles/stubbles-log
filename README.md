@@ -141,8 +141,8 @@ That's when the `stubbles\log\entryfactory\EmptyLogEntryFactory` can be used.
 ### Custom log entry factories
 
 In case the provided log entry factories don't fulfil your needs you can create
-your own log entry factory. For this you have to implement the
-`stubbles\log\entryfactory\LogEntryFactory` interface which consists of two
+your own log entry factory. For this you have to extend the
+`stubbles\log\entryfactory\LogEntryFactory` class which consists of two
 methods:
 
 ```php
@@ -158,9 +158,9 @@ log entries. After pre filling the created log entry instance must be returned.
 The `recreate()` is called for all log entries which are logged delayed. This is
 useful in case during the initial creation of the log entry not all data was
 available - now all data in the log entry can be replaced with the most likely
-now available data. In case your implementation does not have such a use case it
-can be helpful to extend from `stubbles\log\entryfactory\AbstractLogEntryFactory`
-which already contains an empty implementation for this method.
+now available data. In case your implementation does not have such a use case
+it must not implement this method, the base class already has a basic
+implementation which simply returns the given LogEntry instance.
 
 
 Log appenders

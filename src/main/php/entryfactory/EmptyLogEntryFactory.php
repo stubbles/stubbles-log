@@ -14,7 +14,7 @@ use stubbles\log\Logger;
 /**
  * Factory which creates empty log entry containers.
  */
-class EmptyLogEntryFactory extends AbstractLogEntryFactory
+class EmptyLogEntryFactory extends LogEntryFactory
 {
     /**
      * creates a log entry container

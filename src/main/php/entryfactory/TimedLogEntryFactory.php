@@ -17,7 +17,7 @@ use stubbles\log\Logger;
  * Log entry containers returned by this factory already have prefilled log with
  * the current timestamp in format Y-m-d H:i:s as first entry.
  */
-class TimedLogEntryFactory extends AbstractLogEntryFactory
+class TimedLogEntryFactory extends LogEntryFactory
 {
     /**
      * creates a log entry container
