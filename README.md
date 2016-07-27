@@ -22,13 +22,13 @@ _stubbles/log_ is distributed as [Composer](https://getcomposer.org/)
 package. To install it as a dependency of your package use the following
 command:
 
-    composer require "stubbles/log": "^5.0"
+    composer require "stubbles/log": "^6.0"
 
 
 Requirements
 ------------
 
-_stubbles/log_ requires at least PHP 5.6.
+_stubbles/log_ requires at least PHP 7.0.
 
 
 Usage
@@ -84,7 +84,7 @@ namespace example;
 use stubbles\log\Logger;
 class ExampleClass
 {
-    protected $logger;
+    private $logger;
 
     /**
      * @param  Logger  $logger
