@@ -181,7 +181,13 @@ class LogEntry
      */
     public function data(): array
     {
-        return array_map($this->createEscapeSeperator(), $this->logData);
+        return array_map(
+                function($data)
+                {
+                    return str_replace($this->seperator, '', $data);
+                },
+                $this->logData
+        );
     }
 
     /**
@@ -192,18 +198,5 @@ class LogEntry
     public function __toString(): string
     {
         return join($this->seperator, $this->data());
-    }
-
-    /**
-     * creates function for escaping a string against seperator, i.e. remove it from data
-     *
-     * @return  string
-     */
-    private function createEscapeSeperator(): \Closure
-    {
-        return function($data)
-        {
-            return str_replace($this->seperator, '', $data);
-        };
     }
 }

@@ -87,7 +87,7 @@ class MailLogAppender implements LogAppender
      *
      * @return  string
      */
-    protected function hostInfo()
+    private function hostInfo(): string
     {
         if (!isset($_SERVER['HTTP_HOST'])) {
             return '';
