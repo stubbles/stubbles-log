@@ -2,6 +2,12 @@ language: php
 
 php:
   - 7.0
+  - nightly
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: nightly
 
 before_install:
   - "mkdir -p ~/.composer"
