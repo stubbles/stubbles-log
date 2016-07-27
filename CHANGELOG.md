@@ -1,4 +1,4 @@
-6.0.0 (2016-07-??)
+6.0.0 (2016-07-27)
 ------------------
 
 ### BC breaks
@@ -6,7 +6,7 @@
   * Raised minimum required PHP version to 7.0
   * introduced scalar type hints and strict type checking
   * `stubbles\log\entryfactory\LogEntryFactory` is not an interface any more, but an abstract class
-  * deprecated `stubbles\log\entryfactory\AbstractLogEntryFactory`, extend from `stubbles\log\entryfactory\LogEntryFactory` instead, will be removed with 7.0.0 
+  * deprecated `stubbles\log\entryfactory\AbstractLogEntryFactory`, extend from `stubbles\log\entryfactory\LogEntryFactory` instead, will be removed with 7.0.0
 
 
 5.0.0 (2016-06-17)
