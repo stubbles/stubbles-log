@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -37,12 +38,7 @@ class MemoryLogAppenderTest extends \PHPUnit_Framework_TestCase
         $this->memoryLogAppender = new MemoryLogAppender();
     }
 
-    /**
-     * creates log entry
-     *
-     * @return  stubLogEntry
-     */
-    protected function createLogEntry($target)
+    private function createLogEntry($target): LogEntry
     {
         $logEntry = new LogEntry(
                 $target,

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -25,7 +26,7 @@ class TimedLogEntryFactory extends AbstractLogEntryFactory
      * @param   \stubbles\log\Logger  $logger  logger instance to create log entry container for
      * @return  \stubbles\log\LogEntry
      */
-    public function create($target, Logger $logger)
+    public function create(string $target, Logger $logger): LogEntry
     {
         $logEntry = new LogEntry($target, $logger);
         return $logEntry->addData(date('Y-m-d H:i:s'));

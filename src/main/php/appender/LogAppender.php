@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -25,7 +26,7 @@ interface LogAppender
      * @param   \stubbles\log\LogEntry  $logEntry
      * @return  \stubbles\log\appender\LogAppender
      */
-    public function append(LogEntry $logEntry);
+    public function append(LogEntry $logEntry): self;
 
     /**
      * finalize the log target
@@ -36,5 +37,5 @@ interface LogAppender
      *
      * @return  \stubbles\log\appender\LogAppender
      */
-    public function finalize();
+    public function finalize(): self;
 }

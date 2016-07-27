@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -22,19 +23,19 @@ class MailLogAppender implements LogAppender
      *
      * @type  string
      */
-    protected $mailAddress;
+    private $mailAddress;
     /**
      * name to appear as sender
      *
      * @type  string
      */
-    protected $senderName;
+    private $senderName;
     /**
      * the collected log data
      *
      * @type  \stubbles\log\LogEntry[]
      */
-    protected $logEntries  = [];
+    private $logEntries  = [];
 
     /**
      * constructor
@@ -42,7 +43,7 @@ class MailLogAppender implements LogAppender
      * @param  string  $mailAddress  mail address to send the log data to
      * @param  string  $senderName   optional  name to appear as sender
      */
-    public function __construct($mailAddress, $senderName = __CLASS__)
+    public function __construct(string $mailAddress, string $senderName = __CLASS__)
     {
         $this->mailAddress = $mailAddress;
         $this->senderName  = $senderName;
@@ -54,7 +55,7 @@ class MailLogAppender implements LogAppender
      * @param   \stubbles\log\LogEntry  $logEntry
      * @return  \stubbles\log\appender\MailLogAppender
      */
-    public function append(LogEntry $logEntry)
+    public function append(LogEntry $logEntry): LogAppender
     {
         $this->logEntries[] = $logEntry;
         return $this;
@@ -65,10 +66,10 @@ class MailLogAppender implements LogAppender
      *
      * @return  \stubbles\log\appender\MailLogAppender
      */
-    public function finalize()
+    public function finalize(): LogAppender
     {
         if (count($this->logEntries) === 0) {
-            return;
+            return $this;
         }
 
         $body = '';
@@ -76,7 +77,7 @@ class MailLogAppender implements LogAppender
             $body .= $logEntry->target() . ': ' . $logEntry . "\n\n";
         }
 
-        $body .= $this->getHostInfo();
+        $body .= $this->hostInfo();
         $this->sendMail('Debug message from ' . php_uname('n'), $body);
         return $this;
     }
@@ -86,13 +87,18 @@ class MailLogAppender implements LogAppender
      *
      * @return  string
      */
-    protected function getHostInfo()
+    protected function hostInfo()
     {
         if (!isset($_SERVER['HTTP_HOST'])) {
             return '';
         }
 
-        $hostInfo = sprintf("\nURL that caused this:\nhttp://%s%s?%s\n", $_SERVER['HTTP_HOST'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING']);
+        $hostInfo = sprintf(
+                "\nURL that caused this:\nhttp://%s%s?%s\n",
+                $_SERVER['HTTP_HOST'],
+                $_SERVER['PHP_SELF'],
+                $_SERVER['QUERY_STRING']
+        );
         if (isset($_SERVER['HTTP_REFERER'])) {
             $hostInfo .= sprintf("\nReferer:\n%s\n", $_SERVER['HTTP_REFERER']);
         }
@@ -106,8 +112,13 @@ class MailLogAppender implements LogAppender
      * @param  string  $subject  subject of the mail to send
      * @param  string  $body     body of the mail to send
      */
-    protected function sendMail($subject, $body)
+    protected function sendMail(string $subject, string $body)
     {
-        mail($this->mailAddress, $subject, $body, 'FROM: ' . $this->senderName . ' <' . $this->mailAddress. '>');
+        mail(
+                $this->mailAddress,
+                $subject,
+                $body,
+                'FROM: ' . $this->senderName . ' <' . $this->mailAddress. '>'
+        );
     }
 }

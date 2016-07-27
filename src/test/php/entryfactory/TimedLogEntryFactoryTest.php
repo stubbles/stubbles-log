@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -13,8 +14,6 @@ use stubbles\log\Logger;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
-use function bovigo\assert\predicate\isGreaterThan;
-use function bovigo\assert\predicate\isLessThan;
 use function bovigo\assert\predicate\isSameAs;
 use function bovigo\callmap\verify;
 /**
@@ -48,7 +47,7 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->logger           = NewInstance::stub(Logger::class);
+        $this->logger               = NewInstance::stub(Logger::class);
         $this->timedLogEntryFactory = new TimedLogEntryFactory();
         $this->logEntry             = $this->timedLogEntryFactory->create(
                 'testTarget',
@@ -70,11 +69,8 @@ class TimedLogEntryFactoryTest extends \PHPUnit_Framework_TestCase
     public function createdLogEntryContainsTime()
     {
         $currentTime = time();
-        $loggedTime  = strtotime($this->logEntry);
-        assert(
-                $loggedTime,
-                isGreaterThan($currentTime - 2)->and(isLessThan($currentTime + 2))
-        );
+        $loggedTime  = strtotime($this->logEntry->data()[0]);
+        assert($loggedTime, equals($currentTime, 2));
     }
 
     /**

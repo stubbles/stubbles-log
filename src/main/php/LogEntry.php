@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -55,7 +56,7 @@ class LogEntry
      * @param  string                $target   target where the log data should go to
      * @param  \stubbles\log\Logger  $logger   logger to which the log data should be send
      */
-    public function __construct($target, Logger $logger)
+    public function __construct(string $target, Logger $logger)
     {
         $this->target = $target;
         $this->logger = $logger;
@@ -66,7 +67,7 @@ class LogEntry
      *
      * @return  string
      */
-    public function target()
+    public function target(): string
     {
         return $this->target;
     }
@@ -77,7 +78,7 @@ class LogEntry
      * @param   string  $seperator
      * @return  \stubbles\log\LogEntry
      */
-    public function setSeperator($seperator)
+    public function setSeperator(string $seperator): self
     {
         $this->seperator = $seperator;
         return $this;
@@ -122,7 +123,7 @@ class LogEntry
      * @param   string...  $fields
      * @return  \stubbles\log\LogEntry
      */
-    public function addData(...$fields)
+    public function addData(string ...$fields): self
     {
         foreach ($fields as $data) {
             $this->logData[] = $this->escapeData($data);
@@ -137,7 +138,7 @@ class LogEntry
      * @param   string  $data
      * @return  string
      */
-    private function escapeData($data)
+    private function escapeData(string $data): string
     {
         settype($data, 'string');
         $data = str_replace(chr(13), '', str_replace("\n", '<nl>', $data));
@@ -162,7 +163,7 @@ class LogEntry
      * @return  \stubbles\log\LogEntry
      * @since   1.1.0
      */
-    public function replaceData($position, $replacementData)
+    public function replaceData(int $position, string $replacementData): self
     {
         if (!isset($this->logData[$position])) {
             return $this;
@@ -178,7 +179,7 @@ class LogEntry
      * @return  string[]
      * @since   1.1.0
      */
-    public function data()
+    public function data(): array
     {
         return array_map($this->createEscapeSeperator(), $this->logData);
     }
@@ -188,9 +189,9 @@ class LogEntry
      *
      * @return  string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return join($this->seperator, array_map($this->createEscapeSeperator(), $this->logData));
+        return join($this->seperator, $this->data());
     }
 
     /**
@@ -198,11 +199,11 @@ class LogEntry
      *
      * @return  string
      */
-    private function createEscapeSeperator()
+    private function createEscapeSeperator(): \Closure
     {
         return function($data)
-               {
-                   return str_replace($this->seperator, '', $data);
-               };
+        {
+            return str_replace($this->seperator, '', $data);
+        };
     }
 }

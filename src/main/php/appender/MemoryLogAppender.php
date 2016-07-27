@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -19,7 +20,7 @@ class MemoryLogAppender implements LogAppender
      *
      * @type  array
      */
-    protected $logEntries = [];
+    private $logEntries = [];
 
     /**
      * counts log entries for a certain target
@@ -29,7 +30,7 @@ class MemoryLogAppender implements LogAppender
      * @return  int
      * @since   1.1.0
      */
-    public function countLogEntries($target)
+    public function countLogEntries(string $target): int
     {
         if (!isset($this->logEntries[$target])) {
             return 0;
@@ -47,7 +48,7 @@ class MemoryLogAppender implements LogAppender
      * @return  string[]
      * @since   1.1.0
      */
-    public function getLogEntryData($target, $position)
+    public function getLogEntryData(string $target, int $position): array
     {
         if (!isset($this->logEntries[$target])) {
             return [];
@@ -67,7 +68,7 @@ class MemoryLogAppender implements LogAppender
      * @param   string  $target  optional
      * @return  \stubbles\log\LogEntry[]
      */
-    public function getLogEntries($target)
+    public function getLogEntries(string $target): array
     {
         if (!isset($this->logEntries[$target])) {
             return [];
@@ -82,7 +83,7 @@ class MemoryLogAppender implements LogAppender
      * @param   \stubbles\log\LogEntry  $logEntry
      * @return  \stubbles\log\appender\MemoryLogAppender
      */
-    public function append(LogEntry $logEntry)
+    public function append(LogEntry $logEntry): LogAppender
     {
         $this->logEntries[$logEntry->target()][] = $logEntry;
         return $this;
@@ -93,7 +94,7 @@ class MemoryLogAppender implements LogAppender
      *
      * @return  \stubbles\log\appender\MemoryLogAppender
      */
-    public function finalize()
+    public function finalize(): LogAppender
     {
         $this->logEntries = [];
         return $this;

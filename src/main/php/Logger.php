@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -70,7 +71,7 @@ class Logger
      * @param   \stubbles\log\appender\LogAppender  $logAppender
      * @return  \stubbles\log\appender\LogAppender  the freshly added log appender instance
      */
-    public function addAppender(LogAppender $logAppender)
+    public function addAppender(LogAppender $logAppender): LogAppender
     {
         $this->logAppender[] = $logAppender;
         return $logAppender;
@@ -81,7 +82,7 @@ class Logger
      *
      * @return  bool
      */
-    public function hasLogAppenders()
+    public function hasLogAppenders(): bool
     {
         return (count($this->logAppender) > 0);
     }
@@ -93,7 +94,7 @@ class Logger
      * @param   string  $target
      * @return  \stubbles\log\LogEntry
      */
-    public function createLogEntry($target)
+    public function createLogEntry(string $target): LogEntry
     {
         return $this->logEntryFactory->create($target, $this);
     }
@@ -125,10 +126,10 @@ class Logger
     /**
      * returns number of unprocessed delayed log entries
      *
-     * @return  int
+     * @return  bool
      * @since   1.1.0
      */
-    public function hasUnprocessedDelayedLogEntries()
+    public function hasUnprocessedDelayedLogEntries(): bool
     {
         return (count($this->delayedLogEntries) > 0);
     }
@@ -139,7 +140,7 @@ class Logger
      * @return  int  amount of processed delayed entries
      * @since   1.1.0
      */
-    public function processDelayedLogEntries()
+    public function processDelayedLogEntries(): int
     {
         if (!$this->hasUnprocessedDelayedLogEntries()) {
             return 0;

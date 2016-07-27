@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -53,12 +54,7 @@ class FileLogAppenderTest extends \PHPUnit_Framework_TestCase
         $this->fileLogAppender = new FileLogAppender(vfsStream::url('root/test'));
     }
 
-    /**
-     * creates log entry
-     *
-     * @return  stubLogEntry
-     */
-    protected function createLogEntry()
+    private function createLogEntry(): LogEntry
     {
         $logEntry = new LogEntry('foo', NewInstance::stub(Logger::class));
         return $logEntry->addData('bar')->addData('baz');

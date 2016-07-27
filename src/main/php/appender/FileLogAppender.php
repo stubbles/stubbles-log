@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -25,13 +26,13 @@ class FileLogAppender implements LogAppender
      *
      * @type  string
      */
-    protected $logDir;
+    private $logDir;
     /**
      * mode for new directories
      *
      * @type  int
      */
-    protected $fileMode;
+    private $fileMode;
 
     /**
      * constructor
@@ -39,7 +40,7 @@ class FileLogAppender implements LogAppender
      * @param  string  $logDir    directory to write the logfiles into
      * @param  int     $fileMode  optional  file mode for new directories
      */
-    public function __construct($logDir, $fileMode = 0700)
+    public function __construct(string $logDir, int $fileMode = 0700)
     {
         $this->logDir   = $logDir;
         $this->fileMode = $fileMode;
@@ -54,7 +55,7 @@ class FileLogAppender implements LogAppender
      * @param   \stubbles\log\LogEntry  $logEntry
      * @return  \stubbles\log\appender\FileLogAppender
      */
-    public function append(LogEntry $logEntry)
+    public function append(LogEntry $logEntry): LogAppender
     {
         if (!file_exists($this->logDir)) {
             mkdir($this->logDir, $this->fileMode, true);
@@ -73,7 +74,7 @@ class FileLogAppender implements LogAppender
      *
      * @return  \stubbles\log\appender\FileLogAppender
      */
-    public function finalize()
+    public function finalize(): LogAppender
     {
         return $this;
     }

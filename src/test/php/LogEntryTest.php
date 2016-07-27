@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -79,12 +80,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
         verify($this->logger, 'logDelayed')->received($this->logEntry);
     }
 
-    /**
-     * returns quoted data
-     *
-     * @return  array
-     */
-    public function getLogData()
+    public function logData(): array
     {
         return [['"bar"', '"bar'],
                 ['foo"bar', 'foo"bar'],
@@ -101,7 +97,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      * @param  string  $expected
      * @param  string  $data
      * @test
-     * @dataProvider  getLogData
+     * @dataProvider  logData
      */
     public function loggedDataWillBeEscaped($expected, $data)
     {
@@ -115,7 +111,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      * @param  string  $expected
      * @param  string  $data
      * @test
-     * @dataProvider  getLogData
+     * @dataProvider  logData
      */
     public function loggedDataWillBeEscapedInLine($expected, $data)
     {
@@ -130,7 +126,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      * @param  string  $data
      * @since  1.1.0
      * @test
-     * @dataProvider  getLogData
+     * @dataProvider  logData
      */
     public function loggedReplacedDataWillBeEscaped($expected, $data)
     {
@@ -145,7 +141,7 @@ class LogEntryTest extends \PHPUnit_Framework_TestCase
      * @param  string  $data
      * @since  1.1.0
      * @test
-     * @dataProvider  getLogData
+     * @dataProvider  logData
      */
     public function loggedReplacedDataWillBeEscapedInLine($expected, $data)
     {

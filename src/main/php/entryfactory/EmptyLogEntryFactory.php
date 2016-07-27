@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -22,7 +23,7 @@ class EmptyLogEntryFactory extends AbstractLogEntryFactory
      * @param   \stubbles\log\Logger  $logger  logger instance to create log entry container for
      * @return  \stubbles\log\LogEntry
      */
-    public function create($target, Logger $logger)
+    public function create(string $target, Logger $logger): LogEntry
     {
         return new LogEntry($target, $logger);
     }

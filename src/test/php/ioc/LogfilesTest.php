@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -9,6 +10,7 @@
  */
 namespace stubbles\log\ioc;
 use stubbles\ioc\Binder;
+use stubbles\ioc\Injector;
 use stubbles\log\Logger;
 use stubbles\log\entryfactory\EmptyLogEntryFactory;
 use stubbles\log\entryfactory\LogEntryFactory;
@@ -26,13 +28,7 @@ use function bovigo\assert\predicate\isSameAs;
  */
 class LogfilesTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * configures the bindings
-     *
-     * @param   \stubbles\log\ioc\Logfiles  $logfiles
-     * @return  \stubbles\ioc\Injector
-     */
-    private function configureBindings(Logfiles $logfiles)
+    private function configureBindings(Logfiles $logfiles): Injector
     {
         $binder = new Binder();
         $logfiles->configure($binder);

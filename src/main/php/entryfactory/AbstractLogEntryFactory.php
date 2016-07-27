@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -25,7 +26,7 @@ abstract class AbstractLogEntryFactory implements LogEntryFactory
      * @param   \stubbles\log\Logger    $logger
      * @return  \stubbles\log\LogEntry
      */
-    public function recreate(LogEntry $logEntry, Logger $logger)
+    public function recreate(LogEntry $logEntry, Logger $logger): LogEntry
     {
         return $logEntry;
     }

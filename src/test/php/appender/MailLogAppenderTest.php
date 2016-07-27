@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -66,12 +67,7 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
         unset($_SERVER['HTTP_REFERER']);
     }
 
-    /**
-     * creates log entry
-     *
-     * @return  stubLogEntry
-     */
-    protected function createLogEntry($target)
+    private function createLogEntry($target): Logentry
     {
         return new LogEntry($target, NewInstance::stub(Logger::class));
     }
@@ -95,11 +91,10 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        verify($this->mailLogAppender, 'sendMail')
-                ->received(
-                        'Debug message from ' . php_uname('n'),
-                        "foo: bar|baz\n\nblub: shit|happens\n\n"
-                );
+        verify($this->mailLogAppender, 'sendMail')->received(
+                'Debug message from ' . php_uname('n'),
+                "foo: bar|baz\n\nblub: shit|happens\n\n"
+        );
     }
 
     /**
@@ -112,11 +107,10 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        verify($this->mailLogAppender, 'sendMail')
-                ->received(
-                        'Debug message from ' . php_uname('n'),
-                        "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n"
-                );
+        verify($this->mailLogAppender, 'sendMail')->received(
+                'Debug message from ' . php_uname('n'),
+                "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n"
+        );
     }
 
     /**
@@ -129,10 +123,9 @@ class MailLogAppenderTest extends \PHPUnit_Framework_TestCase
                 ->append($this->logEntry1->addData('bar')->addData('baz'))
                 ->append($this->logEntry2->addData('shit')->addData('happens'))
                 ->finalize();
-        verify($this->mailLogAppender, 'sendMail')
-                ->received(
-                        'Debug message from ' . php_uname('n'),
-                        "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n\nReferer:\nreferer\n"
-                );
+        verify($this->mailLogAppender, 'sendMail')->received(
+                'Debug message from ' . php_uname('n'),
+                "foo: bar|baz\n\nblub: shit|happens\n\n\nURL that caused this:\nhttp://example.org/example.php?example=dummy\n\nReferer:\nreferer\n"
+        );
     }
 }

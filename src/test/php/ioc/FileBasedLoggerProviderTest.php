@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -10,6 +11,7 @@
 namespace stubbles\log\ioc;
 use bovigo\callmap\NewInstance;
 use stubbles\log\Logger;
+use stubbles\log\appender\LogAppender;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\assertTrue;
@@ -100,7 +102,10 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
     public function appendFileLogAppenderIfLoggerHasNoAppenders()
     {
         $this->loggerProvider->mapCalls(['get' => $this->logger]);
-        $this->logger->mapCalls(['hasLogAppenders' => false]);
+        $this->logger->mapCalls([
+                    'hasLogAppenders' => false,
+                    'addAppender'     => function(LogAppender $appender) { return $appender; }
+        ]);
         $this->fileBasedLoggerProvider->get('foo');
         verify($this->logger, 'addAppender')->wasCalledOnce();
     }
@@ -111,7 +116,10 @@ class FileBasedLoggerProviderTest extends \PHPUnit_Framework_TestCase
     public function appendFileLogAppenderWithDifferentFileMode()
     {
         $this->loggerProvider->mapCalls(['get' => $this->logger]);
-        $this->logger->mapCalls(['hasLogAppenders' => false]);
+        $this->logger->mapCalls([
+                'hasLogAppenders' => false,
+                'addAppender'     => function(LogAppender $appender) { return $appender; }
+        ]);
         $fileBasedLoggerProvider = new FileBasedLoggerProvider($this->loggerProvider, __DIR__, 0777);
         $fileBasedLoggerProvider->get('foo');
         verify($this->logger, 'addAppender')->wasCalledOnce();

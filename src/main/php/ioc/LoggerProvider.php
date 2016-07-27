@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -49,7 +50,7 @@ class LoggerProvider implements InjectionProvider
      * @param   string  $name  optional
      * @return  \stubbles\log\Logger
      */
-    public function get(string $name = null)
+    public function get(string $name = null): Logger
     {
         if (empty($name)) {
             $name = '__default';

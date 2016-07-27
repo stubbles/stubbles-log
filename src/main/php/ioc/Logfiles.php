@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of stubbles.
  *
@@ -45,7 +46,7 @@ class Logfiles implements BindingModule
      * @param   string  $logEntryFactory  class name of log entry factory
      * @return  \stubbles\log\ioc\Logfiles
      */
-    public function createEntriesWith($logEntryFactory)
+    public function createEntriesWith(string $logEntryFactory): self
     {
         $this->logEntryFactory = $logEntryFactory;
         return $this;
@@ -59,7 +60,7 @@ class Logfiles implements BindingModule
      * @return  \stubbles\log\ioc\Logfiles
      * @since   1.3.0
      */
-    public function loggerProvidedBy($loggerProvider)
+    public function loggerProvidedBy(string $loggerProvider): self
     {
         $this->loggerProvider = $loggerProvider;
         return $this;
@@ -71,7 +72,7 @@ class Logfiles implements BindingModule
      * @param   string  $logPath
      * @return  \stubbles\log\ioc\Logfiles
      */
-    public function writeTo($logPath)
+    public function writeTo(string $logPath): self
     {
         $this->logPath = $logPath;
         return $this;
