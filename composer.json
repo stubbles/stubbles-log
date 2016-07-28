@@ -13,7 +13,7 @@
         "mikey179/vfsStream": "^1.6",
         "phpunit/phpunit": "^5.4",
         "bovigo/assert": "^2.0",
-        "bovigo/callmap": "^3.0"
+        "bovigo/callmap": "^3.1"
     },
     "suggest": {
         "stubbles/ioc": "To use the IoC bindings so that Logger instances are created automatically."
